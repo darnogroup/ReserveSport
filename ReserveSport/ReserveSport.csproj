@@ -1,0 +1,72 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj" />
+    <ProjectReference Include="..\IOC\IOC.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Collection\Data\" />
+    <Folder Include="Areas\Collection\Models\" />
+    <Folder Include="Areas\Customer\Data\" />
+    <Folder Include="Areas\Customer\Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\addons-pro\cards-extended.min.js" />
+    <None Include="wwwroot\js\addons-pro\chat.min.js" />
+    <None Include="wwwroot\js\addons-pro\multi-range.min.js" />
+    <None Include="wwwroot\js\addons-pro\simple-charts.min.js" />
+    <None Include="wwwroot\js\addons-pro\steppers.min.js" />
+    <None Include="wwwroot\js\addons-pro\timeline.min.js" />
+    <None Include="wwwroot\js\addons\datatables-select.min.js" />
+    <None Include="wwwroot\js\addons\datatables.min.js" />
+    <None Include="wwwroot\js\addons\directives.min.js" />
+    <None Include="wwwroot\js\addons\flag.min.js" />
+    <None Include="wwwroot\js\addons\imagesloaded.pkgd.min.js" />
+    <None Include="wwwroot\js\addons\jquery.zmd.hierarchical-display.min.js" />
+    <None Include="wwwroot\js\addons\masonry.pkgd.min.js" />
+    <None Include="wwwroot\js\addons\rating.min.js" />
+    <None Include="wwwroot\js\modules\accordion-extended.min.js" />
+    <None Include="wwwroot\js\modules\animations-extended.min.js" />
+    <None Include="wwwroot\js\modules\buttons.min.js" />
+    <None Include="wwwroot\js\modules\cards.min.js" />
+    <None Include="wwwroot\js\modules\character-counter.min.js" />
+    <None Include="wwwroot\js\modules\chips.min.js" />
+    <None Include="wwwroot\js\modules\collapsible.min.js" />
+    <None Include="wwwroot\js\modules\dropdown\dropdown-searchable.min.js" />
+    <None Include="wwwroot\js\modules\dropdown\dropdown.min.js" />
+    <None Include="wwwroot\js\modules\file-input.min.js" />
+    <None Include="wwwroot\js\modules\forms-free.min.js" />
+    <None Include="wwwroot\js\modules\lightbox.min.js" />
+    <None Include="wwwroot\js\modules\material-select\material-select-view-renderer.min.js" />
+    <None Include="wwwroot\js\modules\material-select\material-select-view.min.js" />
+    <None Include="wwwroot\js\modules\material-select\material-select.min.js" />
+    <None Include="wwwroot\js\modules\mdb-autocomplete.min.js" />
+    <None Include="wwwroot\js\modules\megamenu.min.js" />
+    <None Include="wwwroot\js\modules\parallax.min.js" />
+    <None Include="wwwroot\js\modules\preloading.min.js" />
+    <None Include="wwwroot\js\modules\range-input.min.js" />
+    <None Include="wwwroot\js\modules\scrolling-navbar.min.js" />
+    <None Include="wwwroot\js\modules\sidenav.min.js" />
+    <None Include="wwwroot\js\modules\smooth-scroll.min.js" />
+    <None Include="wwwroot\js\modules\sticky.min.js" />
+    <None Include="wwwroot\js\modules\treeview.min.js" />
+    <None Include="wwwroot\js\modules\wow.min.js" />
+  </ItemGroup>
+
+</Project>

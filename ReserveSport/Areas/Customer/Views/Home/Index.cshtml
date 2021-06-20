@@ -1,0 +1,118 @@
+﻿@model ProfileViewModel
+@{
+    ViewData["Title"] = "پروفایل کاربری";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 p-3">
+            <div class="card testimonial-card box-course ">
+
+                <!-- Background color -->
+                <div class="card-up purple-gradient lighten-1"></div>
+
+                <!-- Avatar -->
+                <div class="avatar mx-auto white">
+                    <img src="~/Images/@Model.UserAvatar" class="rounded-circle" alt="woman avatar">
+                </div>
+
+                <!-- Content -->
+                <div class="card-body">
+                    <!-- Name -->
+                    <h6 class="card-title font">نام کاربری:</h6>
+                    <hr>
+                    <h5 class="font">@Model.UserName</h5>
+                 
+                    <button type="button" class="btn btn-block btn-sm  font
+              secondary-color-dark text-white
+               mt-4 waves-effect waves-light">
+                        <a class="size">
+                            خروج از حساب کاربری
+                        </a>
+                    </button>
+
+                </div>
+                <!-- Card -->
+
+            </div>
+            <div class="box-course mt-4">
+                <strong class="font p-2">گزینه های پنل کاربری</strong>
+                <hr>
+                <ul class="item-dashboard">
+   
+                    <li><strong class="font text-center">تیکت ها</strong><br></li>
+                    <li><strong class="font text-center">رسید ها</strong><br></li>
+                    <li><strong class="font text-center">کیف پول</strong><br></li>
+                </ul>
+            </div>
+        </div>
+        <!---------------------------------------->
+        <div class="col-xl-8 col-lg-8 col-md-6 col-sm-12 col-xs-12 p-3">
+            <div class="box-course">
+                <!-- Default form contact -->
+                <form class="border border-light p-3" action="#!">
+
+                    <p class="h4 mb-4 font text-info">اطلاعات حساب کاربری</p>
+                    <hr>
+
+                    <label class="font text-primary">نام کاربری:</label>
+                    <strong>@Model.UserName</strong><br>
+                    <label class="font text-primary">کدملی:</label>
+                    <strong>@Model.UserCode</strong> <br>
+                    <label class="font text-primary">شماره موبایل:</label>
+                    <strong>@Model.UserNumber</strong><br>
+
+                </form>
+                <!-- Default form contact -->
+            </div>
+            <div class="box-course mt-5">
+                <p class="h4 mb-4 font text-info">آخرین رسید ها</p>
+                <hr>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="font">تاریخ</th>
+                            <th scope="col" class="font">تعداد دوره ها</th>
+                            <th scope="col" class="font">وضعیت پرداخت</th>
+                            <th scope="col" class="font">جزئیات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <a class="text-info font">1398/09/11</a>
+                            </td>
+                            <td class="font">4</td>
+                            <td>
+                                <span class="badge badge-success font">
+                                    پرداخت شده
+                                </span>
+                            </td>
+                            <td>
+                                <a class="text-danger font">جزئیات</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a class="text-info font">1398/09/11</a>
+                            </td>
+                            <td class="font">4</td>
+                            <td>
+                                <span class="badge badge-success font">
+                                    پرداخت شده
+                                </span>
+                            </td>
+                            <td>
+                                <a class="text-danger font">جزئیات</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+
+        </div>
+
+    </div>
+</div>

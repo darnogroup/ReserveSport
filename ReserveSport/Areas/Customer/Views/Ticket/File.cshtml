@@ -1,0 +1,22 @@
+﻿@model List<FileTicketViewModel>
+@{
+    ViewData["Title"] = "File";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="row mt-4">
+      
+        <div class="card">
+            <div class="row p-2">
+                @foreach (var item in Model)
+                {
+
+                    <div class="col-3">
+                        <img src="~/Images/@item.File" class="img-fluid img-thumbnail mx-2" style="width: 100%" height="80" />
+                    </div>
+
+                }
+            </div>
+            </div>
+    </div>
+ 

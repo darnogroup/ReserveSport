@@ -1,0 +1,80 @@
+﻿@model AreaCollectionViewModel
+@{
+    ViewData["Title"] = "پیشخوان مجموعه";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container mt-4 font">
+    <div class="row">
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 p-3">
+            <div class="card testimonial-card box-course ">
+
+                <!-- Background color -->
+                <div class="card-up purple-gradient lighten-1"></div>
+
+                <!-- Avatar -->
+                <div class="avatar mx-auto white">
+                    <img src="~/Images/@Model.UserAvatar" class="rounded-circle" alt="woman avatar">
+                </div>
+
+                <!-- Content -->
+                <div class="card-body">
+                    <!-- Name -->
+                    <h6 class="card-title font">نام کاربری:</h6>
+                    <hr>
+                    <h5 class="font">@Model.UserName</h5>
+
+                    <button type="button" class="btn btn-block btn-sm  font
+              secondary-color-dark text-white
+               mt-4 waves-effect waves-light">
+                        <a class="size">
+                            خروج از حساب کاربری
+                        </a>
+                    </button>
+
+                </div>
+                <!-- Card -->
+
+            </div>
+            <div class="box-course mt-4">
+                <strong class="font p-2">گزینه های پنل مجموعه</strong>
+                <hr>
+                <ul class="item-dashboard">
+
+                    <li><a asp-controller="Dashboard" asp-action="Financial" asp-route-id="@Model.CollectionId"><strong class="font text-center">اطلاعات مالی</strong></a><br></li>
+                    <li><a asp-controller="Dashboard" asp-action="Reserve" asp-route-id="@Model.CollectionId"><strong class="font text-center">افزودن سانس</strong></a><br></li>
+                    <li><a asp-controller="Dashboard"  asp-action="Reserves" asp-route-id="@Model.CollectionId"><strong class="font text-center">لیست سانس ها</strong></a><br></li>
+
+                    <li><strong class="font text-center">سانس های فروش رفته</strong><br></li>
+                    <li><strong class="font text-center">تسویه حساب</strong><br></li>
+                </ul>
+            </div>
+        </div>
+        <!---------------------------------------->
+        <div class="col-xl-8 col-lg-8 col-md-6 col-sm-12 col-xs-12 p-3">
+            <div class="box-course">
+                <!-- Default form contact -->
+                <form class="border border-light p-3" >
+
+                    <p class="h4 mb-4 font text-info">اطلاعات حساب مجموعه</p>
+                    <hr>
+
+                    <label class="font text-primary">نام مجموعه:</label>
+                    <strong class="font">@Model.CollectionName</strong><br>
+                    <label class="font text-primary">شماره تلفن:</label>
+                    <strong class="font">@Model.Number</strong><br>
+                    <label class="font text-primary">استان:</label>
+                    <strong class="font">@Model.State</strong><br>
+                    <label class="font text-primary">شهر:</label>
+                    <strong class="font">@Model.City</strong><br>
+                    <label class="font text-primary">نشانی:</label>
+                    <strong class="font">@Model.Address</strong><br>
+                </form>
+                <!-- Default form contact -->
+            </div>
+
+
+
+        </div>
+
+    </div>
+</div>

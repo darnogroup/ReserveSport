@@ -1,0 +1,44 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <partial name="AdminCss" />
+    @RenderSection("Css", false)
+</head>
+
+<body class="rtl">
+    <div class="main-wrapper">
+
+        <!-- partial:partials/_sidebar.html -->
+        <partial name="AdminSaidBar" />
+
+        <!-- partial -->
+
+        <div class="page-wrapper">
+
+            <!-- partial:partials/_navbar.html -->
+            <partial name="AdminNavbar" />
+            <!-- partial -->
+
+            <div class="page-content">
+
+                @RenderBody()
+            </div>
+
+            <!-- partial:partials/_footer.html -->
+            <footer class="footer d-flex flex-column flex-md-row align-items-center justify-content-between">
+                <p class="text-muted text-center text-md-left">طراحی و توسعه گروه فنی و مهندسی دارنو</p>
+            </footer>
+            <!-- partial -->
+
+        </div>
+    </div>
+
+    <!-- core:js -->
+    <partial name="AdminJs" />
+    <!-- end custom js for this page -->
+@RenderSection("Script", false)
+</body>
+
+</html>

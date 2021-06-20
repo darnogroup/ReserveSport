@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<partial name="HeadTags"/>
+<body dir="rtl">
+    <header>
+        <section>
+
+            <!--Navbar -->
+            <partial name="Navbar"/>
+            <!--/.Navbar -->
+        </section>
+    </header>
+    <section class="bgsearch">
+    </section>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <section>
+        <!-- Footer -->
+        <partial name="Footer"/>
+        <!-- Footer -->
+    </section>
+  <partial name="Scripts"/>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

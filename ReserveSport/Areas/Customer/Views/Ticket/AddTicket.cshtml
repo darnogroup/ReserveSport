@@ -1,0 +1,45 @@
+﻿@model TicketViewModel
+@{
+    ViewData["Title"] = "ایجاد تیکت";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <div class="row mt-4">
+        <div class="card col-12">
+            <form asp-controller="Ticket" asp-action="AddTicket" enctype="multipart/form-data">
+                <div class="card-body">
+                    <h4 class="card-title font text-success">تیکت جدید</h4>
+                    <hr/><input type="hidden" asp-for="UserId" value="@ViewBag.Id"/>
+                    <div class="form-group row">
+                        <div class="col-lg-3">
+                            <label class="col-form-label font">عنوان</label>
+                        </div>
+                        <div class="col-lg-8">
+                            <input class="form-control" asp-for="TicketTitle" placeholder="چیزی بنویسید ...">
+                            <span class="text-danger font" asp-validation-for="TicketTitle"></span>
+                            </div>
+                    </div>
+                    <div class="form-group mb-0 row">
+                        <div class="col-lg-3">
+                            <label class="col-form-label font">متن</label>
+                        </div>
+                        <div class="col-lg-8">
+                            <textarea id="maxlength-textarea" asp-for="SubText" class="form-control" maxlength="900" rows="8" placeholder="حداکثر 900 کاراکتر مجاز است"></textarea>
+                            <span class="font text-danger" asp-validation-for="SubText"></span> </div>  
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-lg-3">
+                            <label class="col-form-label font">فایل</label>
+                        </div>
+                        <div class="col-lg-8 mt-4">
+                            <input asp-for="File" type="file" >
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-success text-white">ارسال</button>
+                </div>
+
+            </form>
+            </div>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+﻿@model List<ItemTicketViewModel>
+@{
+    ViewData["Title"] = "تیکت ها";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="box-course mt-5">
+    <p class="h4 mb-4 font text-info col-6">تیکت ها</p>
+    <a asp-controller="Ticket" asp-action="AddTicket" class="btn btn-sm btn-success col-2 text-white font">ایجاد تیکت</a>
+
+    <hr>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col" class="font">تاریخ</th>
+                <th scope="col" class="font">عنوان</th>
+                <th scope="col" class="font">وضعیت</th>
+                <th scope="col" class="font">پیام ها</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a class="text-info font">@item.TicketDate</a>
+                    </td>
+                    <td class="font">@item.TicketTitle</td>
+                    <td>
+                        @if (item.Close)
+                        {
+                            <span class="badge badge-secondary font">
+                              تیکت بسته شد
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-primary font">
+                                @item.TicketStatus
+                            </span>
+                        }
+                    </td>
+                    <td>
+                        <a asp-controller="Ticket" asp-route-close="@item.Close" asp-action="Tickets" asp-route-id="@item.TicketId" class="btn font btn-sm btn-success text-white">پیام ها</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

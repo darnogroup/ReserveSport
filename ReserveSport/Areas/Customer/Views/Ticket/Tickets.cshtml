@@ -1,0 +1,51 @@
+﻿@model List<ItemSubTicketViewModel>
+@{
+    ViewData["Title"] = "پیام ها";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <div class="row mt-4">
+     
+        <div class="card col-12">
+            <div class="row">
+                @if (ViewBag.close == false)
+                {
+                    <a asp-controller="Ticket" asp-action="Answer" asp-route-id="@ViewBag.Id" class="btn col-1 font mt-3 btn-sm btn-primary text-white">پاسخ</a>
+
+                }
+                else
+                {
+                    <a  class="btn col-1 font mt-3 btn-sm btn-primary text-white">تیکت بسته شده</a>
+
+                }
+                <a asp-controller="Ticket" asp-action="File" asp-route-id="@ViewBag.Id" class="btn col-2 font mt-3 btn-sm btn-warning text-white">پیوست ها</a>
+
+            </div>     <hr />
+                @foreach (var item in Model)
+                {
+                    @if (item.UserName == ViewBag.Name)
+                    {
+                        <div class="alert alert-success font">
+
+                            <small class="font">@item.UserName</small>
+                            <hr />
+                            @item.SubText
+                            <hr />
+                            <small class="font">تاریخ:@item.Time</small>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning font">
+                            <small class="font">@item.UserName</small>
+                            <hr />
+                            @item.SubText
+                            <hr />
+                            <small class="font">تاریخ:@item.Time</small>
+                        </div>
+                    }
+                }
+           
+        </div>
+    </div>
+</div>
