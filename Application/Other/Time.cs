@@ -99,5 +99,15 @@ namespace Application.Other
             var currentDate = year + "/" + month + "/" + day;
             return currentDate;
         }
+        public static DateTime MiladiTime(this string ts)
+        {
+            var spliteDate = ts.GetEnglishNumbers().Split('/');
+
+            int year = int.Parse(spliteDate[0]);
+            int month = int.Parse(spliteDate[1]);
+            int day = int.Parse(spliteDate[2]);
+            DateTime currentDate = new DateTime(year, month, day);
+            return currentDate;
+        }
     }
 }

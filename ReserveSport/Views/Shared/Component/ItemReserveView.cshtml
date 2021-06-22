@@ -1,0 +1,57 @@
+﻿@model List<ItemReserveViewModel>
+<div class="table-responsive text-nowrap font">
+
+    <table class="table font">
+        <thead>
+        <tr>
+            <th >تاریخ</th>
+            <th>ساعت شروع سانس</th>
+            <th >ساعت پایان سانس</th>
+            <th >قیمت</th>
+            <th>وضعیت سانس</th>
+            <th >گزینه</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+
+            <tr >
+                <td >@item.DayTime</td>
+                <td >@item.StartTime</td>
+                <td >@item.EndTime</td>
+                <td >@item.Price.ToString("0,#")
+                <strong>تومان</strong>
+                    </td>
+                <td>
+                    @if (item.Finish)
+                    {
+                        <span class="badge badge-danger">رزرو شده</span>
+                    }
+                    else if (item.Reserve)
+                    {
+                        <span class="badge badge-warning">پیش رزرو</span>
+                    }
+                    else
+                    { <span class="badge badge-success">قابل رزرو</span>}
+                </td>
+                <td class="cell100 column">
+                    @if (item.Finish)
+                    {
+                        <a class="btn btn-secondary text-white">رزرو انجام شده</a>
+                    }
+                    @if (item.Reserve)
+                    {
+                        <a class="btn btn-secondary text-white">امکان رزرو وجود ندارد</a>
+                    }
+                    <a class="btn btn-success btn-sm text-white">افزودن به سبد خرید</a>
+                </td>
+            </tr>
+        }
+
+      
+
+        </tbody>
+    </table>
+
+</div>

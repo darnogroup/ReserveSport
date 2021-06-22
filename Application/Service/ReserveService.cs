@@ -24,7 +24,7 @@ namespace Application.Service
         {
             var result = _reserve.GetReserves(id).Result;
             List<ReserveViewModel> models = new List<ReserveViewModel>();
-            var collection = result.OrderByDescending(o=>o.DayTime).ToList();
+            var collection = result.OrderBy(o=>o.DayTime).ToList();
             int pageNumber = page;
             int pageCount = Page.PageCount(collection.Count, 10);
             int skip = (page - 1) * 10;

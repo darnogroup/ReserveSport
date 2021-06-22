@@ -31,5 +31,6 @@ namespace Domin.Interface
         void CreateBanner(BannerModel model);
         Task<BannerModel> GetBannerById(int id);
         void RemoveBanner(BannerModel model);
+        Task<IEnumerable<CollectionModel>> GetByQuick(int state, int city);
     }
 }

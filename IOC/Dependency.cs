@@ -38,6 +38,7 @@ namespace IOC
             service.AddScoped<IAccountService, AccountService>();
             service.AddScoped<ISettingService,SettingService>();
             service.AddScoped<ITicketService,TicketService>();
+            service.AddScoped<IHomeService, HomeService>();
 
             #endregion
         }

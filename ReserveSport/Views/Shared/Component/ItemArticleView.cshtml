@@ -1,0 +1,38 @@
+﻿@model List<ItemArticleViewModel>
+@foreach (var item in Model)
+{
+    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-xs-12 p-2 mt-2">
+        <!-- Card Light -->
+        <div class="card">
+
+            <!-- Card image -->
+            <div class="view overlay">
+                <img class="card-img-top" src="~/Images/@item.Image" alt="Card image cap">
+                <a>
+                    <div class="mask rgba-white-slight waves-effect waves-light"></div>
+                </a>
+            </div>
+
+            <!-- Card content -->
+            <div class="card-body">
+
+                <!-- Social shares button -->
+                <!-- Title -->
+                <h5 class="card-title font title-card">@item.Title</h5>
+                <hr>
+                <!-- Text -->
+                <p class="card-text description font">
+                  @item.Summary
+                </p>
+                <!-- Link -->
+
+                <button type="button" class="btn btn-sm font btn-outline-success btn-rounded waves-effect">ادامه
+                    مطلب</button>
+
+
+            </div>
+
+        </div>
+        <!-- Card Light -->
+    </div>
+}

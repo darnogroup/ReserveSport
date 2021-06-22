@@ -34,10 +34,12 @@ namespace Domin.Entity
         public int UserId { get; set; }
         [ForeignKey("UserId")]
         public UserModel User { set; get; }
+        public string Image { set; get; }
         public bool IsDelete { set; get; } = false;
         public ICollection<SportCollectionModel> SportCollection { set; get; }
         public IEnumerable<ReserveModel>Reserves { set; get; }
         public FinancialModel Financial { set; get; }
         public IEnumerable<BannerModel>Banner { set; get; }
+
     }
 }

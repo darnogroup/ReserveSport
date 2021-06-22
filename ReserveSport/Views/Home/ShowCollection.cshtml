@@ -1,0 +1,81 @@
+﻿@model Tuple<ShowCollectionViewModel, List<SportsCollectionViewModel>>
+@{
+    ViewData["Title"] = "نمایش مجموعه";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 p-3">
+        <div class="box-course">
+            <h5 class="font text-center text-primary">مشخصات مجموعه</h5>
+            <hr>
+            <ul class="infocourse font">
+                <li>
+                    <a class="text-primary">
+                        نام مجموعه
+                    </a><span>@Model.Item1.CollectionName</span>
+                </li>
+                <li>
+                    <a class="text-primary">
+                        استان:
+                    </a><span>@Model.Item1.State</span>
+                </li>
+                <li>
+
+                    <a class="text-primary">شهر:</a><span>@Model.Item1.City</span>
+                </li>
+                <li>
+                    <a class="text-primary">
+                        شماره تماس:
+                    </a><span>@Model.Item1.CollectionPhoneNumber</span>
+                </li>
+                <li>
+                    <a class ="text-primary">
+                        ورزش های مجموعه:
+                        </a><br />
+                        @foreach (var item in Model.Item2)
+                        {
+                            <span class="badge badge-warning">@item.Name</span>
+                        }
+</li>
+                <li>
+                    <a class="text-primary">
+                        نشانی:
+                    </a><span>@Model.Item1.CollectionAddress</span>
+                </li>
+
+            </ul>
+            <a class="size">
+            </a>
+        </div><a class="size">
+
+            <!-- Card -->
+        </a>
+
+
+    </div>
+    <!---------------------------------------->
+    <div class="col-xl-8 col-lg-8 col-md-6 col-sm-12 col-xs-12 p-3">
+        <div class="box-course">
+            <img src="~/Images/@Model.Item1.Image" class="img-fluid img-banner">
+        </div>
+     
+
+    </div>
+
+</div>
+<div class="row">
+    <div class="box-course mt-5 col-12">
+        <h2 class="mt-2 font mx-3 TitleSize text-center text-primary">سانس های مجموعه</h2>
+        <hr class="w-100">
+        @await Component.InvokeAsync("ReserveVC",@Model.Item1.CollectionId)
+    </div>
+</div>
+@section Scripts{
+  
+    <script src="~/table/vendor/bootstrap/js/popper.js"></script>
+    <script src="~/table/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/table/vendor/select2/select2.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/table/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+} 

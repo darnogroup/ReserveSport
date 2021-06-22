@@ -57,6 +57,18 @@ namespace Data.Repository
                 .AnyAsync();
         }
 
+        public async Task<IEnumerable<ReserveModel>> GetReserveCollection(int id,  DateTime end)
+        {
+            return await _context.Reserve
+                .Where(w => w.CollectionId == id
+                          && w.DayTime.Date < end.Date).ToListAsync();
+        }
+
+        public async Task<IEnumerable<ReserveModel>> GetTimeItem(DateTime time,int collectionId)
+        {
+            return await _context.Reserve.Where(w =>w.CollectionId==collectionId&& w.DayTime.Date == time.Date).ToListAsync();
+        }
+
         public void Save()
         {
             _context.SaveChanges();

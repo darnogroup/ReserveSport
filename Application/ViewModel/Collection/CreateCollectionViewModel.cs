@@ -26,6 +26,7 @@ namespace Application.ViewModel.Collection
         [Required(ErrorMessage = "مدیر مجموعه را وارد کنید")]
         public string UserId { get; set; }
         public IFormFile LicensePath { set; get; }
+        public IFormFile Image { set; get; }
         public List<int>Sports { set; get; }
     }
 }

@@ -1,0 +1,140 @@
+﻿@model QuickViewModel
+@{
+    ViewData["Title"] = "رزرو سریع";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12 stretch-card">
+        <div class="card mt-5 font">
+            <div class="card-body pt-0">
+                <h6 class="card-title mt-3 text-primary">افزودن مجموعه جدید</h6><hr/>
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger" role="alert">@ViewBag.Error</div>
+                }
+                <form asp-controller="Collection" asp-action="Create" method="post" enctype="multipart/form-data">
+
+                    <div class="row col-sm-12 font">
+                        
+                            <div class="form-group col-md-2">
+                                <label>استان</label>
+                                <select class="form-control font" id="StateQuick" asp-for="State" asp-items="@ViewBag.State">
+                                    <option value="0">یک گزینه انتخاب کنید</option>
+                                </select>
+                                <span asp-validation-for="State" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label>شهر</label>
+                                <select class="form-control font" id="CityQuick" asp-for="City"  asp-items="@ViewBag.city">
+                                
+                                </select>
+                                <span asp-validation-for="City" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label> مجموعه</label>
+                                <select class="form-control font" id="CollectionQuick" asp-for="Collection" asp-items="@ViewBag.User">
+                                </select>
+                                <span asp-validation-for="Collection" class="text-danger"></span>
+                            </div>
+                      
+                            <div class="form-group col-md-2">
+                                <label>رشته های ورزشی</label>
+                                <select class="form-control font" id="SportQuick" asp-for="Sport" asp-items="@ViewBag.User">
+                                </select>
+                                <span asp-validation-for="Sport" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label>تاریخ</label>
+                                <select class="form-control font" id="TimeQuick" asp-for="Reserve" asp-items="@ViewBag.Time">
+                                    <option value="0">یک گزینه انتخاب کنید</option>
+                                </select>
+                                <span asp-validation-for="Reserve" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label> سانس ها</label>
+                                <select class="form-control font" id="ReserveQuick" asp-for="Reserve">
+                                </select>
+                                <span asp-validation-for="Reserve" class="text-danger"></span>
+                            </div>
+                        
+
+                         
+                        
+                    </div>
+                        
+
+                    <button type="submit" class="btn btn-sm btn-primary submit">افزودن به سبد خرید</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            $("#StateQuick").change(function() {
+                var groupId = $("#StateQuick").val();
+                $.getJSON("/QuickReserve/CityList/" + groupId,
+                    function(res) {
+                        var item = "";
+                        $.each(res,
+                            function(i, sub) {
+                                item += '<option value="' + sub.value + '">' + sub.text + '</option>';
+                            });
+                        $("#CityQuick").html(item);
+
+                    });
+            });
+        });
+        $(document).ready(function() {
+            $("#CollectionQuick").change(function() {
+              
+                var collection = $("#CollectionQuick").val();
+                $.getJSON("/QuickReserve/SportList/" + collection,
+                    function(res) {
+                        var item = "";
+                        $.each(res,
+                            function(i, sub) {
+                                item += '<option value="' + sub.value + '">' + sub.text + '</option>';
+                            });
+                        $("#SportQuick").html(item);
+
+                    });
+            });
+        });
+        $(document).ready(function() {
+            $("#CityQuick").change(function() {
+                var state = $("#StateQuick").val();
+                var city = $("#CityQuick").val();
+                $.getJSON("/QuickReserve/CollectionList/" + state + "/" + city,
+                    function(res) {
+                        var item = "";
+                        $.each(res,
+                            function(i, sub) {
+                                item += '<option value="' + sub.value + '">' + sub.text + '</option>';
+                            });
+                        $("#CollectionQuick").html(item);
+
+                    });
+            });
+        });
+        $(document).ready(function() {
+            $("#TimeQuick").change(function() {
+                var collection = $("#CollectionQuick").val();
+                var time = $("#TimeQuick").val();
+               
+                $.getJSON("/QuickReserve/ReserveList/" +time+"/"+ collection,
+                    function(res) {
+                        var item = "";
+                        $.each(res,
+                            function(i, sub) {
+                                item += '<option value="' + sub.value + '">' + sub.text + '</option>';
+                            });
+                        $("#ReserveQuick").html(item);
+
+                    });
+            });
+        });
+    </script>
+}

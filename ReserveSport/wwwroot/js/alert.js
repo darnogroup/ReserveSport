@@ -267,6 +267,21 @@ function ChangeImage(input) {
         reader.readAsDataURL(input.files[0]);
     }
 }
+
+/* Change Image */
+function ChangePhoto(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            if ($("#NewPhoto").hasClass("d-none")) {
+                $("#NewPhoto").removeClass(" d-none");
+            }
+            $('#NewPhoto')
+                .attr('src', e.target.result);
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
 $(document).ready(function () {
     $("#State").change(function () {
         var groupId = $("#State").val();
@@ -281,6 +296,7 @@ $(document).ready(function () {
 
             });
     });
+  
 });
 //************************************//
 function DeleteReserve(id) {

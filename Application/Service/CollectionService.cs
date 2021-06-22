@@ -92,6 +92,26 @@ namespace Application.Service
                 {
                     collection.LicensePath = Image.SaveImage(model.LicensePath);
                 }
+                else
+                {
+                    collection.LicensePath = "noImage.jpg";
+                }
+            }
+            else
+            {
+                collection.LicensePath = "noImage.jpg";
+            }
+            if (model.Image != null)
+            {
+                var check = model.Image.IsImage();
+                if (check)
+                {
+                    collection.Image = Image.SaveImage(model.Image);
+                }
+                else
+                {
+                    collection.LicensePath = "noImage.jpg";
+                }
             }
             else
             {
@@ -222,6 +242,7 @@ namespace Application.Service
             model.CollectionName = collection.CollectionName;
             model.CollectionPhoneNumber = collection.CollectionPhoneNumber;
             model.UserOld = collection.UserId;
+            model.ImagePath = collection.Image;
             return model;
         }
 
@@ -262,6 +283,15 @@ namespace Application.Service
                 {
                     Image.RemoveImage(model.LicensePath);
                     collection.LicensePath = Image.SaveImage(model.License);
+                }
+            }
+            if (model.Image != null)
+            {
+                var check = model.Image.IsImage();
+                if (check)
+                {
+                    Image.RemoveImage(model.ImagePath);
+                    collection.LicensePath = Image.SaveImage(model.Image);
                 }
             }
             _collection.Update(collection);

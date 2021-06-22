@@ -26,7 +26,10 @@ namespace Data.Repository
 
         public async Task<CollectionModel> GetById(int id)
         {
-            return await _context.Collection.Include(i=>i.User).SingleOrDefaultAsync(s => s.CollectionId == id);
+            return await _context.Collection
+                .Include(i=>i.City)
+                .Include(i=>i.State)
+                .Include(i=>i.User).SingleOrDefaultAsync(s => s.CollectionId == id);
         }
 
         public async Task<IEnumerable<CollectionModel>> GetTrashCollections()
@@ -139,6 +142,11 @@ namespace Data.Repository
         public void RemoveBanner(BannerModel model)
         {
             _context.Banner.Remove(model);Save();
+        }
+
+        public async Task<IEnumerable<CollectionModel>> GetByQuick(int state, int city)
+        {
+            return await _context.Collection.Where(w => w.StateId == state && w.CityId == city).ToListAsync();
         }
 
         public void Save()
