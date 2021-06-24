@@ -26,5 +26,7 @@ namespace Domin.Entity
         public bool Reserved { set; get; }
         public string Code { set; get; }
         public bool Finish { set; get; }
+        public IEnumerable<OrderDetailModel> OrderDetailModels { get; set; }
+
     }
 }

@@ -13,7 +13,7 @@
                 {
                     <div class="alert alert-danger" role="alert">@ViewBag.Error</div>
                 }
-                <form asp-controller="Collection" asp-action="Create" method="post" enctype="multipart/form-data">
+                <form asp-controller="Home" asp-action="Quick" method="post" enctype="multipart/form-data">
 
                     <div class="row col-sm-12 font">
                         
@@ -57,13 +57,7 @@
                                 </select>
                                 <span asp-validation-for="Reserve" class="text-danger"></span>
                             </div>
-                        
-
-                         
-                        
                     </div>
-                        
-
                     <button type="submit" class="btn btn-sm btn-primary submit">افزودن به سبد خرید</button>
                 </form>
             </div>

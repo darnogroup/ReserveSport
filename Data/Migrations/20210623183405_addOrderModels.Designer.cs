@@ -4,14 +4,16 @@ using Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Data.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    partial class DataBaseContextModelSnapshot : ModelSnapshot
+    [Migration("20210623183405_addOrderModels")]
+    partial class addOrderModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -221,9 +223,6 @@ namespace Data.Migrations
 
                     b.Property<bool>("Close")
                         .HasColumnType("bit");
-
-                    b.Property<int>("CollectionId")
-                        .HasColumnType("int");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");

@@ -10,18 +10,22 @@ using Application.Interface;
 using Application.ViewModel.General;
 using Application.ViewModel.Home;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using RestSharp;
 
 namespace ReserveSport.Controllers
 {
     public class HomeController : Controller
     {
+        private string authority;
         private readonly IHomeService _home;
         private readonly ICollectionService _collection;
+        private readonly IOrderService _orderService;
 
-        public HomeController(IHomeService home, ICollectionService collection)
+        public HomeController(IHomeService home, ICollectionService collection,IOrderService orderService)
         {
             _home = home;
             _collection = collection;
+            _orderService = orderService;
         }
 
         public IActionResult Index()
@@ -42,6 +46,12 @@ namespace ReserveSport.Controllers
         public IActionResult Quick()
         {
             States(); Time();
+            return View();
+        }
+        [HttpPost]
+        [Route("/QuickReserve")]
+        public IActionResult Quick(QuickViewModel model)
+        {
             return View();
         }
         public void States()
@@ -135,40 +145,52 @@ namespace ReserveSport.Controllers
             var result = new SelectList(list.OrderBy(o => o.Id), "Id", "Reserve");
             return Json(result);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public IActionResult Privacy()
+        [HttpGet]
+        [Route("/Home/Verify/{orderId}")]
+        public IActionResult Verify(int orderId)
         {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var order = _orderService.GetOrderById(orderId).Result;
+            var amount = order.OrderPrice * 10;
+            string merchant = "27e232d6-b9e3-11e9-96ac-000c295eb8fc";
+            try
+            {
+                if (HttpContext.Request.Query["Authority"] != "")
+                {
+                    authority = HttpContext.Request.Query["Authority"];
+                }
+                string url = "https://api.zarinpal.com/pg/v4/payment/verify.json?merchant_id=" +
+                             merchant + "&amount="
+                             + amount + "&authority="
+                             + authority;
+                var client = new RestClient(url);
+                client.Timeout = -1;
+                var request = new RestRequest(Method.POST);
+                request.AddHeader("accept", "application/json");
+                request.AddHeader("content-type", "application/json");
+                IRestResponse response = client.Execute(request);
+                Newtonsoft.Json.Linq.JObject jodata = Newtonsoft.Json.Linq.JObject.Parse(response.Content);
+                string data = jodata["data"].ToString();
+                Newtonsoft.Json.Linq.JObject jo = Newtonsoft.Json.Linq.JObject.Parse(response.Content);
+                string errors = jo["errors"].ToString();
+                if (data != "[]")
+                {
+                    string refid = jodata["data"]["ref_id"].ToString();
+                    ViewBag.code = refid;
+                    ViewBag.Price = order.OrderPrice;
+                    ViewBag.OrderCode = order.OrderCode;
+                    _orderService.UpdateOrder(order.OrderId);
+                    return View();
+                }
+                else if (errors != "[]")
+                {
+                    return View();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return NotFound();
         }
     }
 }

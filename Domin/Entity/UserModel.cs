@@ -45,5 +45,6 @@ namespace Domin.Entity
         public IEnumerable<CommentModel> Comments { set; get; }
         public IEnumerable<TicketModel>Ticket { set; get; }
         public IEnumerable<SubTicketModel>SubTicket { set; get; }
+        public IEnumerable<OrderModel> OrderModels { get; set; }
     }
 }

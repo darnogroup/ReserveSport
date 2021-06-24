@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "تایید سفارش";
+}
+@if (ViewBag.code != null)
+{
+    <section class="promo-section page pt-150 margin-bottom-100" style="min-height: 500px">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 order-form order-Style-form bg-form">
+                    <div class="alert alert-success" role="alert">
+                        سفارش شما با موفقیت ثبت شد :)
+                    </div>
+                    <p class="text-page">
+                    </p><div class="alert alert-danger alert-text">
+                        <strong>توجه بسیار مهم: </strong>در صورت تغییر نام کاربری و پرایویت شدن پیج در حین انجام سفارش <strong style="font-size: 17px;"> به هیچ عنوان سفارش قابل پیگیری نبوده و مبلغ برگشت داده نخواهد شد.</strong>
+                    </div>
+                    <table class="factor table table-bordered bg-whit table-hover ">
+                        <tbody>
+                            <tr class="bg-header">
+                                <td>کد رهگیری سفارش </td>
+                                <td>
+                                    @ViewBag.code
+                                </td>
+                            </tr>
+                            <tr class="bg-header">
+                                <td>شماره فاکتور </td>
+                                <td>
+                                    @ViewBag.OrderCode
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>قیمت </td>
+                                <td>@ViewBag.Price.ToString("#,0") تومان</td>
+                            </tr>
+                            <tr>
+                                <td>وضعیت </td>
+                                <td>پرداخت شده </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="text-white text-center">کد رهگیری خود را جهت پیگیری های آینده به خاطر بسپارید.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+else
+{
+    <section class="promo-section page pt-150 margin-bottom-100" style="min-height: 500px">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 order-form order-Style-form bg-form">
+                    <div class="alert alert-danger" role="alert">
+                        سفارش شما انجام نشد
+                    </div>
+                    <p class="text-page">
+                    </p><div class="alert alert-danger alert-text">
+                        <strong>توجه بسیار مهم: </strong>در صورت تغییر نام کاربری و پرایویت شدن پیج در حین انجام سفارش <strong style="font-size: 17px;"> به هیچ عنوان سفارش قابل پیگیری نبوده و مبلغ برگشت داده نخواهد شد.</strong>
+                    </div>
+                    <table class="factor table table-bordered bg-whit table-hover ">
+                        <tbody>
+                            <tr>
+                                <td>وضعیت </td>
+                                <td>پرداخت نشده </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+}

@@ -23,6 +23,7 @@ namespace IOC
             service.AddScoped<ISmsInterface,SmsRepository>();
             service.AddScoped<ISettingInterface, SettingRepository>();
             service.AddScoped<ITicketInterface, TicketRepository>();
+            service.AddScoped<IOrderRepository, OrderRepository>();
             #endregion
 
             #region Service
@@ -39,6 +40,7 @@ namespace IOC
             service.AddScoped<ISettingService,SettingService>();
             service.AddScoped<ITicketService,TicketService>();
             service.AddScoped<IHomeService, HomeService>();
+            service.AddScoped<IOrderService, OrderService>();
 
             #endregion
         }

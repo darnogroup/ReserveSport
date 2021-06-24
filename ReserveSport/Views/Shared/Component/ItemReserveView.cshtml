@@ -3,26 +3,27 @@
 
     <table class="table font">
         <thead>
-        <tr>
-            <th >تاریخ</th>
-            <th>ساعت شروع سانس</th>
-            <th >ساعت پایان سانس</th>
-            <th >قیمت</th>
-            <th>وضعیت سانس</th>
-            <th >گزینه</th>
-        </tr>
+            <tr>
+                <th>تاریخ</th>
+                <th>ساعت شروع سانس</th>
+                <th>ساعت پایان سانس</th>
+                <th>قیمت</th>
+                <th>وضعیت سانس</th>
+                <th>گزینه</th>
+            </tr>
         </thead>
         <tbody>
-        @foreach (var item in Model)
-        {
+            @foreach (var item in Model)
+            {
 
-            <tr >
-                <td >@item.DayTime</td>
-                <td >@item.StartTime</td>
-                <td >@item.EndTime</td>
-                <td >@item.Price.ToString("0,#")
-                <strong>تومان</strong>
-                    </td>
+                <tr>
+                    <td>@item.DayTime</td>
+                    <td>@item.StartTime</td>
+                    <td>@item.EndTime</td>
+                    <td>
+                        @item.Price.ToString("0,#")
+                    <strong>تومان</strong>
+                </td>
                 <td>
                     @if (item.Finish)
                     {
@@ -44,13 +45,10 @@
                     {
                         <a class="btn btn-secondary text-white">امکان رزرو وجود ندارد</a>
                     }
-                    <a class="btn btn-success btn-sm text-white">افزودن به سبد خرید</a>
+                    <a class="btn btn-success btn-sm text-white" onclick="AddToCart('@item.Id')">افزودن به سبد خرید</a>
                 </td>
             </tr>
         }
-
-      
-
         </tbody>
     </table>
 
