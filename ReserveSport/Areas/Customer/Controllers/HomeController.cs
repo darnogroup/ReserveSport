@@ -4,14 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Interface;
-using ReserveSport.Other;
+using ReserveSport.Helper;
+using ClaimsPrincipalExtensions = ReserveSport.Other.ClaimsPrincipalExtensions;
 
 namespace ReserveSport.Areas.Customer.Controllers
-{[Area("Customer")]
+{
+    [Area("Customer")]
+    [Access(4)]
     public class HomeController : Controller
     {
         private readonly IUserService _user;
-
+        
         public HomeController(IUserService user)
         {
             _user = user;
@@ -24,9 +27,18 @@ namespace ReserveSport.Areas.Customer.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        [Route("/Profile/Wallet")]
+        public IActionResult Wallet()
+        {
+            var model = _user.GetUserWallet(UserId()).Result;
+            return View(model);
+        }
+        
+
         public int UserId()
         {
-            int user = Convert.ToInt32(User.GetUserId());
+            int user = Convert.ToInt32(ClaimsPrincipalExtensions.GetUserId(User));
             return user;
         }
     }

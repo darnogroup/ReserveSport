@@ -5,11 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Interface;
 using Application.ViewModel.Ticket;
-using ReserveSport.Other;
+using ReserveSport.Helper;
+using ClaimsPrincipalExtensions = ReserveSport.Other.ClaimsPrincipalExtensions;
 
 namespace ReserveSport.Areas.Customer.Controllers
 {
     [Area("Customer")]
+    [Access(4)]
     public class TicketController : Controller
     {
         private readonly ITicketService _ticket;
@@ -56,7 +58,7 @@ namespace ReserveSport.Areas.Customer.Controllers
         {
             ViewBag.close = close;
             var model = _ticket.GetSubTicket(id).Result;
-            ViewBag.Name = User.GetUserName();
+            ViewBag.Name = ClaimsPrincipalExtensions.GetUserName(User);
             ViewBag.Id = id;
             return View(model);
         }
@@ -96,7 +98,7 @@ namespace ReserveSport.Areas.Customer.Controllers
         }
         public int UserId()
         {
-            int user = Convert.ToInt32(User.GetUserId());
+            int user = Convert.ToInt32(ClaimsPrincipalExtensions.GetUserId(User));
             return user;
         }
     }

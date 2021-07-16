@@ -5,10 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Interface;
 using Application.ViewModel.Sport;
+using ReserveSport.Helper;
 
 namespace ReserveSport.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Access(1)]
     public class SportController : Controller
     {
         private readonly ISportService _sport;

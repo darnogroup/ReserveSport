@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using Application.Interface;
 using Application.ViewModel.Ticket;
 using Data.Migrations;
-using ReserveSport.Other;
+using ReserveSport.Helper;
+using ClaimsPrincipalExtensions = ReserveSport.Other.ClaimsPrincipalExtensions;
 
 namespace ReserveSport.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Access(1)]
     public class TicketController : Controller
     {
         private readonly ITicketService _ticket;
@@ -43,7 +45,7 @@ namespace ReserveSport.Areas.Admin.Controllers
         public IActionResult AnswerTicket(int id)
         {
             ViewBag.Id = id;
-            ViewBag.UserId = Convert.ToInt32(User.GetUserId());
+            ViewBag.UserId = Convert.ToInt32(ClaimsPrincipalExtensions.GetUserId(User));
             return View();
         }
         [HttpPost]
@@ -78,7 +80,7 @@ namespace ReserveSport.Areas.Admin.Controllers
         }
         public string UserName()
         {
-            return User.GetUserName();
+            return ClaimsPrincipalExtensions.GetUserName(User);
         }
     }
 }

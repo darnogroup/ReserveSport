@@ -13,5 +13,6 @@ namespace Application.Interface
         Task<bool> ExistNumber(string number);
         void Send(string number);
         Task<ClaimViewModel> GetClaim(LoginViewModel model);
+        Task<AccessViewModel> GetAccess(int id);
     }
 }

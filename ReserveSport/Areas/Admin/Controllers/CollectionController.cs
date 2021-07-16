@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using Application.Interface;
 using Application.ViewModel.Collection;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using ReserveSport.Helper;
 
 namespace ReserveSport.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Access(1)]
     public class CollectionController : Controller
     {
         private readonly ICollectionService _collection;

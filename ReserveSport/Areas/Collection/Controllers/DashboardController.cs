@@ -5,11 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Interface;
 using Application.ViewModel.Reserve;
-using ReserveSport.Other;
+using ReserveSport.Helper;
+using ClaimsPrincipalExtensions = ReserveSport.Other.ClaimsPrincipalExtensions;
 
 namespace ReserveSport.Areas.Collection.Controllers
 {
     [Area("Collection")]
+    [Access(2)]
     public class DashboardController : Controller
     {
         private readonly ICollectionService _collection;
@@ -25,7 +27,7 @@ namespace ReserveSport.Areas.Collection.Controllers
         [Route("/Collection")]
         public IActionResult Index()
         {
-            int userId = Convert.ToInt32(User.GetUserId());
+            int userId = Convert.ToInt32(ClaimsPrincipalExtensions.GetUserId(User));
             var model = _collection.GetCollection(userId).Result;
             return View(model);
         }
@@ -102,7 +104,7 @@ namespace ReserveSport.Areas.Collection.Controllers
     
         public int UserId()
         {
-            return Convert.ToInt32(User.GetUserId());
+            return Convert.ToInt32(ClaimsPrincipalExtensions.GetUserId(User));
         }
     }
 }

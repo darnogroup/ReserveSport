@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using Application.Interface;
 using Application.ViewModel.City;
 using Application.ViewModel.State;
+using ReserveSport.Helper;
 
 namespace ReserveSport.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Access(1)]
     public class LocationController : Controller
     {
         private readonly IStateService _state;

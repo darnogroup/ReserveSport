@@ -63,5 +63,35 @@ namespace Application.Service
             claim.UserId = info.UserId;
             return claim;
         }
+
+        public async Task<AccessViewModel> GetAccess(int id)
+        {
+            var user = await _user.GetUserById(id);
+            AccessViewModel access=new AccessViewModel();
+            access.RoleId = RoleAccess(user.Role);
+            return access;
+        }
+
+        public int RoleAccess(RoleEnum eEnum)
+        {
+            int id = 0;
+            switch (eEnum)
+            {
+                case RoleEnum.مدیرسایت:
+                    id = 1;
+                    break;
+                case RoleEnum.مدیرمجموعه:
+                    id = 2;
+                    break;
+                case RoleEnum.مربی:
+                    id = 3;
+                    break;
+                case RoleEnum.کاربر:
+                    id = 4;
+                    break;
+            }
+
+            return id;
+        }
     }
 }
