@@ -8,6 +8,7 @@ namespace Application.ViewModel.Setting
 {
     public class SettingViewModel
     {
+        public string Salary { set; get; }
         public string WhatsApp { set; get; }
         public string YouTube { set; get; }
         public string Telegram { set; get; }

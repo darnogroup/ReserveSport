@@ -11,307 +11,151 @@
     </div>
     <div class="sidebar-body">
         <ul class="nav">
-            <li class="nav-item nav-category">اصلی</li>
+
             <li class="nav-item">
                 <a href="dashboard-one.html" class="nav-link">
                     <i class="link-icon" data-feather="box"></i>
                     <span class="link-title">داشبورد</span>
                 </a>
             </li>
-            <li class="nav-item nav-category">برنامه ها</li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#emails" role="button" aria-expanded="false"
-                   aria-controls="emails">
-                    <i class="link-icon" data-feather="mail"></i>
-                    <span class="link-title">ایمیل</span>
+                <a class="nav-link" data-toggle="collapse" href="#user" role="button" aria-expanded="false"
+                   aria-controls="user">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather icon-sm feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>      
+                    <span class="link-title">کاربران</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
-                <div class="collapse" id="emails">
+                <div class="collapse" id="user">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="pages/email/inbox.html" class="nav-link">صندوق دریافت</a>
+                            <a href="/Admin/user" class="nav-link">لیست اصلی</a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/email/read.html" class="nav-link">خواندن ایمیل</a>
+                            <a href="/Admin/user/Create" class="nav-link">افزودن کاربر</a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/email/compose.html" class="nav-link">ارسال ایمیل</a>
+                            <a href="/Admin/Sport/Trash" class="nav-link">بازیافت</a>
                         </li>
                     </ul>
                 </div>
             </li>
             <li class="nav-item">
-                <a href="pages/apps/chat.html" class="nav-link">
-                    <i class="link-icon" data-feather="message-square"></i>
-                    <span class="link-title">گفتگو</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="pages/apps/calendar.html" class="nav-link">
-                    <i class="link-icon" data-feather="calendar"></i>
-                    <span class="link-title">تقویم رویداد میلادی</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="pages/apps/calendar-jalali.html" class="nav-link">
-                    <i class="link-icon" data-feather="calendar"></i>
-                    <span class="link-title">تقویم رویداد شمسی</span>
-                </a>
-            </li>
-            <li class="nav-item nav-category">کامپوننت ها</li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#uiComponents" role="button" aria-expanded="false"
-                   aria-controls="uiComponents">
-                    <i class="link-icon" data-feather="feather"></i>
-                    <span class="link-title">عناصر UI</span>
+                <a class="nav-link" data-toggle="collapse" href="#state" role="button" aria-expanded="false"
+                   aria-controls="state">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin icon-sm"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    <span class="link-title">استان و شهر</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
-                <div class="collapse" id="uiComponents">
+                <div class="collapse" id="state">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="pages/ui-components/alerts.html" class="nav-link">هشدار ها</a>
+                            <a href="/Admin/State" class="nav-link">لیست اصلی</a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/ui-components/badges.html" class="nav-link">نشان ها</a>
+                            <a href="/Admin/State/Create" class="nav-link">افزودن استان</a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/ui-components/breadcrumbs.html" class="nav-link">مسیر راهنما</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/ui-components/buttons.html" class="nav-link">دکمه ها</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/ui-components/button-group.html" class="nav-link">دکمه گروهی</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/ui-components/cards.html" class="nav-link">کارت ها</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/ui-components/carousel.html" class="nav-link">اسلاید تصاویر</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/ui-components/collapse.html" class="nav-link">کامپوننت Collapse</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/ui-components/dropdowns.html" class="nav-link">منو کشویی</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/ui-components/list-group.html" class="nav-link">لیست گروهی</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/ui-components/media-object.html" class="nav-link">اشیاء رسانه ای</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/ui-components/modal.html" class="nav-link">مُدال</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/ui-components/navs.html" class="nav-link">نَو ها</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/ui-components/navbar.html" class="nav-link">نوبار</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/ui-components/pagination.html" class="nav-link">صفحه بندی</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/ui-components/popover.html" class="nav-link">کادر محتوا</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/ui-components/progress.html" class="nav-link">نوار پیشرفت</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/ui-components/scrollbar.html" class="nav-link">پیمایش صفحه</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/ui-components/scrollspy.html" class="nav-link">پیمایش صفحه Scrollspy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/ui-components/spinners.html" class="nav-link">اسپینر</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/ui-components/tooltips.html" class="nav-link">تولتیپ</a>
+                            <a href="/Admin/Trash/State" class="nav-link">بازیافت</a>
                         </li>
                     </ul>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#advancedUI" role="button" aria-expanded="false"
-                   aria-controls="advancedUI">
-                    <i class="link-icon" data-feather="anchor"></i>
-                    <span class="link-title">عناصر پیشرفته UI</span>
+                <a class="nav-link" data-toggle="collapse" href="#Sport" role="button" aria-expanded="false"
+                   aria-controls="Sport">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-award icon-sm"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>                    <span class="link-title">رشته های ورزشی</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
-                <div class="collapse" id="advancedUI">
+                <div class="collapse" id="Sport">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="pages/advanced-ui/cropper.html" class="nav-link">برش عکس</a>
+                            <a href="/Admin/Sport" class="nav-link">لیست اصلی</a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/advanced-ui/owl-carousel.html" class="nav-link">اسلاید تصاویر (Owl carousel 2)</a>
+                            <a href="/Admin/Sport/Create" class="nav-link">افزودن رشته ورزشی</a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/advanced-ui/sweet-alert.html" class="nav-link">هشدار شیرین (Sweet Alert 2)</a>
+                            <a href="/Admin/Sport/Trash" class="nav-link">بازیافت</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#collection" role="button" aria-expanded="false"
+                   aria-controls="collection">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather icon-sm feather-folder"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                    <span class="link-title">مجموعه های ورزشی</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="collection">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="/Admin/Collection" class="nav-link">لیست اصلی</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Admin/Collection/Create" class="nav-link">افزودن مجموعه</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Admin/Collection/Trash" class="nav-link">بازیافت</a>
                         </li>
                     </ul>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#forms" role="button" aria-expanded="false"
-                   aria-controls="forms">
-                    <i class="link-icon" data-feather="inbox"></i>
-                    <span class="link-title">فرم ها</span>
+                <a class="nav-link" data-toggle="collapse" href="#sms" role="button" aria-expanded="false"
+                   aria-controls="sms">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail icon-sm"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>                    <span class="link-title">سامانه پیامکی</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
-                <div class="collapse" id="forms">
+                <div class="collapse" id="sms">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="pages/forms/basic-elements.html" class="nav-link">عناصر پایه</a>
+                            <a href="/Admin/Sms/Collection" class="nav-link">پیامک مجموعه</a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/forms/advanced-elements.html" class="nav-link">عناصر پیشرفته</a>
+                            <a href="/Admin/Sms/Customer" class="nav-link">پیامک مشتری</a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/forms/editors.html" class="nav-link">ویرایشگر</a>
+                            <a href="/Admin/Sms/General" class="nav-link">پیامک عمومی</a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/forms/wizard.html" class="nav-link">فرم حرفه ای (مرحله ای)</a>
+                            <a href="/Admin/Sms/Remember" class="nav-link">پیامک یادآوری</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="/Admin/Sms/Thank" class="nav-link">پیامک تشکر</a>
+                        </li>
+                      
                     </ul>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#charts" role="button" aria-expanded="false"
-                   aria-controls="charts">
-                    <i class="link-icon" data-feather="pie-chart"></i>
-                    <span class="link-title">نمودار ها</span>
+                <a class="nav-link" data-toggle="collapse" href="#ticket" role="button" aria-expanded="false"
+                   aria-controls="ticket">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather icon-sm feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>                    <span class="link-title">سامانه تیکت</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
-                <div class="collapse" id="charts">
+                <div class="collapse" id="ticket">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="pages/charts/apex.html" class="nav-link">نمودار Apex</a>
+                            <a href="/Admin/ticket" class="nav-link">صندوق دریافتی</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="pages/charts/chartjs.html" class="nav-link">نمودار ChartJs</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/charts/flot.html" class="nav-link">نمودار Flot</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/charts/morrisjs.html" class="nav-link">نمودار Morris</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/charts/peity.html" class="nav-link">نمودار Peity</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/charts/sparkline.html" class="nav-link">نمودار Sparkline</a>
-                        </li>
+                      
                     </ul>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#tables" role="button" aria-expanded="false"
-                   aria-controls="tables">
-                    <i class="link-icon" data-feather="layout"></i>
-                    <span class="link-title">جداول</span>
+                <a class="nav-link" data-toggle="collapse" href="#Setting" role="button" aria-expanded="false"
+                   aria-controls="Setting">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings icon-sm"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>                    <span class="link-title">تنظیمات</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
-                <div class="collapse" id="tables">
+                <div class="collapse" id="Setting">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="pages/tables/basic-table.html" class="nav-link">جداول پایه</a>
+                            <a href="/Admin/Setting" class="nav-link">عمومی</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="pages/tables/data-table.html" class="nav-link">جدول داده</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#icons" role="button" aria-expanded="false"
-                   aria-controls="icons">
-                    <i class="link-icon" data-feather="smile"></i>
-                    <span class="link-title">آیکون ها</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i>
-                </a>
-                <div class="collapse" id="icons">
-                    <ul class="nav sub-menu">
-                        <li class="nav-item">
-                            <a href="pages/icons/feather-icons.html" class="nav-link">آیکون Feather</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/icons/flag-icons.html" class="nav-link">آیکون Flag</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/icons/mdi-icons.html" class="nav-link">آیکون Mdi</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li class="nav-item nav-category">صفحات</li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#general-pages" role="button" aria-expanded="false"
-                   aria-controls="general-pages">
-                    <i class="link-icon" data-feather="book"></i>
-                    <span class="link-title">صفحات ویژه</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i>
-                </a>
-                <div class="collapse" id="general-pages">
-                    <ul class="nav sub-menu">
-                        <li class="nav-item">
-                            <a href="pages/general/blank-page.html" class="nav-link">صفحه خالی</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/general/faq.html" class="nav-link">سوالات متداول</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/general/invoice.html" class="nav-link">فاکتور</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/general/profile.html" class="nav-link">پروفایل</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/general/pricing.html" class="nav-link">پلن فروش</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/general/timeline.html" class="nav-link">تایم لاین</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#authPages" role="button" aria-expanded="false"
-                   aria-controls="authPages">
-                    <i class="link-icon" data-feather="unlock"></i>
-                    <span class="link-title">احراز هویت</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i>
-                </a>
-                <div class="collapse" id="authPages">
-                    <ul class="nav sub-menu">
-                        <li class="nav-item">
-                            <a href="pages/auth/login.html" class="nav-link">ورود</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/auth/register.html" class="nav-link">ثبت نام</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#errorPages" role="button" aria-expanded="false"
-                   aria-controls="errorPages">
-                    <i class="link-icon" data-feather="cloud-off"></i>
-                    <span class="link-title">خطا</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i>
-                </a>
-                <div class="collapse" id="errorPages">
-                    <ul class="nav sub-menu">
-                        <li class="nav-item">
-                            <a href="pages/error/404.html" class="nav-link">404</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/error/500.html" class="nav-link">500</a>
-                        </li>
+                      
                     </ul>
                 </div>
             </li>

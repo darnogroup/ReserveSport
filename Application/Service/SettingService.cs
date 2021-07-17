@@ -39,7 +39,7 @@ namespace Application.Service
                 setting.WhatsApp = model.WhatsApp;
                 setting.YouTube = model.YouTube;
                 setting.ZarinPal = model.ZarinPal;
-                
+                setting.Salary = model.Salary;
             }
 
             return setting;
@@ -49,6 +49,7 @@ namespace Application.Service
         {
             var setting =  _setting.GetSetting(1).Result;
             setting.About = model.About;
+            setting.Salary = model.Salary;
             setting.Instagram = model.Instagram;
             setting.Namad = model.Namad;
             setting.SmsApiCode = model.SmsApiCode;

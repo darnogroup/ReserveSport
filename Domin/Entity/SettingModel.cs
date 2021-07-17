@@ -17,6 +17,7 @@ namespace Domin.Entity
         public string Instagram { set; get; }
         public string About { set; get; }
         public string ZarinPal { set; get; }
+        public string Salary { set; get; }
         public string SmsNumberSender { set; get; }
         public string SmsApiCode { set; get; }
         public string Namad { set; get; }
