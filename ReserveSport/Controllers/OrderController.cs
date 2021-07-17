@@ -29,15 +29,15 @@ namespace ReserveSport.Controllers
         }
         [HttpGet]
         [Route("/AddToCart")]
-        public JsonResult AddToCart(int id)
+        public JsonResult AddToCart(int id,int sportId)
         {
-            if (_orderService.IsExistDetail(id).Result)
+            if (_orderService.IsExistDetail(id,sportId).Result)
             {
                 return Json("3");
             }
             if (User.Identity.IsAuthenticated)
             {
-                _orderService.AddToCart(id, UserId());
+                _orderService.AddToCart(id,sportId, UserId());
                 return Json("1");
             }
             //3=Please Login To Site
@@ -49,10 +49,10 @@ namespace ReserveSport.Controllers
             return userId;
         }
         [HttpGet]
-        [Route("/UserCart/Remove/{id}")]
-        public void Remove(int id)
+        [Route("/UserCart/Remove/{id}/{sportId}")]
+        public void Remove(int id,int sportId)
         {
-            _orderService.RemoveItemCart(id);
+            _orderService.RemoveItemCart(id,sportId);
         }
         [Authorize]
         public IActionResult Payment()

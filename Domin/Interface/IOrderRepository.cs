@@ -22,7 +22,8 @@ namespace Domin.Interface
 
         #region Details
 
-        Task<bool> IsExistDetail(int detailId);
+        Task<bool> IsExistDetail(int reserveId, int sportId); 
+        Task<bool> IsExistDetail(DateTime date, int collectionId, int sportId); 
         void CreateDetail(OrderDetailModel detail);
         int OrderPrice(int orderId);
         Task<IEnumerable<OrderDetailModel>> GetOrderItems(int orderId);

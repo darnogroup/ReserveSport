@@ -15,10 +15,14 @@ namespace Application.Service
     public class ReserveService : IReserveService
     {
         private readonly IReserveInterface _reserve;
+        private readonly ISportInterface _sport;
+        private readonly IReserveSportRepository _reserveSport;
 
-        public ReserveService(IReserveInterface reserve)
+        public ReserveService(IReserveInterface reserve,ISportInterface sport,IReserveSportRepository reserveSport)
         {
             _reserve = reserve;
+            _sport = sport;
+            _reserveSport = reserveSport;
         }
         public Tuple<List<ReserveViewModel>, int, int> GetReserve(int id, int page = 1)
         {
@@ -54,7 +58,6 @@ namespace Application.Service
             edit.DayTime = reserve.DayTime.ToShamsi();
             edit.Id = reserve.ReserveId;
             return edit;
-            
         }
 
         public void Create(CreateReserveViewModel model)
@@ -103,9 +106,20 @@ namespace Application.Service
                     {
                         _reserve.Create(reserve);
                     }
-
+                    var reserveModel = _reserve.GetReserveById(reserve.ReserveId).Result;
+                    var sports = _sport.GetSportsByCollectionId(model.CollectionId).Result;
+                    foreach (var sport in sports)
+                    {
+                        ReserveSportsModel rsModel = new ReserveSportsModel()
+                        {
+                            ReserveId = reserveModel.ReserveId,
+                            IsReserved = false,
+                            SportName = sport.SportName,
+                            SportId = sport.SportId
+                        };
+                        _reserveSport.AddReserveSport(rsModel);
+                    }
                 }
-
                 month += 1;
                 startDay = 1;
             }

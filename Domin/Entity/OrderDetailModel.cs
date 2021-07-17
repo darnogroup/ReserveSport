@@ -16,6 +16,7 @@ namespace Domin.Entity
         public int Price { get; set; }
         public bool Close { set; get; } = false;
         public int CollectionId { set; get; }
+        public int SportId { get; set; }
         // Relations
         public int OrderId { get; set; }
         [ForeignKey("OrderId")]

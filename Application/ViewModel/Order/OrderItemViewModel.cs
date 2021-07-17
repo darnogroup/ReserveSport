@@ -15,5 +15,8 @@ namespace Application.ViewModel.Order
         public int Price { set; get; }
         public int Id { set; get; }
         public string ReserveName { get; set; }
+        public int SportId { get; set; }
+        public string SportName { get; set; }
+
     }
 }

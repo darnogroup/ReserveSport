@@ -23,10 +23,8 @@ namespace Domin.Entity
         public int CollectionId { set; get; }
         [ForeignKey("CollectionId")]
         public CollectionModel Collection { set; get; }
-        public bool Reserved { set; get; }
         public string Code { set; get; }
-        public bool Finish { set; get; }
         public IEnumerable<OrderDetailModel> OrderDetailModels { get; set; }
-
+        public IEnumerable<ReserveSportsModel> ReserveSports { get; set; }
     }
 }

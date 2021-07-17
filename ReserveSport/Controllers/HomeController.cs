@@ -11,6 +11,7 @@ using Application.ViewModel.General;
 using Application.ViewModel.Home;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RestSharp;
+using ReserveSport.Helper;
 
 namespace ReserveSport.Controllers
 {
@@ -52,6 +53,21 @@ namespace ReserveSport.Controllers
         [Route("/QuickReserve")]
         public IActionResult Quick(QuickViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            if (_orderService.IsExistDetail(model.Reserve, model.Sport,model.Collection).Result)
+            {
+                ViewBag.Warning = "این تایم قبلا رزرو شده است";
+                return View(model);
+            }
+            if (User.Identity.IsAuthenticated)
+            {
+                int userId = int.Parse(User.GetUserId());
+                _orderService.AddToCart(model.Reserve, model.Sport, model.Collection, userId);
+                return View();
+            }
             return View();
         }
         public void States()

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.ViewModel.Sport;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,5 +18,6 @@ namespace Application.ViewModel.Home
 
         public int Price { set; get; }
         public int Id { set; get; }
+        public List<SportViewModel> Sports { get; set; }
     }
 }

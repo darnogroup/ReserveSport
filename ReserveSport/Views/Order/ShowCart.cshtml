@@ -12,6 +12,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">نام سالن </th>
+                                <th scope="col">ورزش </th>
                                 <th scope="col">از ساعت </th>
                                 <th scope="col" class="text-center">تا ساعت</th>
                                 <th scope="col" class="text-center">تاریخ</th>
@@ -24,11 +25,12 @@
                             {
                                 <tr id="card_@item.Id">
                                     <td style="vertical-align: middle">@item.ReserveName</td>
+                                    <td style="vertical-align: middle">@item.SportName</td>
                                     <td style="vertical-align: middle">@item.Start</td>
                                     <td style="vertical-align: middle">@item.End</td>
                                     <td style="vertical-align: middle">@item.TimeDay</td>
                                     <td class="text-right" style="vertical-align: middle"> @item.Price.ToString("#,0") تومان</td>
-                                    <td class="text-right" style="vertical-align: middle"><button class="btn btn-sm btn-danger" onclick="RemoveItemCart('@item.Id')"><i class="fa fa-trash"></i></button> </td>
+                                    <td class="text-right" style="vertical-align: middle"><button class="btn btn-sm btn-danger" onclick="RemoveItemCart('@item.Id', '@item.SportId')"><i class="fa fa-trash"></i></button> </td>
                                 </tr>
                             }
                             <tr>
@@ -58,7 +60,7 @@
 </main>
 @section Scripts{
     <script>
-        function RemoveItemCart(id) {
+        function RemoveItemCart(id,sportId) {
             Swal.fire({
                 title: 'آیا از سبد خرید پاک شود؟',
                 icon: 'warning',
@@ -69,13 +71,14 @@
                 confirmButtonText: 'پاک کردن'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $.get("/UserCart/Remove/" + id);
+                    $.get("/UserCart/Remove/" + id + "/" + sportId);
                     $("#card_" + id).hide('slow');
                     Swal.fire(
                         'پاک شد',
                         'از سبد خرید پاک شد',
                         'success'
-                    ); 
+                    );
+                    location.reload();
                 }
             });
         }

@@ -21,14 +21,19 @@ namespace Application.Service
         private readonly IStateInterface _state;
         private readonly IUserInterface _user;
         private readonly ISportInterface _sport;
+        private readonly IReserveSportRepository _reserveSport;
+        private readonly IReserveInterface _reserve;
 
-        public CollectionService(ICollectionInterface collection, ICityInterface city, IStateInterface state, IUserInterface user, ISportInterface sport)
+        public CollectionService(ICollectionInterface collection, ICityInterface city, IStateInterface state,
+            IUserInterface user, ISportInterface sport, IReserveSportRepository reserveSport,IReserveInterface reserve)
         {
             _collection = collection;
             _city = city;
             _state = state;
             _user = user;
             _sport = sport;
+            _reserveSport = reserveSport;
+            _reserve = reserve;
         }
         public Tuple<List<CollectionViewModel>, int, int> GetCollections(string search = "", int page = 1)
         {
@@ -132,11 +137,11 @@ namespace Application.Service
             var user = _user.GetUserById(Convert.ToInt32(model.UserId)).Result;
             user.Role = RoleEnum.مدیرمجموعه;
             _user.Update(user);
-            FinancialModel financial=new FinancialModel()
+            FinancialModel financial = new FinancialModel()
             {
                 CollectionId = collection.CollectionId,
                 FinancialCard = "",
-                FinancialNumber  ="",
+                FinancialNumber = "",
                 FinancialPrice = "0",
                 FinancialSheba = ""
 
@@ -179,7 +184,7 @@ namespace Application.Service
         public async Task<List<ItemUserViewModel>> GetUserItems()
         {
             var user = await _user.GetUsers();
-            var admin = user.Where(w =>w.Role==RoleEnum.مدیرمجموعه|| w.Role == RoleEnum.مربی || w.Role == RoleEnum.کاربر).ToList();
+            var admin = user.Where(w => w.Role == RoleEnum.مدیرمجموعه || w.Role == RoleEnum.مربی || w.Role == RoleEnum.کاربر).ToList();
             List<ItemUserViewModel> model = new List<ItemUserViewModel>();
             foreach (var item in admin)
             {
@@ -212,7 +217,7 @@ namespace Application.Service
         public async Task<AreaCollectionViewModel> GetCollection(int userId)
         {
             var model = await _collection.GetProfile(userId);
-            AreaCollectionViewModel collection=new AreaCollectionViewModel();
+            AreaCollectionViewModel collection = new AreaCollectionViewModel();
             collection.CollectionId = model.CollectionId;
             collection.CollectionName = model.CollectionName;
             collection.State = model.State.StateName;
@@ -295,24 +300,45 @@ namespace Application.Service
                 }
             }
             _collection.Update(collection);
-          
             var user = _user.GetUserById(Convert.ToInt32(model.UserId)).Result;
             user.Role = RoleEnum.مدیرمجموعه;
             _user.Update(user);
             if (model.Sports != null)
             {
-
-           
+                var reserveSports = _reserveSport.GetAllReserveSports().Result;
+                List<int> reserveIds = new List<int>();
+                int reserveId = 0;
+                foreach (var sport in reserveSports)
+                {
+                    if (reserveId != sport.ReserveId)
+                    {
+                        reserveIds.Add(sport.ReserveId);
+                    }
+                    reserveId = sport.ReserveId;
+                    _reserveSport.RemoveReserveSport(sport);
+                }
                 foreach (var item in model.Sports)
                 {
-                
                     _collection.AddSport(new SportCollectionModel()
                     {
                         CollectionId = model.CollectionId,
                         SportId = item
                     });
                 }
+                foreach (var id in reserveIds)
+                {
+                    var sportCollections = _collection.GetSportCollections(model.CollectionId).Result;
+                    foreach (var item in sportCollections)
+                    {
+                        ReserveSportsModel rsModel = new ReserveSportsModel();
+                        rsModel.ReserveId = id;
+                        rsModel.SportId = item.SportId;
+                        rsModel.SportName = item.Sport.SportName;
+                        _reserveSport.AddReserveSport(rsModel);
+                    }
+                }
             }
+
         }
 
         public async Task<bool> AdminCollection(int id)
@@ -344,7 +370,7 @@ namespace Application.Service
         public void EditFinancial(FinancialViewModel model)
         {
             var result = _collection.GetFinancial(model.CollectionId).Result;
-            result.FinancialSheba =  model.FinancialSheba;
+            result.FinancialSheba = model.FinancialSheba;
             result.FinancialCard = model.FinancialCard;
             result.FinancialNumber = model.FinancialNumber;
             result.FinancialPrice = model.FinancialPrice;
@@ -353,8 +379,8 @@ namespace Application.Service
 
         public async Task<FinancialViewModel> GetFinancial(int id)
         {
-            FinancialViewModel financial=new FinancialViewModel();
-            var model =await _collection.GetFinancial(id);
+            FinancialViewModel financial = new FinancialViewModel();
+            var model = await _collection.GetFinancial(id);
             financial.FinancialCard = model.FinancialCard;
             financial.FinancialNumber = model.FinancialNumber;
             financial.FinancialId = model.FinancialId;
@@ -367,14 +393,14 @@ namespace Application.Service
         public async Task<List<ImageViewModel>> GetImages(int id)
         {
             var list = await _collection.GetBanner(id);
-            List<ImageViewModel>images=new List<ImageViewModel>();
+            List<ImageViewModel> images = new List<ImageViewModel>();
             foreach (var item in list)
             {
-               images.Add(new ImageViewModel()
-               {
-                   Id = item.Id,
-                   ImagePath = item.Image
-               }); 
+                images.Add(new ImageViewModel()
+                {
+                    Id = item.Id,
+                    ImagePath = item.Image
+                });
             }
 
             return images;
@@ -382,18 +408,18 @@ namespace Application.Service
 
         public void AddImage(AddImageViewModel model)
         {
-           BannerModel banner=new BannerModel();
-           banner.CollectionId = model.CollectionId;
-           var check = model.Image.IsImage();
-           if (check)
-           {
-               banner.Image = Image.SaveImage(model.Image);
-           }
-           else
-           {
-               banner.Image = "noImage.jpg";
-           }
-           _collection.CreateBanner(banner);
+            BannerModel banner = new BannerModel();
+            banner.CollectionId = model.CollectionId;
+            var check = model.Image.IsImage();
+            if (check)
+            {
+                banner.Image = Image.SaveImage(model.Image);
+            }
+            else
+            {
+                banner.Image = "noImage.jpg";
+            }
+            _collection.CreateBanner(banner);
         }
 
         public void RemoveImage(int id)

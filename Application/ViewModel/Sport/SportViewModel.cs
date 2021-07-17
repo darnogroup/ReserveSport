@@ -10,5 +10,6 @@ namespace Application.ViewModel.Sport
     {
         public int SportId { get; set; }
         public string SportName { set; get; }
+        public bool IsReserved { get; set; }
     }
 }

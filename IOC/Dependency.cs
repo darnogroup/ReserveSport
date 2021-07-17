@@ -24,6 +24,7 @@ namespace IOC
             service.AddScoped<ISettingInterface, SettingRepository>();
             service.AddScoped<ITicketInterface, TicketRepository>();
             service.AddScoped<IOrderRepository, OrderRepository>();
+            service.AddScoped<IReserveSportRepository, ReserveSportRepository>();
             #endregion
 
             #region Service

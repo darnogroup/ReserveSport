@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Application.Interface;
 using Application.Other;
 using Application.ViewModel.Home;
+using Application.ViewModel.Sport;
 using Domin.Interface;
 
 namespace Application.Service
@@ -16,13 +17,16 @@ namespace Application.Service
         private readonly IArticleInterface _article;
         private readonly IReserveInterface _reserve;
         private readonly ISportInterface _sport;
+        private readonly IReserveSportRepository _reserveSport;
 
-        public HomeService(ICollectionInterface collection, IArticleInterface article, IReserveInterface reserve, ISportInterface sport)
+        public HomeService(ICollectionInterface collection, IArticleInterface article, IReserveInterface reserve, ISportInterface sport
+            ,IReserveSportRepository reserveSport)
         {
             _collection = collection;
             _article = article;
             _reserve = reserve;
             _sport = sport;
+            _reserveSport = reserveSport;
         }
         public async Task<List<ItemCollectionViewModel>> GetCollections()
         {
@@ -105,6 +109,7 @@ namespace Application.Service
             List<ItemReserveViewModel> reserves = new List<ItemReserveViewModel>();
             foreach (var item in result)
             {
+                List<SportViewModel> models = new List<SportViewModel>();
                 reserves.Add(new ItemReserveViewModel()
                 {
                     DayTime = item.DayTime.ToShamsi(),
@@ -112,11 +117,19 @@ namespace Application.Service
                     StartTime = item.StartTime,
                     Id = item.ReserveId,
                     Price = Convert.ToInt32(item.Price),
-                    Finish = item.Finish,
-                    Reserve = item.Reserved
+                    Sports = models
                 });
+                var sports = _reserveSport.GetAllReserveSports(item.ReserveId).Result;
+                foreach (var sport in sports)
+                {
+                    models.Add(new SportViewModel()
+                    {
+                        SportId = sport.SportId,
+                        SportName = sport.SportName,
+                        IsReserved = sport.IsReserved
+                    });
+                }
             }
-
             return reserves;
         }
 

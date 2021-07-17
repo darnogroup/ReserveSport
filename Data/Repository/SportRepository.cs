@@ -27,7 +27,10 @@ namespace Data.Repository
         {
             return await _context.Sport.Where(w=>w.IsDelete==true).IgnoreQueryFilters().ToListAsync();
         }
-
+        public async Task<IEnumerable<SportModel>> GetSportsByCollectionId(int collectionId)
+        {
+            return await _context.SportCollection.Include(n=> n.Sport).Where(n => n.CollectionId == collectionId).Select(n => n.Sport).ToListAsync();
+        }
         public async Task<SportModel> GetSportById(int id)
         {
             return await _context.Sport.FindAsync(id);

@@ -1,6 +1,5 @@
 ﻿@model List<ItemReserveViewModel>
 <div class="table-responsive text-nowrap font">
-
     <table class="table font">
         <thead>
             <tr>
@@ -8,8 +7,7 @@
                 <th>ساعت شروع سانس</th>
                 <th>ساعت پایان سانس</th>
                 <th>قیمت</th>
-                <th>وضعیت سانس</th>
-                <th>گزینه</th>
+                <th>ورزش ها</th>
             </tr>
         </thead>
         <tbody>
@@ -22,34 +20,37 @@
                     <td>@item.EndTime</td>
                     <td>
                         @item.Price.ToString("0,#")
-                    <strong>تومان</strong>
-                </td>
-                <td>
-                    @if (item.Finish)
-                    {
-                        <span class="badge badge-danger">رزرو شده</span>
-                    }
-                    else if (item.Reserve)
-                    {
-                        <span class="badge badge-warning">پیش رزرو</span>
-                    }
-                    else
-                    { <span class="badge badge-success">قابل رزرو</span>}
-                </td>
-                <td class="cell100 column">
-                    @if (item.Finish)
-                    {
-                        <a class="btn btn-secondary text-white">رزرو انجام شده</a>
-                    }
-                    @if (item.Reserve)
-                    {
-                        <a class="btn btn-secondary text-white">امکان رزرو وجود ندارد</a>
-                    }
-                    <a class="btn btn-success btn-sm text-white" onclick="AddToCart('@item.Id')">افزودن به سبد خرید</a>
-                </td>
-            </tr>
-        }
+                        <strong>تومان</strong>
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-primary" onclick="$('#sports-@item.Id').toggle()">ورزش ها</a>
+                    </td>
+                </tr>
+                <tr style="display:none" id="sports-@item.Id">
+                    <td colspan="5">
+                        <ul>
+                            @foreach (var sport in item.Sports)
+                            {
+                                <li class="d-flex justify-content-around mb-2">
+                                    <span>@sport.SportName</span>
+                                    @if (item.Finish)
+                                    {
+                                        <a class="btn btn-secondary text-white">رزرو انجام شده</a>
+                                    }
+                                    else if (sport.IsReserved)
+                                    {
+                                        <a class="btn btn-danger btn-sm text-white">امکان رزرو وجود ندارد</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-success btn-sm text-white" onclick="AddToCart('@item.Id', '@sport.SportId')">افزودن به سبد خرید</a>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
-
 </div>

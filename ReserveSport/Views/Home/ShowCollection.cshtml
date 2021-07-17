@@ -79,11 +79,12 @@
     <!--===============================================================================================-->
     <script src="~/table/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script>
-        function AddToCart(id) {
+        function AddToCart(id,sportId) {
             $.ajax({
                 url: "/AddToCart", //1
                 data: {
-                    id: id
+                    id: id,
+                    sportId: sportId
                 }, //2
                 type: "Get", //3
                 datatype: "Json", //4
@@ -95,7 +96,6 @@
                         Swal.fire({
                             icon: 'error',
                             title: 'ابتدا وارد سایت شوید',
-
                             confirmButtonText: 'متوجه شدم',
                             footer: '<a href="/Login">ورود به سایت</a>'
                         });
@@ -104,7 +104,6 @@
                         Swal.fire({
                             icon: 'success',
                             title: 'در سبد خرید شما اضافه شد',
-
                             confirmButtonText: 'ممنون',
                         });
                         location.reload();
@@ -113,7 +112,6 @@
                         Swal.fire({
                             icon: 'warning',
                             title: 'این سانس قبلا رزرو شده است اما به تایید نهایی نرسیده است',
-
                             confirmButtonText: 'باشه',
                         });
                     }

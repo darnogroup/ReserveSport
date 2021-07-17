@@ -36,6 +36,8 @@ namespace Data.Context
         public virtual DbSet<SubTicketModel>SubTicket { set; get; }
         public virtual DbSet<OrderModel> OrderModels { set; get; }
         public virtual DbSet<OrderDetailModel> OrderDetailModels { set; get; }
+        public virtual DbSet<ReserveSportsModel> ReserveSportsModels { set; get; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var mutableForeignKey in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))

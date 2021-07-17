@@ -42,9 +42,13 @@ namespace Data.Repository
 
         #region Details
 
-        public async Task<bool> IsExistDetail(int detailId)
+        public async Task<bool> IsExistDetail(int reserveId,int sportId)
         {
-            return await _context.OrderDetailModels.AnyAsync(o => o.DetailId == detailId);
+            return await _context.OrderDetailModels.AnyAsync(o => o.ReserveId == reserveId && o.SportId == sportId);
+        }
+        public async Task<bool> IsExistDetail(DateTime date, int collectionId, int sportId)
+        {
+            return await _context.OrderDetailModels.Include(n=> n.ReserveModel).AnyAsync(o => o.ReserveModel.DayTime == date && o.SportId == sportId && o.ReserveModel.CollectionId == collectionId);
         }
         public async Task<int> GetUserId(int userId)
         {

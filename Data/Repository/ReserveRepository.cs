@@ -68,7 +68,6 @@ namespace Data.Repository
         {
             return await _context.Reserve.Where(w =>w.CollectionId==collectionId&& w.DayTime.Date == time.Date).ToListAsync();
         }
-
         public void Save()
         {
             _context.SaveChanges();

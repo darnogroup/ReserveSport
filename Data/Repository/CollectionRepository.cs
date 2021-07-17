@@ -148,7 +148,10 @@ namespace Data.Repository
         {
             return await _context.Collection.Where(w => w.StateId == state && w.CityId == city).ToListAsync();
         }
-
+        public async Task<List<SportCollectionModel>> GetSportCollections(int collectionId)
+        {
+            return await _context.SportCollection.Include(n=> n.Sport).Where(n => n.CollectionId == collectionId).ToListAsync();
+        }
         public void Save()
         {
             _context.SaveChanges();
