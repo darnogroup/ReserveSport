@@ -1,0 +1,91 @@
+﻿@model Tuple<List<ComplaintViewModel>, int, int>
+
+@{
+    ViewData["Title"] = "شکایات";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">لیست شکایت ها </h6>
+                <div class="row justify-content-between">
+                   
+                    <form class="col-md-4 position-relative" asp-controller="General" asp-action="Complaint" method="get">
+
+
+
+                        <input name="search" class="form-control mr-auto" placeholder="جستجو  شکایات ها..." style="padding-left: 65px">
+                        <button type="submit" class="btn btn-primary ml-2 position-absolute" style="left: 5px; top: 0; height: 100%; border-radius: 2px;">
+                            ثبت
+                        </button>
+
+
+                    </form>
+
+                </div>
+                <div class="table-responsive pt-3">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr role="row">
+                                <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending">نام و نام خانوادگی</th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending">شماره تماس</th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending">پست الکترونیک</th>
+                                <th>گزینه ها</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Item1)
+                            {
+                                <tr role="row" id="card_@item.Id" class="odd">
+
+                                    <td class="text-center" style="vertical-align: middle">
+                                        @item.ComplaintUserName
+                                    </td>
+                                    <td class="text-center" style="vertical-align: middle">
+                                        @item.ComplaintPhoneNumber
+                                    </td>
+                                    <td class="text-center" style="vertical-align: middle">
+                                        @if (@item.ComplaintMail == null)
+                                        {
+                                            <span class="text-danger">وارد نشده</span>
+                                        }
+                                        else
+                                        {@item.ComplaintMail}
+                                    </td>
+                                    <td class="text-center" style="vertical-align: middle">
+                                        <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">مشاهده شکایت</a>
+                                        <div class="col">
+                                            <div class="collapse multi-collapse mt-2" id="multiCollapseExample1">
+                                                <div class="card card-body">
+                                                    <span class="text-primary">@item.ComplaintTitle</span>
+                                                    <p>  @item.ComplaintDescription</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    @if (Model.Item2 > 1)
+                    {
+                        <div class="dataTables_paginate paging_simple_numbers py-3 d-flex justify-content-center" id="dataTableExample_paginate">
+                            <ul class="pagination pagination-sm m-0 float-right">
+                                <li class="page-item  @((Model.Item3-1 == 0) ? "disabled" : "")"><a class="page-link" href="/Admin/Complaint?search=@(ViewBag.search)&pageNumber=@(Model.Item3-1)">«</a></li>
+                                @for (int i = 1; i <= (Model.Item2); i++)
+                                {
+                                    <li class="page-item @(Model.Item3==i?"active":"")"><a class="page-link" href="/Admin/Complaint?search=@(ViewBag.search)&pageNumber=@i">@i</a></li>
+                                }
+
+                                <li class="page-item @((Model.Item3+1 > Model.Item2) ? "disabled" : "")"><a class="page-link" href="/Admin/Complaint?search=@(ViewBag.search)&pageNumber=@(Model.Item3+1)">»</a></li>
+                            </ul>
+                        </div>
+                    }
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</div>

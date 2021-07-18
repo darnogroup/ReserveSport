@@ -37,6 +37,10 @@ namespace Data.Context
         public virtual DbSet<OrderModel> OrderModels { set; get; }
         public virtual DbSet<OrderDetailModel> OrderDetailModels { set; get; }
         public virtual DbSet<ReserveSportsModel> ReserveSportsModels { set; get; }
+        public virtual DbSet<AdsViewModel>AdsModels { set; get; }
+        public virtual DbSet<AboutModel>AboutModels { set; get; }
+        public virtual DbSet<ContactModel>ContactModels { set; get; }
+        public virtual DbSet<ComplaintModel>ComplaintModels { set; get; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

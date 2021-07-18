@@ -1,0 +1,19 @@
+﻿@model AboutViewModel
+@{
+    ViewData["Title"] = "About";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h2 class="text-center font mt-5">درباره ما</h2><hr/>
+            <img src="~/Images/@Model.ImagePath" class="img-thumbnail img-fluid " width="800" height="100" />
+            <div class="alert alert-primary mt-2" role="alert">
+                @Model.AboutSlogan
+            </div><hr />
+            <p>
+                @Model.AboutBody
+            </p>
+        </div>
+    </div>
+</div>

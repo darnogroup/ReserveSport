@@ -1,0 +1,48 @@
+﻿@model AboutViewModel
+@{
+    ViewData["Title"] = "درباره ما";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-wrapper p-2" style="min-height: 221px;">
+    <div style="background-color: #fff" class="p-4">
+        <div class="d-flex justify-content-between">
+            <h3>درباره ما</h3>
+
+
+        </div>
+        <section class="crud-forms mt-3">
+            <div class="row">
+                <div class="col-md-8">
+                    <form asp-action="About" asp-controller="General" method="post"  enctype="multipart/form-data" class="mx-auto">
+                        <div class="row">
+                            <div class="form-group">
+                                <img id="NewImg" src="~/Images/@Model.ImagePath" class="img-thumbnail mr-1 mb-2 showNewImage" />
+                                <br />
+                                <label for="imgUp" class="control-label ml-2 chooseImage">
+                                    انتخاب تصویر<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download-cloud"><polyline points="8 17 12 21 16 17"></polyline><line x1="12" y1="12" x2="12" y2="21"></line><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"></path></svg>
+                                </label>
+                                <input type="file" asp-for="AboutImage" class="d-none" id="imgUp" onchange="ChangeImage(this);" />
+                            </div>
+                            <div class="form-group col-12">
+                                <label class="control-label">شعار سایت</label>
+                                <input asp-for="AboutSlogan" class="form-control" />
+
+                            </div>
+                            <div class="form-group col-12">
+                                <label asp-for="AboutBody" class="control-label">توضیح کلی</label>
+                                <textarea asp-for="AboutBody" class="form-control" style="height: 200px"></textarea>
+
+                            </div>
+                            <input type='hidden' asp-for="ImagePath" />
+                            <input type="hidden" asp-for="AboutId" />
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="ثبت" class="btn btn-success btn-sm text-white" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

@@ -10,7 +10,10 @@
         src: url('../font/Lalezar-Regular.ttf');
         font-weight: bold;
     }
-    
+.input-custom {
+    border: 3px solid #ccc !important;
+    border-radius: 10px !important;
+}
 .font{
     font-family: 'Samim';
 }

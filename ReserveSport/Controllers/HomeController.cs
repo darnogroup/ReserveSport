@@ -21,10 +21,13 @@ namespace ReserveSport.Controllers
         private readonly IHomeService _home;
         private readonly ICollectionService _collection;
         private readonly IOrderService _orderService;
+        private readonly ISettingService _setting;
 
-        public HomeController(IHomeService home, ICollectionService collection,IOrderService orderService)
+        public HomeController(IHomeService home, ISettingService setting, ICollectionService collection,
+            IOrderService orderService)
         {
             _home = home;
+            _setting = setting;
             _collection = collection;
             _orderService = orderService;
         }
@@ -33,6 +36,7 @@ namespace ReserveSport.Controllers
         {
             return View();
         }
+
         [HttpGet]
         [Route("/Collection/{id}")]
         public IActionResult ShowCollection(int id, string title)
@@ -46,9 +50,19 @@ namespace ReserveSport.Controllers
         [Route("/QuickReserve")]
         public IActionResult Quick()
         {
-            States(); Time();
+            States();
+            Time();
             return View();
         }
+
+        [HttpGet]
+        [Route("/About")]
+        public IActionResult About()
+        {
+            var model = _setting.GetAbout().Result;
+            return View(model);
+        }
+
         [HttpPost]
         [Route("/QuickReserve")]
         public IActionResult Quick(QuickViewModel model)
@@ -57,19 +71,23 @@ namespace ReserveSport.Controllers
             {
                 return View(model);
             }
-            if (_orderService.IsExistDetail(model.Reserve, model.Sport,model.Collection).Result)
+
+            if (_orderService.IsExistDetail(model.Reserve, model.Sport, model.Collection).Result)
             {
                 ViewBag.Warning = "این تایم قبلا رزرو شده است";
                 return View(model);
             }
+
             if (User.Identity.IsAuthenticated)
             {
                 int userId = int.Parse(User.GetUserId());
                 _orderService.AddToCart(model.Reserve, model.Sport, model.Collection, userId);
                 return View();
             }
+
             return View();
         }
+
         public void States()
         {
             var list = _collection.GetStateItems().Result;
@@ -113,6 +131,7 @@ namespace ReserveSport.Controllers
 
             return Json(result);
         }
+
         [HttpGet]
         [Route("/QuickReserve/CollectionList/{state}/{city}")]
         public JsonResult GetCollection(int state, int city)
@@ -149,10 +168,10 @@ namespace ReserveSport.Controllers
 
         [HttpGet]
         [Route("/QuickReserve/ReserveList/{y}/{m}/{d}/{collection}")]
-        public JsonResult GetReserve(string y,string m,string d, string collection)
+        public JsonResult GetReserve(string y, string m, string d, string collection)
         {
             var time = y + "/" + m + "/" + d;
-            var list = _home.GetReserveItem(time,collection).Result;
+            var list = _home.GetReserveItem(time, collection).Result;
             list.Add(new SelectReserveViewModel()
             {
                 Id = 0,
@@ -161,6 +180,7 @@ namespace ReserveSport.Controllers
             var result = new SelectList(list.OrderBy(o => o.Id), "Id", "Reserve");
             return Json(result);
         }
+
         [HttpGet]
         [Route("/Home/Verify/{orderId}")]
         public IActionResult Verify(int orderId)
@@ -174,6 +194,7 @@ namespace ReserveSport.Controllers
                 {
                     authority = HttpContext.Request.Query["Authority"];
                 }
+
                 string url = "https://api.zarinpal.com/pg/v4/payment/verify.json?merchant_id=" +
                              merchant + "&amount="
                              + amount + "&authority="
@@ -206,7 +227,59 @@ namespace ReserveSport.Controllers
             {
                 throw new Exception(ex.Message);
             }
+
             return NotFound();
         }
+
+        [HttpGet]
+        [Route("/complaint")]
+        public IActionResult Complaint()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("/complaint")]
+
+        public IActionResult Complaint(AddComplaintViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                _setting.Add(model);
+                ViewBag.error = "با تشکر در اسرع وقت کارشناسان ما با شما ارتباط برقرار میکنند";
+                return View();
+            }
+            else
+            {
+                return View(model);
+            }
+
+        }
+
+        [HttpGet]
+        [Route("/Contact")]
+        public IActionResult Contact()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("/Contact")]
+        public IActionResult Contact(ContactViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                _setting.InsertContact(model);
+                ViewBag.error = "با تشکر از پیام شما دریافت شد کارشناسان ما با شما ارتباط برقرار میکنند";
+                return View();
+            }
+            else
+            {
+                return View();
+            }
+
+        }
     }
+
+
 }
