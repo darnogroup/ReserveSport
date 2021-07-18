@@ -9,9 +9,9 @@
         <div class="card mt-5 font">
             <div class="card-body pt-0">
                 <h6 class="card-title mt-3 text-primary">افزودن مجموعه جدید</h6><hr />
-                @if (ViewBag.Error != null)
+                @if (ViewBag.Warning != null)
                 {
-                    <div class="alert alert-danger" role="alert">@ViewBag.Error</div>
+                    <div class="alert alert-danger my-3 text-center" role="alert">@ViewBag.Warning</div>
                 }
                 <form asp-controller="Home" asp-action="Quick" method="post" enctype="multipart/form-data">
 

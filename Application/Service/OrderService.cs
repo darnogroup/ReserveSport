@@ -35,7 +35,8 @@ namespace Application.Service
         }
         public async Task<bool> IsExistDetail(string date, string collectionId, string sportId)
         {
-            DateTime time = Convert.ToDateTime(date);
+            date = date.ToMiladiDateTime().ToString("yyyy-MM-dd'T'HH:mm:ss.fffffff'Z'");
+            DateTime time = DateTime.ParseExact(date, "yyyy-MM-dd'T'HH:mm:ss.fffffff'Z'", CultureInfo.InvariantCulture);
             return await _orderRepository.IsExistDetail(time, int.Parse(collectionId),int.Parse(sportId));
         }
         public void AddToCart(int itemId,int sportId, int userId)

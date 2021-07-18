@@ -69,11 +69,15 @@ namespace ReserveSport.Controllers
         {
             if (!ModelState.IsValid)
             {
+                States();
+                Time();
                 return View(model);
             }
 
-            if (_orderService.IsExistDetail(model.Reserve, model.Sport, model.Collection).Result)
+            if (_orderService.IsExistDetail(model.Reserve, model.Collection, model.Sport).Result)
             {
+                States();
+                Time();
                 ViewBag.Warning = "این تایم قبلا رزرو شده است";
                 return View(model);
             }
@@ -81,10 +85,11 @@ namespace ReserveSport.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 int userId = int.Parse(User.GetUserId());
-                _orderService.AddToCart(model.Reserve, model.Sport, model.Collection, userId);
-                return View();
+                _orderService.AddToCart(model.Reserve, model.Collection, model.Sport, userId);
+                return Redirect("/ShowCart");
             }
-
+            States();
+            Time();
             return View();
         }
 
