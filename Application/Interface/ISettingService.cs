@@ -11,6 +11,7 @@ namespace Application.Interface
     public interface ISettingService
     {
         Task<SettingViewModel> GetSetting(int id);
+        Task<SettingViewModel> GetFirstSetting();
         void Setting(SettingViewModel model);
         void Insert(AboutViewModel model);
         Task<AboutViewModel> GetAbout();

@@ -25,6 +25,7 @@ namespace IOC
             service.AddScoped<ITicketInterface, TicketRepository>();
             service.AddScoped<IOrderRepository, OrderRepository>();
             service.AddScoped<IReserveSportRepository, ReserveSportRepository>();
+            service.AddScoped<IWalletRepository, WalletRepository>();
             #endregion
 
             #region Service
@@ -42,6 +43,7 @@ namespace IOC
             service.AddScoped<ITicketService,TicketService>();
             service.AddScoped<IHomeService, HomeService>();
             service.AddScoped<IOrderService, OrderService>();
+            service.AddScoped<IWalletServcie, WalletService>();
 
             #endregion
         }

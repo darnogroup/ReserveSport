@@ -33,17 +33,17 @@
                             {
                                 <li class="d-flex justify-content-around mb-2">
                                     <span>@sport.SportName</span>
-                                    @if (item.Finish)
+                                    @if (sport.IsFinished)
                                     {
-                                        <a class="btn btn-secondary text-white">رزرو انجام شده</a>
+                                        <a class="btn btn-secondary btn-sm text-white" style="width:135px">رزرو انجام شده</a>
                                     }
                                     else if (sport.IsReserved)
                                     {
-                                        <a class="btn btn-danger btn-sm text-white">امکان رزرو وجود ندارد</a>
+                                        <a class="btn btn-danger btn-sm text-white" style="width:135px">امکان رزرو وجود ندارد</a>
                                     }
                                     else
                                     {
-                                        <a class="btn btn-success btn-sm text-white" onclick="AddToCart('@item.Id', '@sport.SportId')">افزودن به سبد خرید</a>
+                                        <a class="btn btn-success btn-sm text-white" onclick="AddToCart('@item.Id', '@sport.SportId')" style="width:135px">افزودن به سبد خرید</a>
                                     }
                                 </li>
                             }

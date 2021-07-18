@@ -187,7 +187,8 @@ namespace ReserveSport.Controllers
         {
             var order = _orderService.GetOrderById(orderId).Result;
             var amount = order.OrderPrice * 10;
-            string merchant = "27e232d6-b9e3-11e9-96ac-000c295eb8fc";
+            var setting = _setting.GetFirstSetting().Result;
+            string merchant = setting.ZarinPal;
             try
             {
                 if (HttpContext.Request.Query["Authority"] != "")
@@ -195,30 +196,17 @@ namespace ReserveSport.Controllers
                     authority = HttpContext.Request.Query["Authority"];
                 }
 
-                string url = "https://api.zarinpal.com/pg/v4/payment/verify.json?merchant_id=" +
-                             merchant + "&amount="
-                             + amount + "&authority="
-                             + authority;
-                var client = new RestClient(url);
-                client.Timeout = -1;
-                var request = new RestRequest(Method.POST);
-                request.AddHeader("accept", "application/json");
-                request.AddHeader("content-type", "application/json");
-                IRestResponse response = client.Execute(request);
-                Newtonsoft.Json.Linq.JObject jodata = Newtonsoft.Json.Linq.JObject.Parse(response.Content);
-                string data = jodata["data"].ToString();
-                Newtonsoft.Json.Linq.JObject jo = Newtonsoft.Json.Linq.JObject.Parse(response.Content);
-                string errors = jo["errors"].ToString();
-                if (data != "[]")
+                var payment = Payments.DoVerify(amount, merchant, authority);
+                if (payment.Item2 != "[]")
                 {
-                    string refid = jodata["data"]["ref_id"].ToString();
+                    string refid = payment.Item1["data"]["ref_id"].ToString();
                     ViewBag.code = refid;
                     ViewBag.Price = order.OrderPrice;
                     ViewBag.OrderCode = order.OrderCode;
                     _orderService.UpdateOrder(order.OrderId);
                     return View();
                 }
-                else if (errors != "[]")
+                else if (payment.Item3 != "[]")
                 {
                     return View();
                 }
@@ -230,7 +218,39 @@ namespace ReserveSport.Controllers
 
             return NotFound();
         }
+        [HttpGet]
+        [Route("/Home/VerifyCharge/{money}")]
+        public IActionResult VerifyCharge(int money)
+        {
+            var amount = money * 10;
+            var setting = _setting.GetFirstSetting().Result;
+            string merchant = setting.ZarinPal;
+            try
+            {
+                if (HttpContext.Request.Query["Authority"] != "")
+                {
+                    authority = HttpContext.Request.Query["Authority"];
+                }
+                var payment = Payments.DoVerify(amount,merchant,authority);
+                if (payment.Item2 != "[]")
+                {
+                    string refid = payment.Item1["data"]["ref_id"].ToString();
+                    ViewBag.code = refid;
+                    ViewBag.Price = money;
+                    return View();
+                }
+                else if (payment.Item3 != "[]")
+                {
+                    return View();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
 
+            return NotFound();
+        }
         [HttpGet]
         [Route("/complaint")]
         public IActionResult Complaint()

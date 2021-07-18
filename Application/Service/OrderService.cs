@@ -19,13 +19,15 @@ namespace Application.Service
         private readonly IReserveInterface _reserveInterface;
         private readonly IReserveSportRepository _reserveSportRepository;
         private readonly ISportInterface _sportInterface;
+        private readonly IWalletRepository _walletRepository;
         public OrderService(IOrderRepository orderRepository,IReserveInterface reserveInterface
-            ,IReserveSportRepository reserveSportRepository,ISportInterface sportInterface)
+            ,IReserveSportRepository reserveSportRepository,ISportInterface sportInterface,IWalletRepository walletRepository)
         {
             _orderRepository = orderRepository;
             _reserveInterface = reserveInterface;
             _reserveSportRepository = reserveSportRepository;
             _sportInterface = sportInterface;
+            _walletRepository = walletRepository;
         }
         public async Task<bool> IsExistDetail(int reserveId, int sportId)
         {
@@ -96,7 +98,17 @@ namespace Application.Service
         }
         public Tuple<List<OrderItemViewModel>, OrderViewModel> GetCardItem(int userId)
         {
-            var order = _orderRepository.GetOrderByUserId(userId).Result;
+            var order = _orderRepository.GetNotFinalyOrderByUserId(userId).Result;
+            var wallet = _walletRepository.GetWalletByUserId(userId).Result;
+            int detailsCount;
+            if (order != null)
+            {
+                detailsCount = _orderRepository.GetDetailsCount(order.OrderId).Result;
+            }
+            else
+            {
+                detailsCount = 0;
+            }
             OrderViewModel orderView = new OrderViewModel();
             List<OrderItemViewModel> orderItems = new List<OrderItemViewModel>();
             if (order != null)
@@ -104,7 +116,9 @@ namespace Application.Service
                 orderView.OrderCode = order.OrderCode;
                 orderView.OrderId = order.OrderId;
                 orderView.OrderPrice = _orderRepository.OrderPrice(order.OrderId);
-                orderView.IsFinally = false;
+                orderView.IsFinally = order.IsFinally;
+                orderView.WalletMoney = wallet.WalletInventory;
+                orderView.DetailsCount = detailsCount;
                 var list = _orderRepository.GetOrderItems(order.OrderId).Result;
 
                 foreach (var item in list)
@@ -137,12 +151,13 @@ namespace Application.Service
         }
         public async Task<OrderViewModel> GetOrderByUserId(int userId)
         {
-            var order = await _orderRepository.GetOrderByUserId(userId);
+            var order = await _orderRepository.GetNotFinalyOrderByUserId(userId);
             OrderViewModel model = new OrderViewModel();
             model.OrderCode = order.OrderCode;
             model.OrderId = order.OrderId;
             model.OrderPrice = _orderRepository.OrderPrice(order.OrderId);
             model.IsFinally = order.IsFinally;
+            model.UserId = order.UserId;
             return model;
         }
         public async Task<int> DetailsCountByOrderId(int orderId)

@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "تایید سفارش";
+    ViewData["Title"] = "شارژ کیف پول";
 }
 @if (ViewBag.code != null)
 {
@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-md-12 order-form order-Style-form bg-form">
                     <div class="alert alert-success" role="alert">
-                        سفارش شما با موفقیت ثبت شد :)
+                        کیف پول شما با موفقیت شارژ شد :)
                     </div>
                     <p class="text-page">
                     </p><div class="alert alert-danger alert-text">
@@ -22,14 +22,8 @@
                                     @ViewBag.code
                                 </td>
                             </tr>
-                            <tr class="bg-header">
-                                <td>شماره فاکتور </td>
-                                <td>
-                                    @ViewBag.OrderCode
-                                </td>
-                            </tr>
                             <tr>
-                                <td>قیمت </td>
+                                <td>شارژ شده : </td>
                                 <td>@ViewBag.Price.ToString("#,0") تومان</td>
                             </tr>
                             <tr>
@@ -51,7 +45,7 @@ else
             <div class="row">
                 <div class="col-md-12 order-form order-Style-form bg-form">
                     <div class="alert alert-danger" role="alert">
-                        سفارش شما انجام نشد
+                        شارژ کیف پول انجام نشد
                     </div>
                     <p class="text-page">
                     </p><div class="alert alert-danger alert-text">

@@ -7,51 +7,78 @@
     <div class="container mb-4 mt-120">
         <div class="row">
             <div class="col-12">
-                <div class="table-responsive">
-                    <table class="table table-light table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">نام سالن </th>
-                                <th scope="col">ورزش </th>
-                                <th scope="col">از ساعت </th>
-                                <th scope="col" class="text-center">تا ساعت</th>
-                                <th scope="col" class="text-center">تاریخ</th>
-                                <th scope="col" class="text-right">قیمت</th>
-                                <th> </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.Item1)
-                            {
-                                <tr id="card_@item.Id">
-                                    <td style="vertical-align: middle">@item.ReserveName</td>
-                                    <td style="vertical-align: middle">@item.SportName</td>
-                                    <td style="vertical-align: middle">@item.Start</td>
-                                    <td style="vertical-align: middle">@item.End</td>
-                                    <td style="vertical-align: middle">@item.TimeDay</td>
-                                    <td class="text-right" style="vertical-align: middle"> @item.Price.ToString("#,0") تومان</td>
-                                    <td class="text-right" style="vertical-align: middle"><button class="btn btn-sm btn-danger" onclick="RemoveItemCart('@item.Id', '@item.SportId')"><i class="fa fa-trash"></i></button> </td>
-                                </tr>
-                            }
-                            <tr>
-                                <td colspan="5">شماره فاکتور</td>
-                                <td class="text-right">@Model.Item2.OrderCode</td>
-                            </tr>
-                            <tr>
-                                <td colspan="5">جمع کل </td>
-                                <td class="text-right">تومان @Model.Item2.OrderPrice.ToString("#,0")</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                @if (ViewBag.Success != "")
+                {
+                    <div class="my-2 alert alert-success text-center">
+                        @ViewBag.Success
+                    </div>
+                }
+                else if (ViewBag.Warning != "")
+                {
+                    <div class="my-2 alert alert-danger text-center">
+                        @ViewBag.Warning
+                    </div>
+                }
+                <div class="py-2">
+                    <h5>کیف پول : <span>@Model.Item2.WalletMoney</span> تومان</h5>
                 </div>
+                @if (Model.Item2.DetailsCount != 0)
+                {
+                    <div class="table-responsive">
+                        <table class="table table-light table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">نام سالن </th>
+                                    <th scope="col">ورزش </th>
+                                    <th scope="col">از ساعت </th>
+                                    <th scope="col" class="text-center">تا ساعت</th>
+                                    <th scope="col" class="text-center">تاریخ</th>
+                                    <th scope="col" class="text-right">قیمت</th>
+                                    <th> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Item1)
+                                {
+                                    <tr id="card_@item.Id">
+                                        <td style="vertical-align: middle">@item.ReserveName</td>
+                                        <td style="vertical-align: middle">@item.SportName</td>
+                                        <td style="vertical-align: middle">@item.Start</td>
+                                        <td style="vertical-align: middle">@item.End</td>
+                                        <td style="vertical-align: middle">@item.TimeDay</td>
+                                        <td class="text-right" style="vertical-align: middle"> @item.Price.ToString("#,0") تومان</td>
+                                        <td class="text-right" style="vertical-align: middle"><button class="btn btn-sm btn-danger" onclick="RemoveItemCart('@item.Id', '@item.SportId')"><i class="fa fa-trash"></i></button> </td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td colspan="5">شماره فاکتور</td>
+                                    <td class="text-right">@Model.Item2.OrderCode</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">جمع کل </td>
+                                    <td class="text-right">تومان @Model.Item2.OrderPrice.ToString("#,0")</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="p-5 text-center alert alert-warning mt-3 ">
+                        سبد خرید شما خالیست
+                    </div>
+                }
             </div>
             <div class="col mb-2">
                 <div class="row">
-                    <div class="col-sm-12  col-md-6">
-                        <a href="/Reserves" class="btn btn-block btn-light h-100 d-flex justify-content-center align-items-center">رزرو سانس های دیگر </a>
+                    <div class="col-sm-12 col-md-4">
+                        <a href="/" class="btn btn-block btn-light h-100 d-flex justify-content-center align-items-center">رزرو سانس های دیگر </a>
                     </div>
-                    <div class="col-sm-12 col-md-6 text-right d-flex">
-                        <a asp-controller="Order" asp-action="Payment" class="btn btn-lg btn-block btn-success text-uppercase w-50 ml-1 @((ViewBag.OrderCount==0)?"disabled":"")">پرداخت از زرین پال</a>
+                    <div class="col-sm-12 col-md-4 text-right d-flex">
+                        <a asp-controller="Order" asp-action="Payment" class="btn btn-lg btn-block btn-success text-uppercase w-100 @((Model.Item2.DetailsCount==0)?"disabled":"")">پرداخت از زرین پال</a>
+                    </div>
+                    <div class="col-sm-12 col-md-4 text-right d-flex pl-1">
+                        <a asp-controller="Order" asp-action="Payment" asp-route-wallet="@Model.Item2.WalletMoney" class="btn btn-lg btn-block btn-primary text-uppercase w-100 @((Model.Item2.DetailsCount==0)?"disabled":"")">پرداخت از کیف پول</a>
                     </div>
                 </div>
             </div>
@@ -60,7 +87,7 @@
 </main>
 @section Scripts{
     <script>
-        function RemoveItemCart(id,sportId) {
+        function RemoveItemCart(id, sportId) {
             Swal.fire({
                 title: 'آیا از سبد خرید پاک شود؟',
                 icon: 'warning',

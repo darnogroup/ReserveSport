@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Application.Interface;
 using ReserveSport.Helper;
 using ClaimsPrincipalExtensions = ReserveSport.Other.ClaimsPrincipalExtensions;
+using Application.ViewModel.User;
 
 namespace ReserveSport.Areas.Customer.Controllers
 {
@@ -14,10 +15,12 @@ namespace ReserveSport.Areas.Customer.Controllers
     public class HomeController : Controller
     {
         private readonly IUserService _user;
+        private readonly IWalletServcie _wallet;
         
-        public HomeController(IUserService user)
+        public HomeController(IUserService user,IWalletServcie wallet)
         {
             _user = user;
+            _wallet = wallet;
         }
         [HttpGet]
         [Route("/Profile")]
@@ -34,7 +37,13 @@ namespace ReserveSport.Areas.Customer.Controllers
             var model = _user.GetUserWallet(UserId()).Result;
             return View(model);
         }
-        
+        [HttpPost]
+        [Route("/Profile/ChargeWallet")]
+        public IActionResult ChargeWallet(UserWalletViewModel model)
+        {
+            _wallet.UpdateWallet(model);
+            return Redirect($"/ChargeWallet/{model.Price}");
+        }
 
         public int UserId()
         {

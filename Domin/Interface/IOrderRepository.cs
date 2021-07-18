@@ -28,9 +28,11 @@ namespace Domin.Interface
         int OrderPrice(int orderId);
         Task<IEnumerable<OrderDetailModel>> GetOrderItems(int orderId);
         Task<OrderDetailModel> GetDetailById(int id);
+        Task<OrderModel> GetNotFinalyOrderByUserId(int userId);
         void RemoveDetail(OrderDetailModel detail);
         Task<ReserveModel> GetReserveByInfos(int collectionId,string reserve,string reserveTime);
         Task<int> DetailsCountByOrderId(int orderId);
+        Task<int> GetDetailsCount(int orderId);
 
         #endregion
         void Save();

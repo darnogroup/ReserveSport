@@ -29,6 +29,10 @@ namespace Data.Repository
         {
             return await _context.OrderModels.SingleOrDefaultAsync(n=> n.UserId == userId);
         }
+        public async Task<OrderModel> GetNotFinalyOrderByUserId(int userId)
+        {
+            return await _context.OrderModels.SingleOrDefaultAsync(n => n.UserId == userId && !n.IsFinally);
+        }
         public async Task<OrderModel> GetOrderById(int orderId)
         {
             return await _context.OrderModels.SingleOrDefaultAsync(n=> n.OrderId == orderId);
@@ -67,7 +71,7 @@ namespace Data.Repository
         }
         public async Task<IEnumerable<OrderDetailModel>> GetOrderItems(int orderId)
         {
-            return await _context.OrderDetailModels.Where(w => w.OrderId == orderId).Include(i => i.ReserveModel)
+            return await _context.OrderDetailModels.Where(w => w.OrderId == orderId && !w.Order.IsFinally).Include(i => i.ReserveModel)
                 .ThenInclude(t => t.Collection).ToListAsync();
         }
         public async Task<OrderDetailModel> GetDetailById(int id)
@@ -86,6 +90,10 @@ namespace Data.Repository
         public async Task<int> DetailsCountByOrderId(int orderId)
         {
             return await _context.OrderDetailModels.CountAsync(n=> n.OrderId == orderId);
+        }
+        public async Task<int> GetDetailsCount(int orderId)
+        {
+            return await _context.OrderDetailModels.Include(n => n.Order).CountAsync(n => n.OrderId == orderId && !n.Order.IsFinally);
         }
         #endregion
         public void Save()

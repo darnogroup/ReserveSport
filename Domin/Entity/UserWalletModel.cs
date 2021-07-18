@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domin.Entity
 {
-   public class UserWalletModel
+    public class UserWalletModel
     {
         [Key]
         public int WalletId { set; get; }

@@ -80,7 +80,10 @@ namespace Data.Repository
         {
             _context.ContactModels.Add(model); Save();
         }
-
+        public async Task<SettingModel> GetFirstSetting()
+        {
+            return await _context.Setting.FirstOrDefaultAsync();
+        }
         public async Task<IEnumerable<ContactModel>> GetContact()
         {
             return await _context.ContactModels.ToListAsync();

@@ -21,5 +21,6 @@ namespace Domin.Interface
         void Edit(AboutModel model);
         void InsertContact(ContactModel model);
         Task<IEnumerable<ContactModel>> GetContact();
+        Task<SettingModel> GetFirstSetting();
     }
 }

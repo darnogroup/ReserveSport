@@ -126,7 +126,8 @@ namespace Application.Service
                     {
                         SportId = sport.SportId,
                         SportName = sport.SportName,
-                        IsReserved = sport.IsReserved
+                        IsReserved = sport.IsReserved,
+                        IsFinished = sport.IsFinished
                     });
                 }
             }

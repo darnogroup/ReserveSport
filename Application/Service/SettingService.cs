@@ -46,7 +46,22 @@ namespace Application.Service
 
             return setting;
         }
-
+        public async Task<SettingViewModel> GetFirstSetting()
+        {
+            SettingViewModel setting = new SettingViewModel();
+            var model = await _setting.GetFirstSetting();
+            setting.About = model.About;
+            setting.Instagram = model.Instagram;
+            setting.Namad = model.Namad;
+            setting.SmsApiCode = model.SmsApiCode;
+            setting.SmsNumberSender = model.SmsNumberSender;
+            setting.Telegram = model.Telegram;
+            setting.WhatsApp = model.WhatsApp;
+            setting.YouTube = model.YouTube;
+            setting.ZarinPal = model.ZarinPal;
+            setting.Salary = model.Salary;
+            return setting;
+        }
         public void Setting(SettingViewModel model)
         {
             var setting =  _setting.GetSetting(1).Result;
