@@ -100,7 +100,7 @@ namespace Data.Repository
 
         public async Task<bool> AdminCollection(int id)
         {
-            return await _context.Collection.Where(w => w.UserId == id).AnyAsync();
+            return await _context.Collection.IgnoreQueryFilters().AnyAsync(w => w.UserId == id);
         }
 
         public void CreateFinancial(FinancialModel model)

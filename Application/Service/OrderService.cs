@@ -72,15 +72,16 @@ namespace Application.Service
             int collection = int.Parse(collectionId);
             date = date.ToMiladiDateTime().ToString("yyyy-MM-dd'T'HH:mm:ss.fffffff'Z'");
             DateTime time = DateTime.ParseExact(date, "yyyy-MM-dd'T'HH:mm:ss.fffffff'Z'", CultureInfo.InvariantCulture);
-            var item = _reserveSportRepository.GetReserveSportByIds(time, collection, sport).Result;
-            item.IsReserved = true;
-            _reserveSportRepository.UpdateReserveSport(item);
+            var item = _reserveSportRepository.GetReserveItem(time, collection).Result;
+            var itemReserve = _reserveSportRepository.GetReserveSportByIds(item.ReserveId, sport).Result;
+            itemReserve.IsReserved = true;
+            _reserveSportRepository.UpdateReserveSport(itemReserve);
             var order = _orderRepository.GetUserId(userId).Result;
             OrderDetailModel orderDetail = new OrderDetailModel();
-            orderDetail.ReserveId = item.ReserveId;
-            orderDetail.CollectionId = item.Reserve.CollectionId;
-            orderDetail.SportId = item.SportId;
-            orderDetail.Price = Convert.ToInt32(item.Reserve.Price);
+            orderDetail.ReserveId = itemReserve.ReserveId;
+            orderDetail.CollectionId = itemReserve.Reserve.CollectionId;
+            orderDetail.SportId = itemReserve.SportId;
+            orderDetail.Price = Convert.ToInt32(itemReserve.Reserve.Price);
             if (order != 0)
             {
                 orderDetail.OrderId = order;

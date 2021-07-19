@@ -7,7 +7,7 @@
                 <th>ساعت شروع سانس</th>
                 <th>ساعت پایان سانس</th>
                 <th>قیمت</th>
-                <th>ورزش ها</th>
+                <th>گزینه ها</th>
             </tr>
         </thead>
         <tbody>
@@ -23,7 +23,7 @@
                         <strong>تومان</strong>
                     </td>
                     <td>
-                        <a class="btn btn-outline-primary" onclick="$('#sports-@item.Id').toggle()">ورزش ها</a>
+                        <a class="btn btn-sm btn-outline-primary" onclick="$('#sports-@item.Id').toggle()">انتخاب سانس</a>
                     </td>
                 </tr>
                 <tr style="display:none" id="sports-@item.Id">
@@ -45,7 +45,7 @@
                                     {
                                         <a class="btn btn-success btn-sm text-white" onclick="AddToCart('@item.Id', '@sport.SportId')" style="width:135px">افزودن به سبد خرید</a>
                                     }
-                                </li>
+                                </li><hr/>
                             }
                         </ul>
                     </td>

@@ -241,15 +241,19 @@ namespace Application.Service
             {
                 case RoleEnum.کاربر:
                     edit.Role = EnumRole.کاربر;
+                    edit.OldRole = EnumRole.کاربر;
                     break;
                 case RoleEnum.مربی:
                     edit.Role = EnumRole.مربی;
+                    edit.OldRole = EnumRole.مربی;
                     break;
                 case RoleEnum.مدیرسایت:
                     edit.Role = EnumRole.مدیرسایت;
+                    edit.OldRole = EnumRole.مدیرسایت;
                     break;
                 case RoleEnum.مدیرمجموعه:
                     edit.Role = EnumRole.مدیرمجموعه;
+                    edit.OldRole = EnumRole.مدیرمجموعه;
                     break;
             }
         }
