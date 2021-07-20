@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20210623214414_AddCollectionId")]
-    partial class AddCollectionId
+    [Migration("20210720065528_All")]
+    partial class All
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,50 @@ namespace Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Domin.Entity.AboutModel", b =>
+                {
+                    b.Property<int>("AboutId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AboutBody")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AboutImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AboutSlogan")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AboutId");
+
+                    b.ToTable("AboutModels");
+                });
+
+            modelBuilder.Entity("Domin.Entity.AdsViewModel", b =>
+                {
+                    b.Property<int>("BannerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BannerImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BannerLink")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BannerName")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.HasKey("BannerId");
+
+                    b.ToTable("AdsModels");
+                });
 
             modelBuilder.Entity("Domin.Entity.ArticleModel", b =>
                 {
@@ -184,6 +228,66 @@ namespace Data.Migrations
                     b.ToTable("Comment");
                 });
 
+            modelBuilder.Entity("Domin.Entity.ComplaintModel", b =>
+                {
+                    b.Property<int>("ComplaintId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ComplaintDescription")
+                        .IsRequired()
+                        .HasMaxLength(800)
+                        .HasColumnType("nvarchar(800)");
+
+                    b.Property<string>("ComplaintMail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ComplaintPhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ComplaintTitle")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ComplaintUserName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("ComplaintId");
+
+                    b.ToTable("ComplaintModels");
+                });
+
+            modelBuilder.Entity("Domin.Entity.ContactModel", b =>
+                {
+                    b.Property<int>("ContactId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ContactBody")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("ContactName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("ContactNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ContactId");
+
+                    b.ToTable("ContactModels");
+                });
+
             modelBuilder.Entity("Domin.Entity.FinancialModel", b =>
                 {
                     b.Property<int>("FinancialId")
@@ -234,6 +338,9 @@ namespace Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("ReserveId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SportId")
                         .HasColumnType("int");
 
                     b.HasKey("DetailId");
@@ -291,15 +398,9 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Finish")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Price")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Reserved")
-                        .HasColumnType("bit");
 
                     b.Property<string>("StartTime")
                         .IsRequired()
@@ -310,6 +411,35 @@ namespace Data.Migrations
                     b.HasIndex("CollectionId");
 
                     b.ToTable("Reserve");
+                });
+
+            modelBuilder.Entity("Domin.Entity.ReserveSportsModel", b =>
+                {
+                    b.Property<int>("ReserveSportsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsFinished")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsReserved")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ReserveId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SportId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SportName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ReserveSportsId");
+
+                    b.HasIndex("ReserveId");
+
+                    b.ToTable("ReserveSportsModels");
                 });
 
             modelBuilder.Entity("Domin.Entity.SettingModel", b =>
@@ -326,6 +456,9 @@ namespace Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Namad")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Salary")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SmsApiCode")
@@ -820,6 +953,17 @@ namespace Data.Migrations
                     b.Navigation("Collection");
                 });
 
+            modelBuilder.Entity("Domin.Entity.ReserveSportsModel", b =>
+                {
+                    b.HasOne("Domin.Entity.ReserveModel", "Reserve")
+                        .WithMany("ReserveSports")
+                        .HasForeignKey("ReserveId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("Reserve");
+                });
+
             modelBuilder.Entity("Domin.Entity.SportCollectionModel", b =>
                 {
                     b.HasOne("Domin.Entity.CollectionModel", "Collection")
@@ -909,6 +1053,8 @@ namespace Data.Migrations
             modelBuilder.Entity("Domin.Entity.ReserveModel", b =>
                 {
                     b.Navigation("OrderDetailModels");
+
+                    b.Navigation("ReserveSports");
                 });
 
             modelBuilder.Entity("Domin.Entity.SportModel", b =>

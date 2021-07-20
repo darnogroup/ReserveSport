@@ -1,0 +1,120 @@
+﻿@model ShowArticleViewModel
+@{
+    ViewData["Title"] = "مقالات";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+
+    <div class="row">
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 p-3">
+            <div class="box-course">
+                <h5 class="font text-center text-primary">جدیدترین آموزش ها</h5>
+                <hr>
+                <ul class="infocourse font">
+                    <li><a class="text-warning">آموزش سی شارپ مقدماتی</a></li>
+                    <li><a class="text-warning">آموزش سی شارپ پیشرفته</a></li>
+                    <li><a class="text-warning">آموزش پایتون مقدماتی</a></li>
+                    <li><a class="text-warning">آموزش جاوا اسکریپت مقدماتی</a></li>
+
+                </ul>
+            </div>
+            <div class="box-course mt-4">
+                <strong class="font">برچسب های مقاله:</strong><br>
+                @foreach (var tag in ViewBag.Tags)
+                {
+                    <a class="badge font badge-primary">@tag</a>
+                }
+
+
+            </div>
+            <!-- Card -->
+            <div class="card testimonial-card box-course mt-4">
+
+                <img src="image/InstagramBanner.png" class="img-fluid">
+
+                <img src="image/InstagramBanner.png" class="img-fluid mt-4">
+
+
+            </div>
+
+        </div>
+        <!---------------------------------------->
+        <div class="col-xl-8 col-lg-8 col-md-6 col-sm-12 col-xs-12 p-3">
+            <div class="box-course">
+                <img src="~/Images/@Model.ArticleImage" class="img-fluid img-banner">
+                <h2 class="mt-5 font mx-3 TitleSize text-center text-primary">@Model.ArticleTitle</h2>
+                <hr class="w-100">
+                <h6 class="font text-center text-success">@Model.CreateTime</h6>
+                <p class="font course-description font">
+                    @Html.Raw(Model.ArticleBody)
+                  
+                </p>
+                <div class="alert alert-info font mt-5" role="alert">
+                    امیدوارم از این مقاله استفاده کافی رو ببرید.
+                </div>
+            </div>
+
+            <div class="box-course mt-5">
+                <h5 class="font mx-3 mt-2 text-primary"> دیدگاه کاربران در رابطه با این مقاله </h5>
+                <hr>
+                <strong class="font  mx-2">دیدگاه خودرا وارد کنید!</strong>
+
+                <div class="form-group blue-border-focus mt-4">
+                    <textarea class="form-control" id="exampleFormControlTextarea5" rows="4"></textarea>
+                    <button type="button" class="btn btn-sm mt-3 btn-success font waves-effect waves-light">ثبت دیدگاه</button>
+                </div>
+                <div class="mt-5">
+                    <ul class="list-unstyled">
+                        <li class="media">
+                            <img class="d-flex mr-3" src="https://mdbootstrap.com/img/Photos/Others/avatar-min1.jpg" alt="Generic placeholder image">
+                            <div class="media-body">
+                                <h5 class="mt-0 mb-2 font-weight-bold">Anna Smith</h5>
+                                <!--Review-->
+
+                                <p>
+                                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras
+                                    purus
+                                    odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate
+                                    fringilla.
+                                    Donec lacinia congue felis in faucibus.
+                                </p>
+                            </div>
+                        </li>
+                        <li class="media my-4">
+                            <img class="d-flex mr-3" src="https://mdbootstrap.com/img/Photos/Others/avatar-min2.jpg" alt="Generic placeholder image">
+                            <div class="media-body">
+                                <h5 class="mt-0 mb-2 font-weight-bold">Tom Brown</h5>
+                                <!--Review-->
+
+                                <p>
+                                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras
+                                    purus
+                                    odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate
+                                    fringilla.
+                                    Donec lacinia congue felis in faucibus.
+                                </p>
+                            </div>
+                        </li>
+                        <li class="media">
+                            <img class="d-flex mr-3" src="https://mdbootstrap.com/img/Photos/Others/avatar-min3.jpg" alt="Generic placeholder image">
+                            <div class="media-body">
+                                <h5 class="mt-0 mb-2 font-weight-bold">Natalie Doe</h5>
+                                <!--Review-->
+
+                                <p>
+                                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras
+                                    purus
+                                    odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate
+                                    fringilla.
+                                    Donec lacinia congue felis in faucibus.
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

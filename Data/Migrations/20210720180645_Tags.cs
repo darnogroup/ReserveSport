@@ -2,13 +2,13 @@
 
 namespace Data.Migrations
 {
-    public partial class Ticketchange : Migration
+    public partial class Tags : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "UserName",
-                table: "SubTicket",
+                name: "ArticleTags",
+                table: "Article",
                 type: "nvarchar(max)",
                 nullable: true);
         }
@@ -16,8 +16,8 @@ namespace Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "UserName",
-                table: "SubTicket");
+                name: "ArticleTags",
+                table: "Article");
         }
     }
 }

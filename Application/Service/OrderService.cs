@@ -70,8 +70,10 @@ namespace Application.Service
         {
             int sport = int.Parse(sportId);
             int collection = int.Parse(collectionId);
-            date = date.ToMiladiDateTime().ToString("yyyy-MM-dd'T'HH:mm:ss.fffffff'Z'");
-            DateTime time = DateTime.ParseExact(date, "yyyy-MM-dd'T'HH:mm:ss.fffffff'Z'", CultureInfo.InvariantCulture);
+           
+            DateTime time= date.ToMiladiDateTime();
+            //date = date.ToMiladiDateTime().ToString("yyyy-MM-dd'T'HH:mm:ss.fffffff'Z'");
+            //DateTime time = DateTime.ParseExact(date, "yyyy-MM-dd'T'HH:mm:ss.fffffff'Z'", CultureInfo.InvariantCulture);
             var item = _reserveSportRepository.GetReserveSportByIds(time, collection, sport).Result;
             item.IsReserved = true;
             _reserveSportRepository.UpdateReserveSport(item);

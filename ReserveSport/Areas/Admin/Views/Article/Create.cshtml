@@ -22,44 +22,51 @@
                 {
                     <div class="alert alert-danger" role="alert">@ViewBag.Error</div>
                 }
-                <form asp-controller="Article" asp-action="Create" method="post" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <img id="NewImg" src="~/images/noImage.jpg" width="500" height="300" class="img-thumbnail mr-1 mb-2  showNewImage" />
-                        <br />
-                        <label for="imgUp" class="control-label ml-2 chooseImage">
-                            انتخاب عکس<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download-cloud"><polyline points="8 17 12 21 16 17"></polyline><line x1="12" y1="12" x2="12" y2="21"></line><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"></path></svg>
-                        </label>
-                        <input type="file" asp-for="ArticleImage" class="d-none" id="imgUp" onchange="ChangeImage(this);" />
-                        <span class="text-danger" asp-validation-for="ArticleImage"></span>
+            <form asp-controller="Article" asp-action="Create" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <img id="NewImg" src="~/images/noImage.jpg" width="500" height="300" class="img-thumbnail mr-1 mb-2  showNewImage" />
+                    <br />
+                    <label for="imgUp" class="control-label ml-2 chooseImage">
+                        انتخاب عکس<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download-cloud"><polyline points="8 17 12 21 16 17"></polyline><line x1="12" y1="12" x2="12" y2="21"></line><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"></path></svg>
+                    </label>
+                    <input type="file" asp-for="ArticleImage" class="d-none" id="imgUp" onchange="ChangeImage(this);" />
+                    <span class="text-danger" asp-validation-for="ArticleImage"></span>
 
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group col-md-6">
+                        <label>نام مقاله</label>
+                        <input type="text" asp-for="ArticleTitle" class="form-control" placeholder="عنوان مقاله را وارد کنید">
                     </div>
-                    <div class="col-sm-12">
-                        <div class="form-group col-md-6">
-                            <label>نام مقاله</label>
-                            <input type="text" asp-for="ArticleTitle" class="form-control" placeholder="عنوان مقاله را وارد کنید">
-                        </div>
-                        <span class="text-danger" asp-validation-for="ArticleTitle"></span>
+                    <span class="text-danger" asp-validation-for="ArticleTitle"></span>
 
+                </div> <div class="col-sm-12">
+                    <div class="form-group col-md-6">
+                        <label>برچسب مقاله</label>
+                        <input type="text" asp-for="ArticleTags" class="form-control" placeholder="برچسب مقاله را وارد کنید">
                     </div>
-                    <div class="col-sm-12">
-                        <div class="form-group mb-0 row">
+                    <span class="text-danger font">برچسب برای بهبود سئو سایت موثر است</span>
+                    <strong class="text-info font">با "-"برچسب ها را جدا کنید</strong>
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group mb-0 row">
 
-                            <div class="col-lg-12">
-                                <label class="col-form-label">خلاصه مقاله</label>
-                                <textarea asp-for="ArticleSummary" id="maxlength-textarea" class="form-control" maxlength="200" rows="8" placeholder="حداکثر 100 کاراکتر مجاز است"></textarea>
-                            </div>
-                            <span class="text-danger" asp-validation-for="ArticleSummary"></span>
+                        <div class="col-lg-12">
+                            <label class="col-form-label">خلاصه مقاله</label>
+                            <textarea asp-for="ArticleSummary" id="maxlength-textarea" class="form-control" maxlength="200" rows="8" placeholder="حداکثر 100 کاراکتر مجاز است"></textarea>
                         </div>
-                    </div>  
-                    <div class="col-sm-12">   
-                        <div class="form-group col-12">
-                            <label>متن مقاله</label>
-                            <textarea asp-for="ArticleBody" class="form-control ckEditorPlace" ></textarea>
-                            <span asp-validation-for="ArticleBody" class="text-danger"></span>
-                        </div> 
-                      </div>
-                    <button type="submit" class="btn btn-primary submit">ثبت</button>
-                </form>
+                        <span class="text-danger" asp-validation-for="ArticleSummary"></span>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group col-12">
+                        <label>متن مقاله</label>
+                        <textarea asp-for="ArticleBody" class="form-control ckEditorPlace"></textarea>
+                        <span asp-validation-for="ArticleBody" class="text-danger"></span>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary submit">ثبت</button>
+            </form>
             </div>
         </div>
     </div>

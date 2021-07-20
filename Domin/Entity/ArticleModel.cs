@@ -23,6 +23,7 @@ namespace Domin.Entity
         public string ArticleImage { set; get; }
         [Required(ErrorMessage = "متن مقاله الزامی است")]
         public string ArticleBody { set; get; }
+        public string ArticleTags { set; get; }
         [Required]
         public DateTime CreateTime { set; get; }
 

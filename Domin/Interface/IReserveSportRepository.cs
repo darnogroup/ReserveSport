@@ -15,7 +15,7 @@ namespace Domin.Interface
         void RemoveReserveSport(ReserveSportsModel model);
         void UpdateReserveSport(ReserveSportsModel model);
         Task<ReserveSportsModel> GetReserveSportByIds(int reserveId,int sportId);
-        Task<ReserveSportsModel> GetReserveSportByIds(DateTime date, int collecitonId, int sportId);
+        Task<ReserveSportsModel> GetReserveSportByIds(DateTime date, int collectionId, int sportId);
         Task<IEnumerable<ReserveSportsModel>> GetReserveSportsByOrderId(int orderId);
         void Save();
     }

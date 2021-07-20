@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20210613113927_Ticket")]
-    partial class Ticket
+    [Migration("20210720180645_Tags")]
+    partial class Tags
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,50 @@ namespace Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Domin.Entity.AboutModel", b =>
+                {
+                    b.Property<int>("AboutId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AboutBody")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AboutImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AboutSlogan")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AboutId");
+
+                    b.ToTable("AboutModels");
+                });
+
+            modelBuilder.Entity("Domin.Entity.AdsViewModel", b =>
+                {
+                    b.Property<int>("BannerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BannerImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BannerLink")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BannerName")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.HasKey("BannerId");
+
+                    b.ToTable("AdsModels");
+                });
 
             modelBuilder.Entity("Domin.Entity.ArticleModel", b =>
                 {
@@ -40,6 +84,9 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("ArticleTags")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ArticleTitle")
                         .IsRequired()
@@ -127,6 +174,9 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
@@ -181,6 +231,66 @@ namespace Data.Migrations
                     b.ToTable("Comment");
                 });
 
+            modelBuilder.Entity("Domin.Entity.ComplaintModel", b =>
+                {
+                    b.Property<int>("ComplaintId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ComplaintDescription")
+                        .IsRequired()
+                        .HasMaxLength(800)
+                        .HasColumnType("nvarchar(800)");
+
+                    b.Property<string>("ComplaintMail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ComplaintPhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ComplaintTitle")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ComplaintUserName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("ComplaintId");
+
+                    b.ToTable("ComplaintModels");
+                });
+
+            modelBuilder.Entity("Domin.Entity.ContactModel", b =>
+                {
+                    b.Property<int>("ContactId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ContactBody")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("ContactName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("ContactNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ContactId");
+
+                    b.ToTable("ContactModels");
+                });
+
             modelBuilder.Entity("Domin.Entity.FinancialModel", b =>
                 {
                     b.Property<int>("FinancialId")
@@ -211,6 +321,66 @@ namespace Data.Migrations
                     b.ToTable("Financial");
                 });
 
+            modelBuilder.Entity("Domin.Entity.OrderDetailModel", b =>
+                {
+                    b.Property<int>("DetailId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Close")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("CollectionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReserveId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SportId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DetailId");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ReserveId");
+
+                    b.ToTable("OrderDetailModels");
+                });
+
+            modelBuilder.Entity("Domin.Entity.OrderModel", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsFinally")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("OrderCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("OrderModels");
+                });
+
             modelBuilder.Entity("Domin.Entity.ReserveModel", b =>
                 {
                     b.Property<int>("ReserveId")
@@ -231,15 +401,9 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Finish")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Price")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Reserved")
-                        .HasColumnType("bit");
 
                     b.Property<string>("StartTime")
                         .IsRequired()
@@ -250,6 +414,35 @@ namespace Data.Migrations
                     b.HasIndex("CollectionId");
 
                     b.ToTable("Reserve");
+                });
+
+            modelBuilder.Entity("Domin.Entity.ReserveSportsModel", b =>
+                {
+                    b.Property<int>("ReserveSportsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsFinished")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsReserved")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ReserveId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SportId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SportName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ReserveSportsId");
+
+                    b.HasIndex("ReserveId");
+
+                    b.ToTable("ReserveSportsModels");
                 });
 
             modelBuilder.Entity("Domin.Entity.SettingModel", b =>
@@ -266,6 +459,9 @@ namespace Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Namad")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Salary")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SmsApiCode")
@@ -525,9 +721,17 @@ namespace Data.Migrations
                     b.Property<int>("TicketId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("SubId");
 
                     b.HasIndex("TicketId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("SubTicket");
                 });
@@ -554,11 +758,12 @@ namespace Data.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("TicketUser")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("TicketId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Ticket");
                 });
@@ -710,6 +915,36 @@ namespace Data.Migrations
                     b.Navigation("Collection");
                 });
 
+            modelBuilder.Entity("Domin.Entity.OrderDetailModel", b =>
+                {
+                    b.HasOne("Domin.Entity.OrderModel", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("Domin.Entity.ReserveModel", "ReserveModel")
+                        .WithMany("OrderDetailModels")
+                        .HasForeignKey("ReserveId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("ReserveModel");
+                });
+
+            modelBuilder.Entity("Domin.Entity.OrderModel", b =>
+                {
+                    b.HasOne("Domin.Entity.UserModel", "User")
+                        .WithMany("OrderModels")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Domin.Entity.ReserveModel", b =>
                 {
                     b.HasOne("Domin.Entity.CollectionModel", "Collection")
@@ -719,6 +954,17 @@ namespace Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Collection");
+                });
+
+            modelBuilder.Entity("Domin.Entity.ReserveSportsModel", b =>
+                {
+                    b.HasOne("Domin.Entity.ReserveModel", "Reserve")
+                        .WithMany("ReserveSports")
+                        .HasForeignKey("ReserveId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("Reserve");
                 });
 
             modelBuilder.Entity("Domin.Entity.SportCollectionModel", b =>
@@ -748,7 +994,26 @@ namespace Data.Migrations
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
+                    b.HasOne("Domin.Entity.UserModel", "User")
+                        .WithMany("SubTicket")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
                     b.Navigation("Ticket");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domin.Entity.TicketModel", b =>
+                {
+                    b.HasOne("Domin.Entity.UserModel", "User")
+                        .WithMany("Ticket")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domin.Entity.UserWalletModel", b =>
@@ -783,6 +1048,18 @@ namespace Data.Migrations
                     b.Navigation("SportCollection");
                 });
 
+            modelBuilder.Entity("Domin.Entity.OrderModel", b =>
+                {
+                    b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("Domin.Entity.ReserveModel", b =>
+                {
+                    b.Navigation("OrderDetailModels");
+
+                    b.Navigation("ReserveSports");
+                });
+
             modelBuilder.Entity("Domin.Entity.SportModel", b =>
                 {
                     b.Navigation("SportCollection");
@@ -805,6 +1082,12 @@ namespace Data.Migrations
                     b.Navigation("Collection");
 
                     b.Navigation("Comments");
+
+                    b.Navigation("OrderModels");
+
+                    b.Navigation("SubTicket");
+
+                    b.Navigation("Ticket");
 
                     b.Navigation("Wallet");
                 });

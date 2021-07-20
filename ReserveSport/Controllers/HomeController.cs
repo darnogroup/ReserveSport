@@ -304,6 +304,28 @@ namespace ReserveSport.Controllers
             }
 
         }
+
+        [HttpGet]
+        [Route("/Collections/{search?}")]
+        public IActionResult Collections(int city,int state, string search = "",int page = 1)
+        {
+            ViewBag.Search = search;
+            ViewBag.StateId = state;
+            ViewBag.City = city;
+            States();
+            var model = _home.GetAllCollection(state,city,search, page);
+            return View(model);
+        }
+
+        [HttpGet]
+        [Route("/Article/{id}")]
+        public IActionResult Article(int id, string title)
+        {
+            var model = _home.GetById(id).Result;
+            string[] tags = model.ArticleTags.Split("-");
+            ViewBag.tags = tags;
+            return View(model);
+        }
     }
 
 
