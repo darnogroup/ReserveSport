@@ -17,6 +17,7 @@ namespace ReserveSport.Controllers
 {
     public class HomeController : Controller
     {
+        //zarinPal
         private string authority;
         private readonly IHomeService _home;
         private readonly ICollectionService _collection;
