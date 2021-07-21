@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Interface;
+using Application.ViewModel.Enum;
 using Application.ViewModel.User;
 using ReserveSport.Helper;
 
@@ -75,6 +76,14 @@ namespace ReserveSport.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (model.OldRole != model.Role)
+                {
+                    if (model.OldRole == EnumRole.مدیرمجموعه)
+                    {
+                        ViewBag.Error = "این کاربر مدیر مجموعه است -برای تغیر ابتدا مدیریت مجموعه را واگذار کنید";
+                        return View(model);
+                    }
+                }
                 if (model.OldPhoneNumber != model.PhoneNumber)
                 {
                     var check = _user.CheckNumber(model.PhoneNumber).Result;

@@ -18,5 +18,6 @@ namespace Domin.Interface
         Task<ReserveSportsModel> GetReserveSportByIds(DateTime date, int collectionId, int sportId);
         Task<IEnumerable<ReserveSportsModel>> GetReserveSportsByOrderId(int orderId);
         void Save();
+        Task<ReserveModel> GetReserveItem(DateTime date, int collectionId);
     }
 }

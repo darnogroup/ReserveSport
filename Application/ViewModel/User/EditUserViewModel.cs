@@ -14,6 +14,7 @@ namespace Application.ViewModel.User
         public int UserId { set; get; }
         [Required]
         public EnumRole Role { get; set; }
+        public EnumRole OldRole { get; set; }
         [Display(Name = "نام کاربری")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(200, ErrorMessage = ("{0} نمیتواند بیشتر از {1} باشد"))]
