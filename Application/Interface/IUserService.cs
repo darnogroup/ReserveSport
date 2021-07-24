@@ -21,5 +21,6 @@ namespace Application.Interface
         void Back(int id);
         void Delete(int id);
         Task<ProfileViewModel> GetProfile(int id);
+        Task<bool> GetCollectionId(int id);
     }
 }

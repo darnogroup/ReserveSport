@@ -15,7 +15,7 @@ namespace Domin.Interface
         Task<UserWalletModel> GetWalletUserById(int id);
         Task<IEnumerable<UserModel>> GetTrashUsers();
         Task<UserModel> GetDeletedUserById(int id);
-        Task<string> GetPassword(string number);
+        Task<UserModel> GetPassword(string number);
         void Create(UserModel model);
         void Update(UserModel model);
         void Delete(UserModel model);

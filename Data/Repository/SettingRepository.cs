@@ -18,6 +18,11 @@ namespace Data.Repository
         {
             _context = context;
         }
+
+        public SettingRepository()
+        {
+        }
+
         public async Task<SettingModel> GetSetting(int id)
         {
             return await _context.Setting.FindAsync(id);

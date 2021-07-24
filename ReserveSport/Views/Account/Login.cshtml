@@ -21,11 +21,11 @@
                 <label class="form-label font" for="form2Example1">شماره موبایل</label>
                 <div class="input-group mb-3">
                     <br />
-                    <input type="text" id="number" asp-for="Number" class="form-control" placeholder="" aria-label="Example text with button addon"
+                    <input type="text" id="number" asp-for="Number" class="form-control input-custom" placeholder="" aria-label="Example text with button addon"
                            aria-describedby="button-addon1">   <div class="input-group-prepend">
                         <button onclick="Send()" class="btn font btn-md btn-outline-primary m-0 px-3 py-2 z-depth-0 waves-effect" type="button" id="button-addon1">ارسال رمز</button>
                     </div>
-                  
+
                 </div>
                 <span class="text-danger font" asp-validation-for="Number"></span>
 
@@ -33,7 +33,7 @@
 
                 <div class="form-outline mb-4">
                     <label class="form-label font" for="form2Example1">رمز موقت</label>
-                    <input type="text" id="number" asp-for="Password" class="form-control" />
+                    <input type="text" id="number" asp-for="Password" class="form-control input-custom" />
                     <span class="text-danger font" asp-validation-for="Password"></span>
                 </div>
 
@@ -48,4 +48,4 @@
         </div>
     </div>
 </div>
-<partial name="_ValidationScriptsPartial"/>
+<partial name="_ValidationScriptsPartial" />

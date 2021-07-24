@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.17.3" />
+    <PackageReference Include="kavenegar" Version="1.2.4" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="RestSharp" Version="106.11.7" />
@@ -13,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj" />
     <ProjectReference Include="..\Domin\Domin.csproj" />
   </ItemGroup>
 

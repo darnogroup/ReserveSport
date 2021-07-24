@@ -8,6 +8,7 @@ namespace Application.ViewModel.Article
 {
     public class ShowArticleViewModel
     {
+        public int ArticleId { set; get; }
         public string ArticleTitle { set; get; }
         public string ArticleTags { set; get; }
         public string ArticleImage { set; get; }

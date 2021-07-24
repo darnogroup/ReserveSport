@@ -489,3 +489,70 @@ function Close(id) {
         }
     });
 }
+function ChangeComment(id) {
+    Swal.fire({
+        title: 'آیا تغییر وضعیت انجام شود؟',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'تائید',
+        cancelButtonText: 'انصراف'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.get("/Admin/ChangeComment/" + id);
+            location.reload();
+
+            Swal.fire(
+                'عملیات موفقیت آمیز بود',
+                'وضعیت تغییر کرد',
+                'success'
+            );
+        }
+    });
+}
+
+function RemoveOrder(id) {
+    Swal.fire({
+        title: 'آیا فاکتور پاک شود؟',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'تائید',
+        cancelButtonText: 'انصراف'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.get("/Admin/RemoveOrder/" + id);
+            $("#item_" + id).hide('slow');
+            Swal.fire(
+                'عملیات موفقیت آمیز بود',
+                'فاکتور به همراه جزئیات پاک شد',
+                'success'
+            );
+        }
+    });
+}
+
+function RemoveOrderItem(id) {
+    Swal.fire({
+        title: 'آیااین سانس از فاکتور پاک شود؟',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'تائید',
+        cancelButtonText: 'انصراف'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.get("/Admin/RemoveOrderItem/" + id);
+            $("#item_" + id).hide('slow');
+
+            Swal.fire(
+                'عملیات موفقیت آمیز بود',
+                'سانس از فاکتور پاک شد',
+                'success'
+            );
+        }
+    });
+}

@@ -45,9 +45,9 @@ namespace Data.Repository
                 .SingleOrDefaultAsync(s => s.UserId == id);
         }
 
-        public async Task<string> GetPassword(string number)
+        public async Task<UserModel> GetPassword(string number)
         {
-            return await _context.User.Where(w => w.IsActive == true && w.PhoneNumber == number).Select(s => s.Password).SingleOrDefaultAsync();
+            return await _context.User.Where(w => w.IsActive == true && w.PhoneNumber == number).SingleOrDefaultAsync();
         }
 
         public void Create(UserModel model)

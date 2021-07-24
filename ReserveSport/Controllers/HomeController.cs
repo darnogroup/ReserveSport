@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Interface;
+using Application.ViewModel.Comment;
 using Application.ViewModel.General;
 using Application.ViewModel.Home;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -22,13 +23,15 @@ namespace ReserveSport.Controllers
         private readonly IHomeService _home;
         private readonly ICollectionService _collection;
         private readonly IOrderService _orderService;
+        private readonly ICommentService _comment;
         private readonly ISettingService _setting;
 
-        public HomeController(IHomeService home, ISettingService setting, ICollectionService collection,
+        public HomeController(IHomeService home, ISettingService setting,ICommentService comment, ICollectionService collection,
             IOrderService orderService)
         {
             _home = home;
-            _setting = setting;
+            _comment = comment;
+                _setting = setting;
             _collection = collection;
             _orderService = orderService;
         }
@@ -319,13 +322,28 @@ namespace ReserveSport.Controllers
         }
 
         [HttpGet]
-        [Route("/Article/{id}")]
+        [Route("/Article/{id}/{title}")]
         public IActionResult Article(int id, string title)
         {
             var model = _home.GetById(id).Result;
-            string[] tags = model.ArticleTags.Split("-");
-            ViewBag.tags = tags;
+            if (!string.IsNullOrEmpty(model.ArticleTags))
+            {
+                string[] tags = model.ArticleTags.Split("-");
+                ViewBag.tags = tags;
+            }
+           
             return View(model);
+        }
+
+        [HttpPost]
+        [Route("/Comment")]
+        public void AddComment(int id, string body)
+        {
+            AddCommentViewModel comment=new AddCommentViewModel();
+            comment.ArticleId = id;
+            comment.CommentBody = body;
+            comment.UserId= int.Parse(User.GetUserId());
+            _comment.Create(comment);
         }
     }
 

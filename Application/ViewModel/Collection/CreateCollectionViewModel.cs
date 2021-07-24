@@ -27,6 +27,7 @@ namespace Application.ViewModel.Collection
         public string UserId { get; set; }
         public IFormFile LicensePath { set; get; }
         public IFormFile Image { set; get; }
+        public bool Active { set; get; }
         public List<int>Sports { set; get; }
     }
 }

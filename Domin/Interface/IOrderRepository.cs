@@ -11,12 +11,14 @@ namespace Domin.Interface
     {
         #region Orders
 
+        Task<IEnumerable<OrderDetailModel>> GetOrdersItem(int id);
         Task<int> GetUserId(int userId);
         void CreateOrder(OrderModel order);
         Task<OrderModel> GetOrderByUserId(int userId);
         Task<OrderModel> GetOrderById(int orderId);
         void UpdateOrder(OrderModel order);
-
+        Task<IEnumerable<OrderModel>> GetAllOrders();
+        void RemoveOrder(OrderModel order);
         #endregion
 
 

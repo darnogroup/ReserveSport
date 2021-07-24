@@ -42,6 +42,19 @@ namespace Data.Repository
             _context.Update(order);
             Save();
         }
+
+        public async Task<IEnumerable<OrderModel>> GetAllOrders()
+        {
+            return await _context.OrderModels
+                .Include(i => i.User).ToListAsync();
+        }
+
+        public void RemoveOrder(OrderModel order)
+        {
+            _context.OrderModels.Remove(order);
+            Save();
+        }
+
         #endregion
 
         #region Details
@@ -54,6 +67,13 @@ namespace Data.Repository
         {
             return await _context.OrderDetailModels.Include(n=> n.ReserveModel).AnyAsync(o => o.ReserveModel.DayTime == date && o.SportId == sportId && o.ReserveModel.CollectionId == collectionId);
         }
+
+        public async Task<IEnumerable<OrderDetailModel>> GetOrdersItem(int id)
+        {
+            return await _context.OrderDetailModels.Where(w => w.OrderId == id)
+                .Include(i => i.ReserveModel).ThenInclude(t=>t.Collection).ToListAsync();
+        }
+
         public async Task<int> GetUserId(int userId)
         {
             return await _context.OrderModels.Where(w => w.UserId == userId && w.IsFinally == false)

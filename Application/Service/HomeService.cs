@@ -39,6 +39,7 @@ namespace Application.Service
             article.CreateTime = result.CreateTime.ToShamsi();
             article.ArticleBody = result.ArticleBody;
             article.ArticleTitle = result.ArticleTitle;
+            article.ArticleId = result.ArticleId;
             article.ArticleTags = result.ArticleTags;
             return article;
         }

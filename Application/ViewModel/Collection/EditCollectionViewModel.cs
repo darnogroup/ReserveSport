@@ -18,7 +18,7 @@ namespace Application.ViewModel.Collection
         [Required(ErrorMessage = "نشانی مجموعه را وارد کنید")]
         [MaxLength(200, ErrorMessage = "نشانی مجموعه از حد مجاز بیشتر است")]
         public string CollectionAddress { set; get; }
-
+        public bool Active { set; get; }
         [Required(ErrorMessage = "استان مجموعه را وارد کنید")]
         public string StateId { set; get; }
         [Required(ErrorMessage = "شهر مجموعه را وارد کنید")]

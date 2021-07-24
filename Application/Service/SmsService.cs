@@ -18,6 +18,11 @@ namespace Application.Service
         {
             _sms = sms;
         }
+
+        public SmsService()
+        {
+        }
+
         public async Task<SmsAdminViewModel> GetSmsAdmin(int id)
         {
             SmsAdminViewModel admin=new SmsAdminViewModel();

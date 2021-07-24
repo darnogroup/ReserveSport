@@ -13,11 +13,14 @@ namespace ReserveSport.Areas.Admin.Controllers
     public class ArticleController : Controller
     {
         private readonly IArticleService _article;
+        private readonly ICommentService _comment;
 
-        public ArticleController(IArticleService article)
+        public ArticleController(IArticleService article, ICommentService comment)
         {
             _article = article;
+            _comment = comment;
         }
+      
         [HttpGet]
         [Route("/Admin/Article/{search?}")]
         public IActionResult Index(string search="",int page=1)
@@ -97,6 +100,21 @@ namespace ReserveSport.Areas.Admin.Controllers
             var model = _article.GetTrashArticles(search, page);
             ViewBag.Search = search;
             return View(model);
+        }
+
+        [HttpGet]
+        [Route("/Admin/Comments")]
+        public IActionResult Comments(int id)
+        {
+            var model = _comment.GetComments(id);
+            return View(model);
+        }
+
+        [HttpGet]
+        [Route("/Admin/ChangeComment/{id}")]
+        public void Change(int id)
+        {
+            _comment.Update(id);
         }
     }
 }

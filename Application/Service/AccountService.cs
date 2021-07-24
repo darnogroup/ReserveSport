@@ -6,19 +6,24 @@ using System.Threading.Tasks;
 using Application.Interface;
 using Application.Other;
 using Application.ViewModel.Account;
+using Application.ViewModel.Sms;
 using Domin.Entity;
 using Domin.Enum;
 using Domin.Interface;
 
 namespace Application.Service
 {
-    public class AccountService:IAccountService
+    public class AccountService : IAccountService
     {
         private readonly IUserInterface _user;
+        private readonly ISmsInterface _sms;
+        private readonly ISettingInterface _setting;
 
-        public AccountService(IUserInterface user)
+        public AccountService(IUserInterface user, ISmsInterface sms, ISettingInterface setting)
         {
             _user = user;
+            _sms = sms;
+            _setting = setting;
         }
         public void Register(RegisterViewModel model)
         {
@@ -37,37 +42,59 @@ namespace Application.Service
             wallet.UserId = user.UserId;
             wallet.WalletInventory = "0";
             _user.CreateWallet(wallet);
-           
+
         }
 
         public async Task<bool> ExistNumber(string number)
         {
-            var result= await _user.CheckPhoneNumber(number);
+            var result = await _user.CheckPhoneNumber(number);
             return result;
         }
 
         public void Send(string number)
         {
             var user = _user.GetPassword(number).Result;
+            if (user != null)
+            {
+                var change = CreateRandom.Number().ToString();
+                var info = GetSenderInfo();
+                var text = _sms.GetGeneralSms(1).Result;
+                var message = text.TemporaryText + change;
+                SmsSender.SendSms(user.PhoneNumber, message, info);
+                user.Password = change;
+                _user.Update(user);
+            }
             //SendSMS
         }
-
+        public Sender GetSenderInfo()
+        {
+            var setting = _setting.GetSetting(1).Result;
+            Sender sender = new Sender();
+            sender.Number = setting.SmsNumberSender;
+            sender.Api = setting.SmsApiCode;
+            return sender;
+        }
         public async Task<ClaimViewModel> GetClaim(LoginViewModel model)
         {
-            var info =await _user.GetUserLoginInfo(model.Number,model.Password);
-            ClaimViewModel claim=new ClaimViewModel();
+            var info = await _user.GetUserLoginInfo(model.Number, model.Password);
+            ClaimViewModel claim = new ClaimViewModel();
             claim.PhoneNumber = info.PhoneNumber;
             claim.UserImage = info.UserImage;
             claim.UserName = info.UserName;
             claim.NationalCode = info.NationalCode;
             claim.UserId = info.UserId;
+            info.Password = CreateRandom.Number().ToString();
+            _user.Update(info);
+
             return claim;
+
+
         }
 
         public async Task<AccessViewModel> GetAccess(int id)
         {
             var user = await _user.GetUserById(id);
-            AccessViewModel access=new AccessViewModel();
+            AccessViewModel access = new AccessViewModel();
             access.RoleId = RoleAccess(user.Role);
             return access;
         }

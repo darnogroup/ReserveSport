@@ -29,14 +29,14 @@
 
                             <div class="form-group col-md-12">
                                 <label>هزینه سانس</label>
-                                <input type="number" asp-for="Price" class="form-control" placeholder="هزینه سانس را وارد کنید">
+                                <input type="number" asp-for="Price" class="form-control input-custom" placeholder="هزینه سانس را وارد کنید">
 
                             </div>
                         </div>
                         <div class="form-group col-6">
                             <label>ساعت شروع سانس:</label>
                             <div class="input-group clockpicker">
-                                <input type="text" asp-for="StartTime" class="form-control" placeholder="ساعت شروع سانس">
+                                <input type="text" asp-for="StartTime" class="form-control input-custom" placeholder="ساعت شروع سانس">
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-time"></span>
                                 </span>
@@ -47,7 +47,7 @@
                         <div class="form-group col-6">
                             <label>ساعت اتمام سانس:</label>
                             <div class="input-group clockpicker">
-                                <input type="text" asp-for="EndTime" class="form-control " placeholder="ساعت اتمام سانس">
+                                <input type="text" asp-for="EndTime" class="form-control input-custom" placeholder="ساعت اتمام سانس">
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-time"></span>
                                 </span>
@@ -66,7 +66,7 @@
 
                                 </div>
                                 <div class="flex-grow-1">
-                                    <input asp-for="StartDayTime" type="text" class="form-control w-100" DatePicker="1">
+                                    <input asp-for="StartDayTime" type="text" class="form-control w-100 input-custom" DatePicker="1">
                                 </div>
                             </div>       <span class="text-danger" asp-validation-for="StartDayTime"></span>
                         </div>
@@ -79,7 +79,7 @@
 
                                 </div>
                                 <div class="flex-grow-1">
-                                    <input asp-for="EndDayTime" type="text" class="form-control w-100" DatePicker="1">
+                                    <input asp-for="EndDayTime" type="text" class="form-control w-100 input-custom" DatePicker="1">
                                 </div>
                             </div> <span class="text-danger" asp-validation-for="EndDayTime"></span>
                         </div>

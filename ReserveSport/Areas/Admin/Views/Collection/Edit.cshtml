@@ -54,10 +54,15 @@
                             <div class="form-group col-md-12">
                                 <label>مدیر مجموعه
                              
-                                    </label>
+                                </label>
                                 <select class="form-control" asp-for="UserId" asp-items="@ViewBag.User">
                                 </select>
                                 <span asp-validation-for="UserId" class="text-danger"></span>
+                            </div>
+                            <div class="form-check form-check-flat form-check-primary">
+                                <label class="form-check-label">
+                                    <input type="checkbox" asp-for="Active" class="form-check-input">
+                                    فعالسازی مجموعه                                    <i class="input-frame"></i></label>
                             </div>
                         </div>
                         <div class="row  col-6">

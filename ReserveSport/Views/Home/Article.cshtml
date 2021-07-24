@@ -20,11 +20,14 @@
             </div>
             <div class="box-course mt-4">
                 <strong class="font">برچسب های مقاله:</strong><br>
-                @foreach (var tag in ViewBag.Tags)
-                {
-                    <a class="badge font badge-primary">@tag</a>
-                }
+             @if(ViewBag.Tags!=null)
+             {
+                 @foreach (var tag in ViewBag.Tags)
+                 {
+                     <a class="badge font badge-primary">@tag</a>
+                 }
 
+             }
 
             </div>
             <!-- Card -->
@@ -53,63 +56,30 @@
                     امیدوارم از این مقاله استفاده کافی رو ببرید.
                 </div>
             </div>
-
+            <input type="hidden" asp-for="ArticleId" id="id"/>
             <div class="box-course mt-5">
                 <h5 class="font mx-3 mt-2 text-primary"> دیدگاه کاربران در رابطه با این مقاله </h5>
                 <hr>
                 <strong class="font  mx-2">دیدگاه خودرا وارد کنید!</strong>
 
                 <div class="form-group blue-border-focus mt-4">
-                    <textarea class="form-control" id="exampleFormControlTextarea5" rows="4"></textarea>
-                    <button type="button" class="btn btn-sm mt-3 btn-success font waves-effect waves-light">ثبت دیدگاه</button>
+                    <textarea class="form-control" id="commentBody" rows="4"></textarea>
+                    
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <button type="button" id="commentbtn" class="btn btn-sm mt-3 btn-success font waves-effect waves-light">ثبت دیدگاه</button>
+
+                    }
+                    else
+                    {
+                        <button type="button" id="ErrorLogin" class="btn btn-sm mt-3 btn-success font waves-effect waves-light">ثبت دیدگاه</button>
+
+                    }
                 </div>
                 <div class="mt-5">
                     <ul class="list-unstyled">
-                        <li class="media">
-                            <img class="d-flex mr-3" src="https://mdbootstrap.com/img/Photos/Others/avatar-min1.jpg" alt="Generic placeholder image">
-                            <div class="media-body">
-                                <h5 class="mt-0 mb-2 font-weight-bold">Anna Smith</h5>
-                                <!--Review-->
 
-                                <p>
-                                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras
-                                    purus
-                                    odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate
-                                    fringilla.
-                                    Donec lacinia congue felis in faucibus.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="media my-4">
-                            <img class="d-flex mr-3" src="https://mdbootstrap.com/img/Photos/Others/avatar-min2.jpg" alt="Generic placeholder image">
-                            <div class="media-body">
-                                <h5 class="mt-0 mb-2 font-weight-bold">Tom Brown</h5>
-                                <!--Review-->
-
-                                <p>
-                                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras
-                                    purus
-                                    odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate
-                                    fringilla.
-                                    Donec lacinia congue felis in faucibus.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="media">
-                            <img class="d-flex mr-3" src="https://mdbootstrap.com/img/Photos/Others/avatar-min3.jpg" alt="Generic placeholder image">
-                            <div class="media-body">
-                                <h5 class="mt-0 mb-2 font-weight-bold">Natalie Doe</h5>
-                                <!--Review-->
-
-                                <p>
-                                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras
-                                    purus
-                                    odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate
-                                    fringilla.
-                                    Donec lacinia congue felis in faucibus.
-                                </p>
-                            </div>
-                        </li>
+                        @await Component.InvokeAsync("CommentVC",@Model.ArticleId)
                     </ul>
                 </div>
             </div>
