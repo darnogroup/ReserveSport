@@ -87,8 +87,9 @@ namespace Application.Service
             collection.CollectionName = model.CollectionName;
             collection.CityId = Convert.ToInt32(model.CityId);
             collection.CollectionPhoneNumber = model.CollectionPhoneNumber;
-            collection.CollectionAddress = model.CollectionAddress;
+            collection.CollectionAddress = model.CollectionAddress;s
             collection.UserId = Convert.ToInt32(model.UserId);
+            collection.Active = model.Active;
             collection.StateId = Convert.ToInt32(model.StateId);
             if (model.LicensePath != null)
             {
@@ -248,6 +249,7 @@ namespace Application.Service
             model.CollectionPhoneNumber = collection.CollectionPhoneNumber;
             model.UserOld = collection.UserId;
             model.ImagePath = collection.Image;
+            model.Active = collection.Active;
             return model;
         }
 
@@ -279,6 +281,7 @@ namespace Application.Service
             collection.CityId = Convert.ToInt32(model.CityId);
             collection.UserId = Convert.ToInt32(model.UserId);
             collection.CollectionAddress = model.CollectionAddress;
+            collection.Active = model.Active;
             collection.CollectionName = model.CollectionName;
             collection.CollectionPhoneNumber = model.CollectionPhoneNumber;
             if (model.License != null)

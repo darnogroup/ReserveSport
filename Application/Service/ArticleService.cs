@@ -82,6 +82,7 @@ namespace Application.Service
             article.ArticleBody = model.ArticleBody;
             article.ArticleSummary = model.ArticleSummary;
             article.CreateTime=DateTime.Now;
+            article.ArticleTags = model.ArticleTags;
             var check = model.ArticleImage.IsImage();
             if (check)
             {
@@ -98,6 +99,7 @@ namespace Application.Service
         {
             var article = _article.GetArticleById(model.Id).Result;
             article.ArticleTitle = model.ArticleTitle;
+            article.ArticleTags = model.ArticleTags;
             article.ArticleBody = model.ArticleBody;
             article.ArticleSummary = model.ArticleSummary;
             if (model.ArticleImage != null)

@@ -112,5 +112,12 @@ namespace ReserveSport.Controllers
             HttpContext.SignOutAsync();
             return Redirect("/login");
         }
+
+        [HttpGet]
+        [Route("/RegisterCollection")]
+        public IActionResult RegisterCollection()
+        {
+            return View();
+        }
     }
 }

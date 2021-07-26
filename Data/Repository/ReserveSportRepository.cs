@@ -47,9 +47,7 @@ namespace Data.Repository
         }
         public async Task<ReserveSportsModel> GetReserveSportByIds(DateTime date,int collectionId, int sportId)
         {
-            return await _context.ReserveSportsModels.Where(n => n.Reserve.DayTime.Date == date.Date &&
-                                                                 n.SportId == sportId && n.Reserve.CollectionId == collectionId).Include(n => n.Reserve)
-                .SingleOrDefaultAsync();
+            return await _context.ReserveSportsModels.Include(n => n.Reserve).SingleOrDefaultAsync(n => n.Reserve.DayTime.Date == date.Date && n.SportId == sportId && n.Reserve.CollectionId == collectionId);
         }
         public async Task<IEnumerable<ReserveSportsModel>> GetReserveSportsByOrderId(int orderId)
         {
@@ -61,10 +59,5 @@ namespace Data.Repository
             _context.SaveChanges();
         }
 
-        public async Task<ReserveModel> GetReserveItem(DateTime date, int collectionId)
-        {
-            return await _context.Reserve.Where(w => w.DayTime.Date == date && w.CollectionId == collectionId)
-                .SingleOrDefaultAsync();
-        }
     }
 }

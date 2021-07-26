@@ -33,5 +33,6 @@ namespace Domin.Interface
         void RemoveBanner(BannerModel model);
         Task<IEnumerable<CollectionModel>> GetByQuick(int state, int city);
         Task<List<SportCollectionModel>> GetSportCollections(int collectionId);
+        Task<bool> GetCollection(int userId);
     }
 }

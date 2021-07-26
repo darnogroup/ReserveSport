@@ -5,8 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.Interface;
 using Application.Other;
+using Application.ViewModel.Article;
 using Application.ViewModel.Home;
 using Application.ViewModel.Sport;
+using Domin.Entity;
 using Domin.Interface;
 
 namespace Application.Service
@@ -28,12 +30,26 @@ namespace Application.Service
             _sport = sport;
             _reserveSport = reserveSport;
         }
+
+        public async Task<ShowArticleViewModel> GetById(int id)
+        {
+            var result = await _article.GetArticleById(id);
+            ShowArticleViewModel article=new ShowArticleViewModel();
+            article.ArticleImage = result.ArticleImage;
+            article.CreateTime = result.CreateTime.ToShamsi();
+            article.ArticleBody = result.ArticleBody;
+            article.ArticleTitle = result.ArticleTitle;
+            article.ArticleId = result.ArticleId;
+            article.ArticleTags = result.ArticleTags;
+            return article;
+        }
+
         public async Task<List<ItemCollectionViewModel>> GetCollections()
         {
             var list = await _collection.GetCollections();
             List<ItemCollectionViewModel> collections = new List<ItemCollectionViewModel>();
-            var result = list.OrderByDescending(o => o.CollectionId).Take(6).ToList();
-            foreach (var item in result)
+            var collectionModels = list.OrderByDescending(o=>o.CollectionId).Take(6).ToList();
+            foreach (var item in collectionModels)
             {
                 collections.Add(new ItemCollectionViewModel()
                 {
@@ -47,6 +63,41 @@ namespace Application.Service
             }
 
             return collections;
+        }
+
+        public Tuple<List<ItemCollectionViewModel>, int, int> GetAllCollection(int state = 0, int city = 0, string search = "", int id = 6, int page = 1)
+        {
+
+            var list =  _collection.GetCollections().Result;
+            List<ItemCollectionViewModel> collections = new List<ItemCollectionViewModel>();
+          
+            List<CollectionModel> collectionModels;
+            if (state == 0 && city == 0)
+            {
+                collectionModels = list.Where(w => w.CollectionName.Contains(search)).ToList();
+            }
+            else
+            {
+                collectionModels = list.Where(w =>w.CityId==city&&w.StateId==state&& w.CollectionName.Contains(search)).ToList();
+            }
+            int pageNumber = page;
+            int pageCount = Page.PageCount(collectionModels.Count, 12);
+            int skip = (page - 1) * 10;
+            var result = collectionModels.Skip(skip).Take(12).ToList();
+            foreach (var item in result)
+            {
+                collections.Add(new ItemCollectionViewModel()
+                {
+                    CollectionCity = item.City.CityName,
+                    CollectionId = item.CollectionId,
+                    CollectionNumber = item.CollectionPhoneNumber,
+                    CollectionState = item.State.StateName,
+                    CollectionName = item.CollectionName,
+                    Image = item.Image
+                });
+            }
+            return Tuple.Create(collections, pageCount, pageNumber);
+           
         }
 
         public async Task<List<ItemArticleViewModel>> GetArticles()

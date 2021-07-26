@@ -1,0 +1,90 @@
+﻿@model ShowArticleViewModel
+@{
+    ViewData["Title"] = "مقالات";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+
+    <div class="row">
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 p-3">
+            <div class="box-course">
+                <h5 class="font text-center text-primary">جدیدترین آموزش ها</h5>
+                <hr>
+                <ul class="infocourse font">
+                    <li><a class="text-warning">آموزش سی شارپ مقدماتی</a></li>
+                    <li><a class="text-warning">آموزش سی شارپ پیشرفته</a></li>
+                    <li><a class="text-warning">آموزش پایتون مقدماتی</a></li>
+                    <li><a class="text-warning">آموزش جاوا اسکریپت مقدماتی</a></li>
+
+                </ul>
+            </div>
+            <div class="box-course mt-4">
+                <strong class="font">برچسب های مقاله:</strong><br>
+             @if(ViewBag.Tags!=null)
+             {
+                 @foreach (var tag in ViewBag.Tags)
+                 {
+                     <a class="badge font badge-primary">@tag</a>
+                 }
+
+             }
+
+            </div>
+            <!-- Card -->
+            <div class="card testimonial-card box-course mt-4">
+
+                <img src="image/InstagramBanner.png" class="img-fluid">
+
+                <img src="image/InstagramBanner.png" class="img-fluid mt-4">
+
+
+            </div>
+
+        </div>
+        <!---------------------------------------->
+        <div class="col-xl-8 col-lg-8 col-md-6 col-sm-12 col-xs-12 p-3">
+            <div class="box-course">
+                <img src="~/Images/@Model.ArticleImage" class="img-fluid img-banner">
+                <h2 class="mt-5 font mx-3 TitleSize text-center text-primary">@Model.ArticleTitle</h2>
+                <hr class="w-100">
+                <h6 class="font text-center text-success">@Model.CreateTime</h6>
+                <p class="font course-description font">
+                    @Html.Raw(Model.ArticleBody)
+                  
+                </p>
+                <div class="alert alert-info font mt-5" role="alert">
+                    امیدوارم از این مقاله استفاده کافی رو ببرید.
+                </div>
+            </div>
+            <input type="hidden" asp-for="ArticleId" id="id"/>
+            <div class="box-course mt-5">
+                <h5 class="font mx-3 mt-2 text-primary"> دیدگاه کاربران در رابطه با این مقاله </h5>
+                <hr>
+                <strong class="font  mx-2">دیدگاه خودرا وارد کنید!</strong>
+
+                <div class="form-group blue-border-focus mt-4">
+                    <textarea class="form-control" id="commentBody" rows="4"></textarea>
+                    
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <button type="button" id="commentbtn" class="btn btn-sm mt-3 btn-success font waves-effect waves-light">ثبت دیدگاه</button>
+
+                    }
+                    else
+                    {
+                        <button type="button" id="ErrorLogin" class="btn btn-sm mt-3 btn-success font waves-effect waves-light">ثبت دیدگاه</button>
+
+                    }
+                </div>
+                <div class="mt-5">
+                    <ul class="list-unstyled">
+
+                        @await Component.InvokeAsync("CommentVC",@Model.ArticleId)
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

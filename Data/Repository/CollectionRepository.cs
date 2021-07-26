@@ -152,6 +152,12 @@ namespace Data.Repository
         {
             return await _context.SportCollection.Include(n=> n.Sport).Where(n => n.CollectionId == collectionId).ToListAsync();
         }
+
+        public async Task<bool> GetCollection(int userId)
+        {
+            return await _context.Collection.AnyAsync(a => a.UserId == userId);
+        }
+
         public void Save()
         {
             _context.SaveChanges();

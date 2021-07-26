@@ -9,7 +9,7 @@ namespace Application.ViewModel.Article
     public class ArticleViewModel
     {
         public int ArticleId { set; get; }
-
+    
         public string ArticleTitle { set; get; }
         public string ArticleImage { set; get; }
         public string ArticleTime { set; get; }

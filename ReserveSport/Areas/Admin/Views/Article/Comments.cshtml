@@ -1,0 +1,92 @@
+﻿@model Tuple<List<CommentViewModel>, int, int>
+@{
+    ViewData["Title"] = "دیدگاه ها";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">لیست دیدگاه  ها </h6>
+             
+                <div class="table-responsive pt-3">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    عنوان مقاله
+                                </th>
+
+                                <th>
+                                   نام کاربر
+                                </th>
+                                <th>
+                                    وضعیت دیدگاه
+                                </th>
+
+                                <th>
+                                    عملیات
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Item1)
+                            {
+                                <tr id="item_@item.CommentId">
+
+                                    <td>
+                                        @item.ArticleTitle
+                                    </td>
+                                    <td>
+                                        @item.UserName
+                                    </td>
+
+                                    <td>
+                                        @if (item.IsShow)
+                                        {
+                                            <span class="badge badge-success">تائید شده</span>
+                                        }
+                                        else
+                                        { <span class="badge badge-danger">تائید نشده</span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @if (item.IsShow)
+                                        {
+                                            <a onclick="ChangeComment('@item.CommentId')" class="btn btn-sm btn-danger text-white">عدم نمایش</a>
+                                        }
+                                        else
+                                        { <a onclick="ChangeComment('@item.CommentId')" class="btn btn-sm btn-success text-white"> نمایش</a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    @if (Model.Item2 > 1)
+                    {
+                        <div class="dataTables_paginate paging_simple_numbers py-3 d-flex justify-content-center" id="dataTableExample_paginate">
+                            <ul class="pagination">
+                                <li class="paginate_button page-item previous @((Model.Item3-1 == 0) ? "disabled" : "")" id="dataTableExample_previous">
+                                    <a href="/Admin/Comments?page=@(Model.Item3-1)" aria-controls="dataTableExample" data-dt-idx="0" tabindex="0" class="page-link">قبلی</a>
+                                </li>
+                                @for (int i = 1; i <= (Model.Item2); i++)
+                                {
+                                    <li class="paginate_button page-item @(Model.Item3==i?"active":"")">
+                                        <a href="/Admin/Comments?page=@i" aria-controls="dataTableExample" data-dt-idx="1" tabindex="0" class="page-link">@i</a>
+                                    </li>
+                                }
+                                <li class="paginate_button page-item @((Model.Item3+1 > Model.Item2) ? "disabled" : "")" id="dataTableExample_next">
+                                    <a href="/Admin/Comments?page=@(Model.Item3+1)" aria-controls="dataTableExample" data-dt-idx="4" tabindex="0" class="page-link">بعدی</a>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                </div>
+              
+            </div>
+        </div>
+    </div>
+</div>

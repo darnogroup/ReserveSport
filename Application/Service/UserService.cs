@@ -17,11 +17,13 @@ namespace Application.Service
     public class UserService : IUserService
     {
         private readonly IUserInterface _user;
+        private readonly ICollectionInterface _collection;
 
-        public UserService(IUserInterface user)
+        public UserService(IUserInterface user, ICollectionInterface collection)
         {
             _user = user;
-        }
+            _collection = collection;
+        }     
         public Tuple<List<UserViewModel>, int, int> GetUsers(string search = "", int page = 1)
         {
             var result = _user.GetUsers().Result;
@@ -194,6 +196,12 @@ namespace Application.Service
             profile.UserName = user.UserName;
             profile.UserNumber = user.PhoneNumber;
             return profile;
+        }
+
+        public async Task<bool> GetCollectionId(int id)
+        {
+            var collection = await _collection.GetCollection(id);
+            return collection;
         }
 
         public string ConvertRole(RoleEnum role)

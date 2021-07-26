@@ -4,15 +4,17 @@
         src: url('https://cdn.fontcdn.ir/Font/Persian/Samim/Samim-Bold.eot?#iefix') format('embedded-opentype'), url('https://cdn.fontcdn.ir/Font/Persian/Samim/Samim-Bold.woff') format('woff'), url('https://cdn.fontcdn.ir/Font/Persian/Samim/Samim-Bold.ttf') format('truetype');
         font-weight: bold;
     }
-
+* {
+    font-family: 'Samim';
+}
     @font-face {
         font-family: 'Lalezar';
         src: url('../font/Lalezar-Regular.ttf');
         font-weight: bold;
     }
 .input-custom {
-    border: 3px solid #ccc !important;
-    border-radius: 10px !important;
+    border: 1px solid #ccc !important;
+    border-radius: 5px !important;
 }
 .font{
     font-family: 'Samim';

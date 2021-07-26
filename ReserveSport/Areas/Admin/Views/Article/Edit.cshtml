@@ -31,8 +31,8 @@
                         </label>
                         <input type="file" asp-for="ArticleImage" class="d-none" id="imgUp" onchange="ChangeImage(this);" />
                         <span class="text-danger" asp-validation-for="ArticleImage"></span>
-                        <input type="hidden" asp-for="Id"/>
-                        <input type="hidden" asp-for="ImagePath"/>
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="ImagePath" />
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group col-md-6">
@@ -40,6 +40,15 @@
                             <input type="text" asp-for="ArticleTitle" class="form-control" placeholder="عنوان مقاله را وارد کنید">
                         </div>
                         <span class="text-danger" asp-validation-for="ArticleTitle"></span>
+
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group col-md-6">
+                            <label>برچسب مقاله</label>
+                            <input type="text" asp-for="ArticleTags" class="form-control" placeholder="برچسب مقاله را وارد کنید">
+                        </div>
+                        <span class="text-danger font">برچسب برای بهبود سئو سایت موثر است</span>
+                        <strong class="text-info font">با "-"برچسب ها را جدا کنید</strong>
 
                     </div>
                     <div class="col-sm-12">

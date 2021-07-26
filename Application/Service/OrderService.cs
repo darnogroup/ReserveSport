@@ -20,8 +20,8 @@ namespace Application.Service
         private readonly IReserveSportRepository _reserveSportRepository;
         private readonly ISportInterface _sportInterface;
         private readonly IWalletRepository _walletRepository;
-        public OrderService(IOrderRepository orderRepository,IReserveInterface reserveInterface
-            ,IReserveSportRepository reserveSportRepository,ISportInterface sportInterface,IWalletRepository walletRepository)
+        public OrderService(IOrderRepository orderRepository, IReserveInterface reserveInterface
+            , IReserveSportRepository reserveSportRepository, ISportInterface sportInterface, IWalletRepository walletRepository)
         {
             _orderRepository = orderRepository;
             _reserveInterface = reserveInterface;
@@ -37,11 +37,11 @@ namespace Application.Service
         {
             date = date.ToMiladiDateTime().ToString("yyyy-MM-dd'T'HH:mm:ss.fffffff'Z'");
             DateTime time = DateTime.ParseExact(date, "yyyy-MM-dd'T'HH:mm:ss.fffffff'Z'", CultureInfo.InvariantCulture);
-            return await _orderRepository.IsExistDetail(time, int.Parse(collectionId),int.Parse(sportId));
+            return await _orderRepository.IsExistDetail(time, int.Parse(collectionId), int.Parse(sportId));
         }
-        public void AddToCart(int itemId,int sportId, int userId)
+        public void AddToCart(int itemId, int sportId, int userId)
         {
-            var item = _reserveSportRepository.GetReserveSportByIds(itemId,sportId).Result;
+            var item = _reserveSportRepository.GetReserveSportByIds(itemId, sportId).Result;
             item.IsReserved = true;
             _reserveSportRepository.UpdateReserveSport(item);
             var order = _orderRepository.GetUserId(userId).Result;
@@ -70,12 +70,12 @@ namespace Application.Service
         {
             int sport = int.Parse(sportId);
             int collection = int.Parse(collectionId);
-            date = date.ToMiladiDateTime().ToString("yyyy-MM-dd'T'HH:mm:ss.fffffff'Z'");
-            DateTime time = DateTime.ParseExact(date, "yyyy-MM-dd'T'HH:mm:ss.fffffff'Z'", CultureInfo.InvariantCulture);
-            var item = _reserveSportRepository.GetReserveItem(time, collection).Result;
-            var itemReserve = _reserveSportRepository.GetReserveSportByIds(item.ReserveId, sport).Result;
-            itemReserve.IsReserved = true;
-            _reserveSportRepository.UpdateReserveSport(itemReserve);
+
+            DateTime time = date.ToMiladiDateTime();
+
+            var item = _reserveSportRepository.GetReserveSportByIds(time, collection, sport).Result;
+            item.IsReserved = true;
+            _reserveSportRepository.UpdateReserveSport(item);
             var order = _orderRepository.GetUserId(userId).Result;
             OrderDetailModel orderDetail = new OrderDetailModel();
             orderDetail.ReserveId = itemReserve.ReserveId;
@@ -143,10 +143,10 @@ namespace Application.Service
             }
             return Tuple.Create(orderItems, orderView);
         }
-        public void RemoveItemCart(int id,int sportId)
+        public void RemoveItemCart(int id, int sportId)
         {
             var model = _orderRepository.GetDetailById(id).Result;
-            var item = _reserveSportRepository.GetReserveSportByIds(model.ReserveId,sportId).Result;
+            var item = _reserveSportRepository.GetReserveSportByIds(model.ReserveId, sportId).Result;
             item.IsReserved = false;
             _reserveSportRepository.UpdateReserveSport(item);
             _orderRepository.RemoveDetail(model);
@@ -187,6 +187,66 @@ namespace Application.Service
                 model.IsFinished = true;
                 _reserveSportRepository.UpdateReserveSport(model);
             }
+        }
+
+        public Tuple<List<OrdersViewModel>, int, int> GetFinishedOrders(string search = "", int page = 1)
+        {
+            var result = _orderRepository.GetAllOrders().Result;
+            List<OrdersViewModel> models = new List<OrdersViewModel>();
+            var order = result.Where(w => w.OrderCode.Contains(search)).ToList();
+            int pageNumber = page;
+            int pageCount = Page.PageCount(order.Count, 10);
+            int skip = (page - 1) * 10;
+            var orderList = order.Skip(skip).Take(10).ToList();
+            foreach (var item in orderList)
+            {
+                models.Add(new OrdersViewModel()
+                {
+                    UserName = item.User.UserName,
+                    CreateDate = item.CreateDate.ToShamsi(),
+                    OrderCode = item.OrderCode,
+                    OrderId = item.OrderId,
+                    IsFinish = item.IsFinally
+                });
+            }
+            return Tuple.Create(models, pageCount, pageNumber);
+        }
+
+        public async Task<IEnumerable<ItemOrdersViewModel>> GetItemOrder(int id)
+        {
+            var list = await _orderRepository.GetOrdersItem(id);
+            List<ItemOrdersViewModel>models=new List<ItemOrdersViewModel>();
+            foreach (var item in list)
+            {
+                models.Add(new ItemOrdersViewModel()
+                {
+                    Collection = item.ReserveModel.Collection.CollectionName,
+                    DayTime = item.ReserveModel.DayTime.ToShamsi(),
+                    DetailId = item.DetailId,
+                    Price = item.Price,
+                    Sport = _sportInterface.GetSportById(item.SportId).Result.SportName
+                });
+            }
+
+            return models;
+        }
+
+        public void RemoveOrder(int id)
+        {
+            var list = _orderRepository.GetOrdersItem(id).Result;
+            foreach (var item in list)
+            {
+                _orderRepository.RemoveDetail(item);
+            }
+
+            var model = _orderRepository.GetOrderById(id).Result;
+            _orderRepository.RemoveOrder(model);
+        }
+
+        public void RemoveOrderItem(int id)
+        {
+            var model = _orderRepository.GetDetailById(id).Result;
+            _orderRepository.RemoveDetail(model);
         }
     }
 }

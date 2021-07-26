@@ -22,5 +22,6 @@ namespace Domin.Entity
         public int UserId { get; set; }
         [ForeignKey("UserId")]
         public UserModel User { set; get; }
+        public bool IsShow { set; get; }
     }
 }

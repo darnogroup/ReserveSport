@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Interface;
 using Application.ViewModel.Ticket;
-using Data.Migrations;
+
 using ReserveSport.Helper;
 using ClaimsPrincipalExtensions = ReserveSport.Other.ClaimsPrincipalExtensions;
 

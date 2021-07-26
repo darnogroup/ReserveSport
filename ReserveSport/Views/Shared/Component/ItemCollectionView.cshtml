@@ -22,14 +22,14 @@
                 </h4>
                 <!-- Data -->
 
-                <p class="mb-2 font text-success text-center">@item.CollectionState-@item.CollectionCity</p>
+                <p class="mb-2 mt-3 font text-success text-center">@item.CollectionState-@item.CollectionCity</p>
                 <!-- Text -->
 
                 <hr class="my-1">
-                <p class="lead text-info font size-font text-center"><strong>شماره تماس:</strong>@item.CollectionNumber</p>
+                <p class="lead mt-3 text-info font size-font text-center"><strong>شماره تماس:</strong>@item.CollectionNumber</p>
 
                 <!-- Button -->
-                <a asp-controller="Home" asp-action="ShowCollection" asp-route-id="@item.CollectionId" asp-route-title="@item.CollectionName" class="btn btn-sm btn-block aqua-gradient font waves-effect waves-light">مشاهده مجموعه</a>
+                <a asp-controller="Home" asp-action="ShowCollection" asp-route-id="@item.CollectionId" asp-route-title="@item.CollectionName" class="mt-4 btn btn-sm btn-block aqua-gradient font waves-effect waves-light">مشاهده مجموعه</a>
 
             </div>
 

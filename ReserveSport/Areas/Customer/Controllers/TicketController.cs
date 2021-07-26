@@ -5,13 +5,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Interface;
 using Application.ViewModel.Ticket;
+using Microsoft.AspNetCore.Authorization;
 using ReserveSport.Helper;
 using ClaimsPrincipalExtensions = ReserveSport.Other.ClaimsPrincipalExtensions;
 
 namespace ReserveSport.Areas.Customer.Controllers
 {
     [Area("Customer")]
-    [Access(4)]
+    [Authorize]
     public class TicketController : Controller
     {
         private readonly ITicketService _ticket;

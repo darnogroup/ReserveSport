@@ -7,11 +7,12 @@ using Application.Interface;
 using ReserveSport.Helper;
 using ClaimsPrincipalExtensions = ReserveSport.Other.ClaimsPrincipalExtensions;
 using Application.ViewModel.User;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ReserveSport.Areas.Customer.Controllers
 {
     [Area("Customer")]
-    [Access(4)]
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IUserService _user;
@@ -26,6 +27,7 @@ namespace ReserveSport.Areas.Customer.Controllers
         [Route("/Profile")]
         public IActionResult Index()
         {
+            ViewBag.Collection = _user.GetCollectionId(UserId()).Result;
             var model = _user.GetProfile(UserId()).Result;
             return View(model);
         }

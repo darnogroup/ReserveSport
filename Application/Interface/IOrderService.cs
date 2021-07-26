@@ -20,5 +20,8 @@ namespace Application.Interface
         Task<int> DetailsCountByOrderId(int orderId);
         Task<OrderViewModel> GetOrderById(int orderId);
         void UpdateOrder(int orderId);
+        Tuple<List<OrdersViewModel>,int,int> GetFinishedOrders(string search = "", int page = 1);
+        Task<IEnumerable<ItemOrdersViewModel>> GetItemOrder(int id);
+        void RemoveOrder(int id); void RemoveOrderItem(int id);
     }
 }

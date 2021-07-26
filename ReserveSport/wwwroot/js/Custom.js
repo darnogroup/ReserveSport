@@ -4,7 +4,9 @@ $('body').scrollspy({
 });
 
 function Send() {
-    var number = document.getElementById("number").value;
+ 
+    var number = $("#number").val();
+   
     $.get("/sms/" + number);
     Swal.fire({
         icon: 'success',

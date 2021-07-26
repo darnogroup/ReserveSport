@@ -1,0 +1,21 @@
+﻿@model IEnumerable<ItemOrdersViewModel>
+@{
+    ViewData["Title"] = "Order";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+        <div class="card text-white bg-primary col-12" id="item_@item.DetailId">
+            <div class="card-header"><strong>نام مجموعه:</strong>@item.Collection</div>
+            <div class="card-body">
+                <h5 class="card-title text-white"><strong>تاریخ سانس:</strong>@item.DayTime</h5>
+                <span><strong>رشته ورزشی:</strong>@item.Sport</span><br /><br />
+                <span><strong>هزینه سانس:</strong>@item.Price.ToString("#,0")</span><hr />
+                <a onclick="RemoveOrderItem('@item.DetailId')" class="btn btn-sm btn-danger">پاک کردن</a>
+            </div>
+        </div>
+        }
+    </div>
+</div>
