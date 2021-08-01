@@ -18,5 +18,6 @@ namespace Domin.Interface
         Task<bool> Exist(DateTime time,string start,string end,string price="");
         Task<IEnumerable<ReserveModel>> GetReserveCollection(int id, DateTime end);
         Task<IEnumerable<ReserveModel>> GetTimeItem(DateTime time,int collectionId);
+        Task<bool> IsExistReserveByCollectionId(int collectionId);
     }
 }

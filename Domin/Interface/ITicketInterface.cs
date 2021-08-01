@@ -16,5 +16,6 @@ namespace Domin.Interface
         void CreateSub(SubTicketModel model);
         void Update(TicketModel model);
         Task<TicketModel> GetById(int id);
+        Task<bool> IsExistTicketByUserId(int userId);
     }
 }

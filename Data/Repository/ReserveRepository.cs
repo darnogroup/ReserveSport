@@ -68,6 +68,10 @@ namespace Data.Repository
         {
             return await _context.Reserve.Where(w =>w.CollectionId==collectionId&& w.DayTime.Date == time.Date).ToListAsync();
         }
+        public async Task<bool> IsExistReserveByCollectionId(int collectionId)
+        {
+            return await _context.Reserve.AnyAsync(n=> n.CollectionId == collectionId);
+        }
         public void Save()
         {
             _context.SaveChanges();

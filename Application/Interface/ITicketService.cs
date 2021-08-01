@@ -17,5 +17,6 @@ namespace Application.Interface
         void Create(TicketViewModel model);
         void CreateSub(SubTicketViewModel model);
         void Close(int id);
+        Task<bool> IsExistTicketByUserId(int userId);
     }
 }

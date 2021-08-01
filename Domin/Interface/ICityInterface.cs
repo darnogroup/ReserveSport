@@ -16,5 +16,6 @@ namespace Domin.Interface
         void Create(CityModel model);
         void Update(CityModel model);
         void Delete(CityModel model);
+        Task<bool> IsExistCityByStateId(int stateId);
     }
 }

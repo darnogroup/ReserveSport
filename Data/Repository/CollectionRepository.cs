@@ -172,7 +172,18 @@ namespace Data.Repository
         {
             return await _context.Collection.AnyAsync(a => a.UserId == userId);
         }
-
+        public async Task<bool> IsExistCollectionByUserId(int userId)
+        {
+            return await _context.Collection.AnyAsync(n=> n.UserId == userId);
+        }
+        public async Task<bool> IsExistCollectionByCityId(int cityId)
+        {
+            return await _context.Collection.AnyAsync(n=> n.CityId == cityId);
+        }
+        public async Task<bool> IsExistCollectionByStateId(int stateId)
+        {
+            return await _context.Collection.AnyAsync(n=> n.StateId == stateId);
+        }
         public void Save()
         {
             _context.SaveChanges();

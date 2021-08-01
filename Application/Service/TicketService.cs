@@ -183,5 +183,9 @@ namespace Application.Service
             ticket.Close = true;
             _ticket.Update(ticket);
         }
+        public async Task<bool> IsExistTicketByUserId(int userId)
+        {
+            return await _ticket.IsExistTicketByUserId(userId);
+        }
     }
 }

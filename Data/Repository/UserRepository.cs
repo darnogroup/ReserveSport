@@ -95,7 +95,10 @@ namespace Data.Repository
         {
             return await _context.User.Where(w => w.UserId == id).Select(s => s.Role).SingleOrDefaultAsync();
         }
-
+        public async Task<bool> IsExistUserForCollection()
+        {
+            return await _context.Collection.Include(n=> n.User).AnyAsync(n=> n.User != null);
+        }
         public void Save()
         {
             _context.SaveChanges();

@@ -108,5 +108,9 @@ namespace Application.Service
             var city = _city.GetDeletedCityById(id).Result;
            _city.Delete(city);
         }
+        public async Task<bool> IsExistCityByStateId(int stateId)
+        {
+            return await _city.IsExistCityByStateId(stateId);
+        }
     }
 }

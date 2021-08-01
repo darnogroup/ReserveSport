@@ -18,5 +18,6 @@ namespace Application.Interface
         void Delete(int id);
         void Back(int id);
         void Remove(int id);
+        Task<bool> IsExistCityByStateId(int stateId);
     }
 }

@@ -23,5 +23,6 @@ namespace Application.Interface
         Task<ProfileViewModel> GetProfile(int id);
         Task<bool> GetCollectionId(int id);
         Task<IEnumerable<UserViewModel>> GetLastUsers();
+        Task<bool> IsExistUserForCollection();
     }
 }

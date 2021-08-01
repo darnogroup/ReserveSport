@@ -74,7 +74,10 @@ namespace Data.Repository
                 .Include(i => i.ReserveModel).ThenInclude(t => t.Collection)
                 .ToListAsync();
         }
-
+        public async Task<bool> IsExistOrderByUserId(int userId)
+        {
+            return await _context.OrderModels.AnyAsync(n=> n.UserId == userId);
+        }
         #endregion
 
         #region Details

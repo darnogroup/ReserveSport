@@ -54,7 +54,10 @@ namespace Data.Repository
         {
             _context.City.Remove(model);Save();
         }
-
+        public async Task<bool> IsExistCityByStateId(int stateId)
+        {
+            return await _context.City.AnyAsync(n=> n.StateId == stateId);
+        }
         public void Save()
         {
             _context.SaveChanges();

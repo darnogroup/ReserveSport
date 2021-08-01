@@ -28,5 +28,6 @@ namespace Application.Interface
         Task<IEnumerable<CustomerOrderViewModel>> GetOrders(int id);
         Tuple<List<CustomerOrderViewModel>, int, int> GetUserOrderList(int id,int page=1);
         Tuple<List<OrderCollectionViewModel>, int, int> GetOrders(string search, int collectionId, int page = 1);
+        Task<bool> IsExistOrderByUserId(int userId);
     }
 }

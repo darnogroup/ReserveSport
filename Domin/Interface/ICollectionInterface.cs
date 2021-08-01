@@ -36,5 +36,8 @@ namespace Domin.Interface
         Task<IEnumerable<CollectionModel>> GetByQuick(int state, int city);
         Task<List<SportCollectionModel>> GetSportCollections(int collectionId);
         Task<bool> GetCollection(int userId);
+        Task<bool> IsExistCollectionByUserId(int userId);
+        Task<bool> IsExistCollectionByCityId(int cityId);
+        Task<bool> IsExistCollectionByStateId(int stateId);
     }
 }

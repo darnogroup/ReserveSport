@@ -152,5 +152,9 @@ namespace Application.Service
             var result =await _reserve.GetCollectionId(userId);
             return result;
         }
+        public async Task<bool> IsExistReserveByCollectionId(int collectionId)
+        {
+            return await _reserve.IsExistReserveByCollectionId(collectionId);
+        }
     }
 }

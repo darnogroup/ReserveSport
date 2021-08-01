@@ -52,7 +52,10 @@ namespace Data.Repository
         {
             return await _context.Ticket.FindAsync(id);
         }
-
+        public async Task<bool> IsExistTicketByUserId(int userId)
+        {
+            return await _context.Ticket.AnyAsync(n=> n.UserId == userId);
+        }
         public void Save()
         {
             _context.SaveChanges();

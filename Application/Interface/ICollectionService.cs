@@ -35,5 +35,8 @@ namespace Application.Interface
         Tuple<List<RequestViewModel>, int, int> GetRequestList(string search = "", int page = 1);
         Task<InfoRequestViewModel> GetInfoRequest(int id);
         void Active(int id);
+        Task<bool> IsExistCollectionByStateId(int stateId);
+        Task<bool> IsExistCollectionByUserId(int userId);
+        Task<bool> IsExistCollectionByCityId(int cityId);
     }
 }

@@ -288,5 +288,9 @@ namespace Application.Service
                     break;
             }
         }
+        public async Task<bool> IsExistUserForCollection()
+        {
+            return await _user.IsExistUserForCollection();
+        }
     }
 }

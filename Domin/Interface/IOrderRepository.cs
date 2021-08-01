@@ -19,6 +19,7 @@ namespace Domin.Interface
         void UpdateOrder(OrderModel order);
         Task<IEnumerable<OrderModel>> GetAllOrders();
         void RemoveOrder(OrderModel order);
+        Task<bool> IsExistOrderByUserId(int userId);
         #endregion
 
 

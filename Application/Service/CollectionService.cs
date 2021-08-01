@@ -504,5 +504,17 @@ namespace Application.Service
             sender.Api = setting.SmsApiCode;
             return sender;
         }
+        public async Task<bool> IsExistCollectionByStateId(int stateId)
+        {
+            return await _collection.IsExistCollectionByStateId(stateId);
+        }
+        public async Task<bool> IsExistCollectionByUserId(int userId)
+        {
+            return await _collection.IsExistCollectionByUserId(userId);
+        }
+        public async Task<bool> IsExistCollectionByCityId(int cityId)
+        {
+            return await _collection.IsExistCollectionByCityId(cityId);
+        }
     }
 }

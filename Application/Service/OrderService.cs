@@ -440,6 +440,10 @@ namespace Application.Service
             }
             return Tuple.Create(models, pageCount, pageNumber);
         }
+        public async Task<bool> IsExistOrderByUserId(int userId)
+        {
+            return await _orderRepository.IsExistOrderByUserId(userId);
+        }
     }
 
 }

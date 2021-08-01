@@ -24,6 +24,7 @@ namespace Domin.Interface
         void DeleteWallet(UserWalletModel model);
         Task<bool> CheckPhoneNumber(string number);
         Task<UserModel> GetUserLoginInfo(string number,string password);
+        Task<bool> IsExistUserForCollection();
         Task<RoleEnum> GetRole(int id);
     }
 }
