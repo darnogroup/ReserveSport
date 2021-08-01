@@ -45,18 +45,18 @@ namespace Data.Repository
         }
         public async Task<List<ReserveSportsModel>> GetReserveSportByIds(int reserveId)
         {
-            return await _context.ReserveSportsModels.Include(n=> n.Reserve).Where(n => n.ReserveId == reserveId).ToListAsync();
+            return await _context.ReserveSportsModels.Include(n => n.Reserve).Where(n => n.ReserveId == reserveId).ToListAsync();
         }
 
         public async Task<ReserveSportsModel> GetItemReserveSportById(int reserveId, int sportId)
         {
             return await _context.ReserveSportsModels
                 .Include(n => n.Reserve)
-                .SingleOrDefaultAsync(n => n.ReserveId == reserveId&&n.SportId==sportId);
+                .SingleOrDefaultAsync(n => n.ReserveId == reserveId && n.SportId == sportId);
 
         }
 
-        public async Task<ReserveSportsModel> GetReserveSportByIds(DateTime date,int collectionId, int sportId)
+        public async Task<ReserveSportsModel> GetReserveSportByIds(DateTime date, int collectionId, int sportId)
         {
             return await _context.ReserveSportsModels.Include(n => n.Reserve)
                 .SingleOrDefaultAsync(n => n.Reserve.DayTime.Date == date.Date && n.SportId == sportId && n.Reserve.CollectionId == collectionId);
@@ -71,13 +71,12 @@ namespace Data.Repository
 
         public async Task<IEnumerable<ReserveSportsModel>> GetReserveSportsByOrderId(int orderId)
         {
-            return await _context.OrderDetailModels.Include(n=> n.Order).Include(n => n.ReserveModel).ThenInclude(n => n.ReserveSports)
+            return await _context.OrderDetailModels.Include(n => n.Order).Include(n => n.ReserveModel).ThenInclude(n => n.ReserveSports)
                 .Where(n => n.OrderId == orderId && n.Order.IsFinally).SelectMany(n => n.ReserveModel.ReserveSports).ToListAsync();
         }
         public void Save()
         {
             _context.SaveChanges();
         }
-
     }
 }

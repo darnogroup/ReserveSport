@@ -15,11 +15,10 @@ namespace Domin.Interface
         void RemoveReserveSport(ReserveSportsModel model);
         void UpdateReserveSport(ReserveSportsModel model);
         Task<List<ReserveSportsModel>> GetReserveSportByIds(int reserveId);
-        Task<ReserveSportsModel> GetItemReserveSportById(int reserveId,int sportId);
+        Task<ReserveSportsModel> GetItemReserveSportById(int reserveId, int sportId);
         Task<ReserveSportsModel> GetReserveSportByIds(DateTime date, int collectionId, int sportId);
         Task<ReserveSportsModel> GetSingle(DateTime date, int collectionId, int sportId);
         Task<IEnumerable<ReserveSportsModel>> GetReserveSportsByOrderId(int orderId);
         void Save();
-        Task<ReserveModel> GetReserveItem(DateTime date, int collectionId);
     }
 }
