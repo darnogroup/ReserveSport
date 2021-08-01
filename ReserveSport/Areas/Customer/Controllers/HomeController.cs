@@ -17,11 +17,13 @@ namespace ReserveSport.Areas.Customer.Controllers
     {
         private readonly IUserService _user;
         private readonly IWalletServcie _wallet;
-        
-        public HomeController(IUserService user,IWalletServcie wallet)
+        private readonly IOrderService _order;
+
+        public HomeController(IUserService user, IWalletServcie wallet, IOrderService order)
         {
             _user = user;
             _wallet = wallet;
+            _order = order;
         }
         [HttpGet]
         [Route("/Profile")]
@@ -47,6 +49,13 @@ namespace ReserveSport.Areas.Customer.Controllers
             return Redirect($"/ChargeWallet/{model.Price}");
         }
 
+        [HttpGet]
+        [Route("/Profile/Orders")]
+        public IActionResult Orders(int page = 1)
+        {
+            var model = _order.GetUserOrderList(UserId(), page);
+            return View(model);
+        }
         public int UserId()
         {
             int user = Convert.ToInt32(ClaimsPrincipalExtensions.GetUserId(User));

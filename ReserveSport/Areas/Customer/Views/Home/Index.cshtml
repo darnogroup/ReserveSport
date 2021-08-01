@@ -41,7 +41,7 @@
                 <ul class="item-dashboard">
    
                     <li><strong class="font text-center"><a href="/Profile/Ticket">تیکت ها</a></strong><br></li>
-                    <li><strong class="font text-center">رسید ها</strong><br></li>
+                    <li><strong class="font text-center"><a href="/Profile/Orders">رسیدها</a></strong><br></li>
                     <li><strong class="font text-center"><a href="/Profile/Wallet">کیف پول</a></strong><br></li>
                     @if (ViewBag.Collection)
                     {
@@ -70,53 +70,12 @@
                 </form>
                 <!-- Default form contact -->
             </div>
-            <div class="box-course mt-5">
-                <p class="h4 mb-4 font text-info">آخرین رسید ها</p>
-                <hr>
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col" class="font">تاریخ</th>
-                            <th scope="col" class="font">تعداد دوره ها</th>
-                            <th scope="col" class="font">وضعیت پرداخت</th>
-                            <th scope="col" class="font">جزئیات</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <a class="text-info font">1398/09/11</a>
-                            </td>
-                            <td class="font">4</td>
-                            <td>
-                                <span class="badge badge-success font">
-                                    پرداخت شده
-                                </span>
-                            </td>
-                            <td>
-                                <a class="text-danger font">جزئیات</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <a class="text-info font">1398/09/11</a>
-                            </td>
-                            <td class="font">4</td>
-                            <td>
-                                <span class="badge badge-success font">
-                                    پرداخت شده
-                                </span>
-                            </td>
-                            <td>
-                                <a class="text-danger font">جزئیات</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <!------component-->
+            @{
+                int user = Convert.ToInt32(ClaimsPrincipalExtensions.GetUserId(User));
+            }
 
-
-
+            @await Component.InvokeAsync("OrederCustomerVC",user)
         </div>
 
     </div>

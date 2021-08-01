@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.ViewModel.Article;
+using Application.ViewModel.General;
 using Application.ViewModel.Home;
 
 namespace Application.Interface
@@ -20,5 +21,6 @@ namespace Application.Interface
         Task<List<SelectSportViewModel>> GetSports(int id);
         List<ItemTimeViewModel> GetTime();
         Task<List<SelectReserveViewModel>> GetReserveItem(string time,string collection);
+        Task<InformationViewModel> GetInfoDashboard();
     }
 }

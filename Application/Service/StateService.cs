@@ -23,7 +23,7 @@ namespace Application.Service
         {
             var result = _state.GetStates().Result;
             List<StateViewModel> models = new List<StateViewModel>();
-            var states = result.Where(w => w.StateName.Contains(search)).ToList();
+            var states = result.Where(w => w.StateName.Contains(search)).OrderByDescending(o => o.StateId).ToList();
             int pageNumber = page;
             int pageCount = Page.PageCount(states.Count, 10);
             int skip = (page - 1) * 10;

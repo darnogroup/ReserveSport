@@ -10,7 +10,7 @@ namespace Application.Interface
     public interface ITicketService
     {
         Task<List<ItemTicketViewModel>> GetTickets(int id);
-
+        Tuple<List<ItemNavbarTicketViewModel>, int> GetNavbarItem();
         Tuple<List<TicketItemViewModel>, int, int> GetAllTickets(string search = "", int page = 1);
         Task<List<ItemSubTicketViewModel>> GetSubTicket(int id);
         Task<List<FileTicketViewModel>> GetFiles(int id);

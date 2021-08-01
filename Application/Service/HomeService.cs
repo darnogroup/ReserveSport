@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Application.Interface;
 using Application.Other;
 using Application.ViewModel.Article;
+using Application.ViewModel.General;
 using Application.ViewModel.Home;
 using Application.ViewModel.Sport;
 using Domin.Entity;
@@ -20,21 +21,25 @@ namespace Application.Service
         private readonly IReserveInterface _reserve;
         private readonly ISportInterface _sport;
         private readonly IReserveSportRepository _reserveSport;
+        private readonly IOrderRepository _order;
+        private readonly IUserInterface _user;
+        private readonly ITicketInterface _ticket;
 
-        public HomeService(ICollectionInterface collection, IArticleInterface article, IReserveInterface reserve, ISportInterface sport
-            ,IReserveSportRepository reserveSport)
+        public HomeService(ICollectionInterface collection, IArticleInterface article, IReserveInterface reserve, ISportInterface sport, IReserveSportRepository reserveSport, IOrderRepository order, IUserInterface user, ITicketInterface ticket)
         {
             _collection = collection;
             _article = article;
             _reserve = reserve;
             _sport = sport;
             _reserveSport = reserveSport;
+            _order = order;
+            _user = user;
+            _ticket = ticket;
         }
-
         public async Task<ShowArticleViewModel> GetById(int id)
         {
             var result = await _article.GetArticleById(id);
-            ShowArticleViewModel article=new ShowArticleViewModel();
+            ShowArticleViewModel article = new ShowArticleViewModel();
             article.ArticleImage = result.ArticleImage;
             article.CreateTime = result.CreateTime.ToShamsi();
             article.ArticleBody = result.ArticleBody;
@@ -48,7 +53,7 @@ namespace Application.Service
         {
             var list = await _collection.GetCollections();
             List<ItemCollectionViewModel> collections = new List<ItemCollectionViewModel>();
-            var collectionModels = list.OrderByDescending(o=>o.CollectionId).Take(6).ToList();
+            var collectionModels = list.Where(w => w.Active == true).OrderByDescending(o => o.CollectionId).Take(6).ToList();
             foreach (var item in collectionModels)
             {
                 collections.Add(new ItemCollectionViewModel()
@@ -68,9 +73,9 @@ namespace Application.Service
         public Tuple<List<ItemCollectionViewModel>, int, int> GetAllCollection(int state = 0, int city = 0, string search = "", int id = 6, int page = 1)
         {
 
-            var list =  _collection.GetCollections().Result;
+            var list = _collection.GetCollections().Result;
             List<ItemCollectionViewModel> collections = new List<ItemCollectionViewModel>();
-          
+
             List<CollectionModel> collectionModels;
             if (state == 0 && city == 0)
             {
@@ -78,7 +83,7 @@ namespace Application.Service
             }
             else
             {
-                collectionModels = list.Where(w =>w.CityId==city&&w.StateId==state&& w.CollectionName.Contains(search)).ToList();
+                collectionModels = list.Where(w => w.CityId == city && w.StateId == state && w.CollectionName.Contains(search)).ToList();
             }
             int pageNumber = page;
             int pageCount = Page.PageCount(collectionModels.Count, 12);
@@ -97,7 +102,7 @@ namespace Application.Service
                 });
             }
             return Tuple.Create(collections, pageCount, pageNumber);
-           
+
         }
 
         public async Task<List<ItemArticleViewModel>> GetArticles()
@@ -274,21 +279,39 @@ namespace Application.Service
             return itemTime;
         }
 
-        public async Task<List<SelectReserveViewModel>> GetReserveItem(string time,string collection)
+        public async Task<List<SelectReserveViewModel>> GetReserveItem(string time, string collection)
         {
             int id = Convert.ToInt32(collection);
-            var list = await _reserve.GetTimeItem(time.ToMiladiDateTime(),id);
-            List<SelectReserveViewModel>reserves=new List<SelectReserveViewModel>();
+            var list = await _reserve.GetTimeItem(time.ToMiladiDateTime(), id);
+            List<SelectReserveViewModel> reserves = new List<SelectReserveViewModel>();
             foreach (var item in list)
             {
                 reserves.Add(new SelectReserveViewModel()
                 {
                     Id = item.ReserveId,
-                    Reserve = item.EndTime+"تا"+item.StartTime
+                    Reserve = item.EndTime + "تا" + item.StartTime
                 });
             }
 
             return reserves;
+        }
+
+        public async Task<InformationViewModel> GetInfoDashboard()
+        {
+            InformationViewModel information = new InformationViewModel();
+            var articleCount = await _article.GetArticles();
+            var collectionCount = await _collection.GetCollections();
+            var finishCount = await _order.GetOrderDetails();
+            var sportCount = await _sport.GetSports();
+            var userCount = await _user.GetUsers();
+            var ticketCount = await _ticket.GetAllTicket();
+            information.TicketCount = ticketCount.Count();
+            information.ArticleCount = articleCount.Count();
+            information.CollectionCount = collectionCount.Count();
+            information.FinishCount = finishCount.Count();
+            information.SportCount = sportCount.Count();
+            information.UserCount = userCount.Count();
+            return information;
         }
     }
 }

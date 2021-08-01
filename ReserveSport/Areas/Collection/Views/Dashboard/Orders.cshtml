@@ -1,0 +1,64 @@
+﻿@model Tuple<List<OrderCollectionViewModel>, int, int>
+@{
+    ViewData["Title"] = "فاکتور ها";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="box-course mt-5">
+    <p class="h4 mb-4 font text-info">سانس های فروش رفته</p>
+    <hr>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+
+                <th scope="col" class="font">شماره فاکتور</th>
+                <th scope="col" class="font">نام مشتری</th>
+                <th scope="col" class="font">شماره مشتری</th>
+                <th scope="col" class="font">کد سانس</th>
+                <th scope="col" class="font">تاریخ فاکتور</th>
+                <th scope="col" class="font">شروع سانس</th>
+                <th scope="col" class="font">اتمام سانس</th>
+                <th scope="col" class="font">تاریخ سانس</th>
+                <th scope="col" class="font">هزینه سانس</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Item1)
+            {
+                <tr>
+                    <td>@item.OrderCode</td>
+                    <td>@item.UserName</td>
+                    <td>@item.PhoneNumber</td>
+                    <td>@item.Code</td>
+                    <td>@item.OrderDate</td>
+                    <td>@item.StartTime</td>
+                    <td>@item.EndTime</td>
+                    <td>@item.DayTime</td>
+                    <td>@item.Price</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="row">
+    <div class="col-12">
+        @if (Model.Item2 > 1)
+        {
+            <div class="dataTables_paginate paging_simple_numbers py-3 d-flex justify-content-center" id="dataTableExample_paginate">
+                <ul class="pagination">
+                    <li class="paginate_button page-item previous @((Model.Item3 - 1 == 0) ? "disabled" : "")" id="dataTableExample_previous">
+                        <a href="/Collection/Orders?page=@(Model.Item3 - 1)&search=@ViewBag.Search&collectionId=@ViewBag.collectionId"  aria-controls="dataTableExample" data-dt-idx="0" tabindex="0" class="page-link">قبلی</a>
+                    </li>
+                    @for (int i = 1; i <= (Model.Item2); i++)
+                    {
+                        <li class="paginate_button page-item @(Model.Item3 == i ? "active" : "")">
+                            <a href="/Collection/Orders?page=@i&search=@ViewBag.Search&collectionId=@ViewBag.collectionId"  aria-controls="dataTableExample" data-dt-idx="1" tabindex="0" class="page-link">@i</a>
+                        </li>
+                    }
+                    <li class="paginate_button page-item @((Model.Item3 + 1 > Model.Item2) ? "disabled" : "")" id="dataTableExample_next">
+                        <a href="/Collection/Orders?page=@(Model.Item3 + 1)&search=@ViewBag.Search&collectionId=@ViewBag.collectionId" aria-controls="dataTableExample" data-dt-idx="4" tabindex="0" class="page-link">بعدی</a>
+                    </li>
+                </ul>
+            </div>
+        }
+    </div>
+</div>

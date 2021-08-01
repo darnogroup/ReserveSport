@@ -1,0 +1,30 @@
+﻿@model InfoRequestViewModel
+@{
+    ViewData["Title"] = "اطلاعات مجموعه";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container">
+    <div class="row">
+        
+        <div class="card text-white bg-primary col-12">
+            <div class="card-header"><strong>نام مجموعه:</strong>@Model.CollectionName</div>
+            <div class="card-body">
+                <span>شماره تماس مجموعه:</span><br />
+                <p>@Model.CollectionPhoneNumber</p><hr />
+                <span>استان:</span><br />
+                <p>@Model.State</p><hr />
+                <span>شهر:</span><br />
+                <p>@Model.City</p><hr />
+                <span>نشانی:</span><br />
+                <p>@Model.CollectionAddress</p><hr />
+                <span>نام مدیر مجموعه:</span><br />
+                <p>@Model.UserName</p><hr />
+                <span>کد ملی مدیر مجموعه:</span><br />
+                <p>@Model.NationalCode</p><hr />
+                <span>شماره تماس مدیر مجموعه:</span><br />
+                <p>@Model.PhoneNumber</p>
+
+            </div>
+        </div>
+    </div>
+</div>

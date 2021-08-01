@@ -24,7 +24,8 @@ namespace Application.Service
         {
             var result = _sport.GetSports().Result;
             List<SportViewModel> models = new List<SportViewModel>();
-            var cities = result.Where(w => w.SportName.Contains(search)).ToList();
+            var cities = result.Where(w => w.SportName.Contains(search))
+                .OrderByDescending(o => o.SportId).ToList();
             int pageNumber = page;
             int pageCount = Page.PageCount(cities.Count, 10);
             int skip = (page - 1) * 10;

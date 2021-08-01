@@ -1,0 +1,65 @@
+﻿@model Tuple<List<CustomerOrderViewModel>, int, int>
+@{
+    ViewData["Title"] = "Orders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="box-course mt-5">
+    <p class="h4 mb-4 font text-info">فاکتور ها</p>
+    <hr>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+              
+            <th scope="col" class="font">شماره فاکتور</th>
+            <th scope="col" class="font">وضعیت فاکتور</th>
+            <th scope="col" class="font">تاریخ فاکتور</th>
+            <th scope="col" class="font">جزئیات فاکتور</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Item1)
+        {
+            <tr>
+                <td>@item.OrderCode</td>
+                <td>
+
+                    @if (item.IsFinally)
+                    {
+                        <span class="badge badge-danger ">بسته</span>
+                    }
+                    else
+                    { <span class="badge badge-success font">باز</span>
+
+                    }
+
+                </td>
+                <td>@item.CreateDate</td>
+                <td><a class="btn btn-sm btn-danger text-white">جزئیات</a></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+<div class="row">
+    <div class="col-12">
+        @if (Model.Item2 > 1)
+        {
+            <div class="dataTables_paginate paging_simple_numbers py-3 d-flex justify-content-center" id="dataTableExample_paginate">
+                <ul class="pagination">
+                    <li class="paginate_button page-item previous @((Model.Item3 - 1 == 0) ? "disabled" : "")" id="dataTableExample_previous">
+                        <a href="/Profile/Orders?page=@(Model.Item3 - 1)" aria-controls="dataTableExample" data-dt-idx="0" tabindex="0" class="page-link">قبلی</a>
+                    </li>
+                    @for (int i = 1; i <= (Model.Item2); i++)
+                    {
+                        <li class="paginate_button page-item @(Model.Item3 == i ? "active" : "")">
+                            <a href="/Profile/Orders?page=@i" aria-controls="dataTableExample" data-dt-idx="1" tabindex="0" class="page-link">@i</a>
+                        </li>
+                    }
+                    <li class="paginate_button page-item @((Model.Item3 + 1 > Model.Item2) ? "disabled" : "")" id="dataTableExample_next">
+                        <a href="/Profile/Orders?page=@(Model.Item3 + 1)" aria-controls="dataTableExample" data-dt-idx="4" tabindex="0" class="page-link">بعدی</a>
+                    </li>
+                </ul>
+            </div>
+        }
+    </div>
+</div>

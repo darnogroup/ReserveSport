@@ -1,0 +1,32 @@
+﻿@model Tuple<List<ItemNavbarTicketViewModel>, int>
+
+<div class="dropdown-menu" aria-labelledby="messageDropdown">
+    <div class="dropdown-header d-flex align-items-center justify-content-between">
+        <p class="mb-0 font-weight-medium">تیکت های امروز</p>
+        <a href="javascript:;" class="text-muted">
+            <small>تعداد کل</small>
+            <span>@Model.Item2</span>
+        </a>
+    </div>
+    <div class="dropdown-body">
+       @foreach (var item in Model.Item1)
+       {
+           <a href="/Admin/Ticket/Show/@item.Id" class="dropdown-item">
+               <div class="figure">
+                   <img src="~/Images/@item.ImageProfile" alt="userr">
+               </div>
+               <div class="content">
+                   <div class="d-flex justify-content-between align-items-center">
+                       <p>@item.UserName</p>
+                       <p class="sub-text text-muted">@item.Time</p>
+                   </div>
+                   <p class="sub-text text-muted">@item.Title</p>
+               </div>
+           </a>
+     
+       }
+    </div>
+    <div class="dropdown-footer d-flex align-items-center justify-content-center">
+        <a href="/Admin/ticket">مشاهده همه</a>
+    </div>
+</div>

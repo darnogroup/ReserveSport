@@ -16,12 +16,15 @@ namespace ReserveSport.Areas.Collection.Controllers
     {
         private readonly ICollectionService _collection;
         private readonly IReserveService _reserve;
+        private readonly IOrderService _order;
 
-        public DashboardController(ICollectionService collection, IReserveService reserve)
+        public DashboardController(ICollectionService collection, IReserveService reserve, IOrderService order)
         {
             _collection = collection;
             _reserve = reserve;
+            _order = order;
         }
+      
 
         [HttpGet]
         [Route("/Collection")]
@@ -101,7 +104,14 @@ namespace ReserveSport.Areas.Collection.Controllers
             var model = _reserve.GetReserve(id, page);
             return View(model);
         }
-    
+        [HttpGet][Route("/Collection/Orders/{search?}")]
+        public IActionResult Orders(int collectionId,string search, int page = 1)
+        {
+            ViewBag.Search = search;
+            ViewBag.collectionId = collectionId;
+            var model = _order.GetOrders(search, collectionId, page);
+            return View(model);
+        }
         public int UserId()
         {
             return Convert.ToInt32(ClaimsPrincipalExtensions.GetUserId(User));

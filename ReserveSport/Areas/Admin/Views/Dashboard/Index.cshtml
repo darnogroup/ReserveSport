@@ -1,0 +1,64 @@
+﻿@model InformationViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-xs-12">
+            <div class="card text-white bg-primary">
+                <div class="card-header">کاربران</div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <strong>تعداد کل:</strong>
+                        @Model.UserCount
+                    </h5>
+                    <p class="card-text"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-xs-12">
+            <div class="card text-white bg-warning">
+                <div class="card-header">مجموعه ها</div>
+                <div class="card-body">
+                    <h5 class="card-title"> <strong>تعداد کل:</strong>@Model.CollectionCount</h5>
+                    <p class="card-text"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-xs-12">
+            <div class="card text-white bg-success">
+                <div class="card-header">سفارشات</div>
+                <div class="card-body">
+                    <h5 class="card-title"> <strong>تعداد کل:</strong>@Model.FinishCount</h5>
+                    <p class="card-text"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-xs-12">
+            <div class="card text-white bg-info">
+                <div class="card-header">ورزش ها</div>
+                <div class="card-body">
+                    <h5 class="card-title"> <strong>تعداد کل:</strong>@Model.SportCount</h5>
+                    <p class="card-text"></p>
+                </div>
+            </div>
+        </div> <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-xs-12">
+            <div class="card text-white bg-danger">
+                <div class="card-header">مقالات</div>
+                <div class="card-body">
+                    <h5 class="card-title"> <strong>تعداد کل:</strong>@Model.ArticleCount</h5>
+                    <p class="card-text"></p>
+                </div>
+            </div>
+        </div> <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-xs-12">
+            <div class="card text-white bg-light">
+                <div class="card-header">تیکت ها</div>
+                <div class="card-body">
+                    <h5 class="card-title"> <strong>تعداد کل:</strong>@Model.TicketCount</h5>
+                    <p class="card-text"></p>
+                </div>
+            </div>
+        </div>
+    </div> @await Component.InvokeAsync("UserVC")
+</div>

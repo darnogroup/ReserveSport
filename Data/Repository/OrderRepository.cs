@@ -55,6 +55,26 @@ namespace Data.Repository
             Save();
         }
 
+        public async Task<IEnumerable<OrderDetailModel>> GetCollectionOrdersItem(int id)
+        {
+            return await _context.OrderDetailModels.Where(w => w.CollectionId == id&&w.Close==true)
+                .Include(i=>i.ReserveModel).Include(i=>i.Order).ThenInclude(t=>t.User).ToListAsync();
+        }
+
+        public async Task<IEnumerable<OrderModel>> GetByUserId(int id)
+        {
+            return await _context.OrderModels.Where(w => w.UserId == id).ToListAsync();
+        }
+
+        public async Task<IEnumerable<OrderDetailModel>> GetOrderDetails()
+        {
+            return await _context.OrderDetailModels.Where(w => w.Close == true)
+                .Include(i => i.Order)
+                .ThenInclude(t => t.User)
+                .Include(i => i.ReserveModel).ThenInclude(t => t.Collection)
+                .ToListAsync();
+        }
+
         #endregion
 
         #region Details
@@ -70,7 +90,7 @@ namespace Data.Repository
 
         public async Task<IEnumerable<OrderDetailModel>> GetOrdersItem(int id)
         {
-            return await _context.OrderDetailModels.Where(w => w.OrderId == id)
+            return await _context.OrderDetailModels.Where(w => w.OrderId == id).Include(i=>i.Order).ThenInclude(t=>t.User)
                 .Include(i => i.ReserveModel).ThenInclude(t=>t.Collection).ToListAsync();
         }
 
@@ -115,6 +135,12 @@ namespace Data.Repository
         {
             return await _context.OrderDetailModels.Include(n => n.Order).CountAsync(n => n.OrderId == orderId && !n.Order.IsFinally);
         }
+
+        public void UpdateDetail(OrderDetailModel model)
+        {
+            _context.Update(model);Save();
+        }
+
         #endregion
         public void Save()
         {

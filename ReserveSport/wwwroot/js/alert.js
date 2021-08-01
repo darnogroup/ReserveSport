@@ -556,3 +556,25 @@ function RemoveOrderItem(id) {
         }
     });
 }
+
+function AcseptCollection(id) {
+    Swal.fire({
+        title: 'آیا مجموعه تائید شود؟',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'تائید',
+        cancelButtonText: 'انصراف'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.get("/Admin/ActiveCollection/" + id);
+            $("#item_" + id).hide('slow');
+            Swal.fire(
+                'عملیات موفقیت آمیز بود',
+                'مجموعه تائید شد',
+                'success'
+            );
+        }
+    });
+}

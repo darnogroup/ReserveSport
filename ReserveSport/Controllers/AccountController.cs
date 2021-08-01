@@ -6,19 +6,24 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Application.Interface;
 using Application.ViewModel.Account;
+using Application.ViewModel.General;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ReserveSport.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IUserService _user;
         private readonly IAccountService _account;
+        private readonly ICollectionService _collection;
 
-        public AccountController(IAccountService account)
+        public AccountController(IUserService user, IAccountService account, ICollectionService collection)
         {
+            _user = user;
             _account = account;
-
+            _collection = collection;
         }
         [HttpGet]
         [Route("/Register")]
@@ -112,12 +117,71 @@ namespace ReserveSport.Controllers
             HttpContext.SignOutAsync();
             return Redirect("/login");
         }
+        public void States()
+        {
+            var list = _collection.GetStateItems().Result;
+            ViewBag.State = new SelectList(list, "StateId", "StateName");
+        }
+        public void City(int id,int option=0)
+        {
+            var list = _collection.GetCityItems(id).Result;
+            ViewBag.city = new SelectList(list, "CityId", "CityName",option);
+        }
 
         [HttpGet]
         [Route("/RegisterCollection")]
         public IActionResult RegisterCollection()
         {
+            States();
             return View();
+        }
+        [HttpPost]
+        [Route("/RegisterCollection")]
+        public IActionResult RegisterCollection(RegisterCollectionViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var state = Convert.ToInt32(model.StateId);
+                var city = Convert.ToInt32(model.CityId); 
+                var checkUser = _user.CheckNumber(model.PhoneNumber).Result;
+                var check = _collection.CheckCollection(model.CollectionName, state, city).Result;
+                if (check || checkUser)
+                {
+                    States();
+                    ViewBag.Error = "اطلاعات مجموعه یا کاربر تکرار است";
+                    var id = Convert.ToInt32(model.StateId);
+                    var select = Convert.ToInt32(model.CityId);
+                    City(id, select);
+                    return View(model);
+                }
+                else
+                {
+                    _account.RegisterCollection(model);
+                    ViewBag.Error = "ثبت با موفقیت انجام شد،بعد از تائید مدیر مجموعه شما می گردد";
+                    return View();
+                }
+            }
+            {
+                States();
+                var id = Convert.ToInt32(model.StateId);
+                var select= Convert.ToInt32(model.CityId);
+                City(id,select);
+                return View(model);
+            }
+        }
+        [HttpGet]
+        [Route("/CityList/{id}")]
+        public JsonResult GetCity(int id)
+        {
+            var list = _collection.GetCityItems(id).Result;
+            list.Add(new ItemCityViewModel()
+            {
+                CityName = "یک گزینه انتخاب کنید",
+                CityId = 0
+            });
+            var result = new SelectList(list.OrderBy(o => o.CityId), "CityId", "CityName");
+
+            return Json(result);
         }
     }
 }

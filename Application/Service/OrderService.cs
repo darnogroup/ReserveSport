@@ -10,6 +10,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.ViewModel.Sms;
 
 namespace Application.Service
 {
@@ -20,14 +21,19 @@ namespace Application.Service
         private readonly IReserveSportRepository _reserveSportRepository;
         private readonly ISportInterface _sportInterface;
         private readonly IWalletRepository _walletRepository;
-        public OrderService(IOrderRepository orderRepository, IReserveInterface reserveInterface
-            , IReserveSportRepository reserveSportRepository, ISportInterface sportInterface, IWalletRepository walletRepository)
+        private readonly ICollectionInterface _collection;
+
+        private readonly ISmsInterface _sms;
+
+        public OrderService(IOrderRepository orderRepository, IReserveInterface reserveInterface, IReserveSportRepository reserveSportRepository, ISportInterface sportInterface, IWalletRepository walletRepository, ICollectionInterface collection, ISmsInterface sms)
         {
             _orderRepository = orderRepository;
             _reserveInterface = reserveInterface;
             _reserveSportRepository = reserveSportRepository;
             _sportInterface = sportInterface;
             _walletRepository = walletRepository;
+            _collection = collection;
+            _sms = sms;
         }
         public async Task<bool> IsExistDetail(int reserveId, int sportId)
         {
@@ -41,15 +47,20 @@ namespace Application.Service
         }
         public void AddToCart(int itemId, int sportId, int userId)
         {
-            var item = _reserveSportRepository.GetReserveSportByIds(itemId, sportId).Result;
-            item.IsReserved = true;
-            _reserveSportRepository.UpdateReserveSport(item);
+            var items = _reserveSportRepository.GetReserveSportByIds(itemId).Result;
+            foreach (var item in items)
+            {
+                item.IsReserved = true; _reserveSportRepository.UpdateReserveSport(item);
+            }
+
+            var result = _reserveSportRepository.GetItemReserveSportById(itemId, sportId).Result;
+
             var order = _orderRepository.GetUserId(userId).Result;
             OrderDetailModel orderDetail = new OrderDetailModel();
-            orderDetail.ReserveId = item.ReserveId;
-            orderDetail.CollectionId = item.Reserve.CollectionId;
-            orderDetail.SportId = item.SportId;
-            orderDetail.Price = Convert.ToInt32(item.Reserve.Price);
+            orderDetail.ReserveId = result.ReserveId;
+            orderDetail.CollectionId = result.Reserve.CollectionId;
+            orderDetail.SportId = result.SportId;
+            orderDetail.Price = Convert.ToInt32(result.Reserve.Price);
             if (order != 0)
             {
                 orderDetail.OrderId = order;
@@ -146,9 +157,15 @@ namespace Application.Service
         public void RemoveItemCart(int id, int sportId)
         {
             var model = _orderRepository.GetDetailById(id).Result;
-            var item = _reserveSportRepository.GetReserveSportByIds(model.ReserveId, sportId).Result;
+            var item = _reserveSportRepository.GetItemReserveSportById(model.ReserveId, sportId).Result;
             item.IsReserved = false;
             _reserveSportRepository.UpdateReserveSport(item);
+            var result = _reserveSportRepository.GetReserveSportByIds(model.ReserveId).Result;
+            foreach (var value in result)
+            {
+                value.IsReserved = false;
+                _reserveSportRepository.UpdateReserveSport(value);
+            }
             _orderRepository.RemoveDetail(model);
         }
         public async Task<OrderViewModel> GetOrderByUserId(int userId)
@@ -181,10 +198,40 @@ namespace Application.Service
             var order = _orderRepository.GetOrderById(orderId).Result;
             order.IsFinally = true;
             _orderRepository.UpdateOrder(order);
+            var items = _orderRepository.GetOrdersItem(orderId).Result;
+            var send = SenderInfo.GetSenderInfo();
+            foreach (var item in items)
+            {
+                item.Close = true;
+                _orderRepository.UpdateDetail(item);
+                FinishOrderViewModel finish =new FinishOrderViewModel();
+                finish.DayTime = item.ReserveModel.DayTime.ToShamsi();
+                finish.StartTime = item.ReserveModel.StartTime;
+                finish.EndTime = item.ReserveModel.EndTime;
+                finish.Name = item.Order.User.UserName;
+                finish.PlaceLocation = item.ReserveModel.Collection.CollectionAddress;
+                finish.PlaceName = item.ReserveModel.Collection.CollectionName;
+                finish.PriceItem = item.Price.ToString("#,0");
+                finish.Receptor = item.Order.User.PhoneNumber;
+                var sms = _sms.GetCustomerSms(1).Result;
+                SmsSender.FinishOrder(finish, send, sms);
+                var admin = _sms.GetAdminSms(1).Result;
+                AdminCollectionViewModel collection=new AdminCollectionViewModel();
+                collection.StartTime = item.ReserveModel.StartTime;
+                collection.DayTime = item.ReserveModel.DayTime.ToShamsi();
+                collection.EndTime = item.ReserveModel.EndTime;
+                collection.Name = item.Order.User.UserName;
+                collection.UserNumber = item.Order.User.PhoneNumber;
+                collection.PriceItem = item.Price.ToString("#,0");
+                collection.PlaceName = item.ReserveModel.Collection.CollectionName;
+                collection.Receptor = item.ReserveModel.Collection.CollectionPhoneNumber;
+                SmsSender.AdminFinishOrder(collection, send, admin);
+            }
             var reserveSports = _reserveSportRepository.GetReserveSportsByOrderId(orderId).Result;
             foreach (var model in reserveSports)
             {
                 model.IsFinished = true;
+                model.IsReserved = true;
                 _reserveSportRepository.UpdateReserveSport(model);
             }
         }
@@ -193,7 +240,8 @@ namespace Application.Service
         {
             var result = _orderRepository.GetAllOrders().Result;
             List<OrdersViewModel> models = new List<OrdersViewModel>();
-            var order = result.Where(w => w.OrderCode.Contains(search)).ToList();
+            var order = result.Where(w => w.OrderCode.Contains(search))
+                .OrderByDescending(o => o.OrderId).ToList();
             int pageNumber = page;
             int pageCount = Page.PageCount(order.Count, 10);
             int skip = (page - 1) * 10;
@@ -215,7 +263,7 @@ namespace Application.Service
         public async Task<IEnumerable<ItemOrdersViewModel>> GetItemOrder(int id)
         {
             var list = await _orderRepository.GetOrdersItem(id);
-            List<ItemOrdersViewModel>models=new List<ItemOrdersViewModel>();
+            List<ItemOrdersViewModel> models = new List<ItemOrdersViewModel>();
             foreach (var item in list)
             {
                 models.Add(new ItemOrdersViewModel()
@@ -248,5 +296,150 @@ namespace Application.Service
             var model = _orderRepository.GetDetailById(id).Result;
             _orderRepository.RemoveDetail(model);
         }
+
+        public Tuple<List<FinishOrdersViewModel>, int, int> GetFinishOrders(string search, int page = 1)
+        {
+            var result = _orderRepository.GetOrderDetails().Result;
+            List<FinishOrdersViewModel> models = new List<FinishOrdersViewModel>();
+            var orders = result.Where(w => w.Order.OrderCode.Contains(search)).ToList();
+            int pageNumber = page;
+            int pageCount = Page.PageCount(orders.Count, 10);
+            int skip = (page - 1) * 10;
+            var orderList = orders.Skip(skip).Take(10).ToList();
+            foreach (var item in orderList)
+            {
+                models.Add(new FinishOrdersViewModel()
+                {
+                    DayTime = item.ReserveModel.DayTime.ToShamsi(),
+                    Code = item.ReserveModel.Code,
+                    CollectionName = item.ReserveModel.Collection.CollectionName,
+                    OrderCode = item.Order.OrderCode,
+                    EndTime = item.ReserveModel.EndTime,
+                    OrderDate = item.Order.OrderCode,
+                    PhoneNumber = item.Order.User.PhoneNumber,
+                    Id = item.DetailId,
+                    Price = item.Price.ToString("#,0"),
+                    StartTime = item.ReserveModel.StartTime,
+                    UserName = item.Order.User.UserName
+                });
+            }
+            return Tuple.Create(models, pageCount, pageNumber);
+        }
+
+        public async Task<IEnumerable<FinishOrdersViewModel>> GetExports(int count = 0)
+        {
+            var result = await _orderRepository.GetOrderDetails();
+            var list = result.OrderByDescending(o => o.DetailId).ToList();
+            var countList = list.Count();
+            List<OrderDetailModel> orderList = new List<OrderDetailModel>();
+            List<FinishOrdersViewModel> models = new List<FinishOrdersViewModel>();
+            if (count != 0)
+            {
+                if (count > countList)
+                {
+                    orderList = list.ToList();
+                }
+                else if (count < countList)
+                {
+                    orderList = list.Take(count).ToList();
+                }
+
+            }
+            else
+            {
+                orderList = list.ToList();
+            }
+            var i = 0;
+            foreach (var item in orderList)
+            {
+                models.Add(new FinishOrdersViewModel()
+                {
+                    DayTime = item.ReserveModel.DayTime.ToShamsi(),
+                    Code = item.ReserveModel.Code,
+                    CollectionName = item.ReserveModel.Collection.CollectionName,
+                    OrderCode = item.Order.OrderCode,
+                    EndTime = item.ReserveModel.EndTime,
+                    OrderDate = item.Order.OrderCode,
+                    PhoneNumber = item.Order.User.PhoneNumber,
+
+                    Price = item.Price.ToString("#,0"),
+                    StartTime = item.ReserveModel.StartTime,
+                    UserName = item.Order.User.UserName,
+                    Id = i + 1,
+                }); i += 1;
+            }
+
+            return models;
+        }
+
+        public async Task<IEnumerable<CustomerOrderViewModel>> GetOrders(int id)
+        {
+            var result = await _orderRepository.GetByUserId(id);
+            List<CustomerOrderViewModel> customer = new List<CustomerOrderViewModel>();
+            var list = result.OrderByDescending(o => o.CreateDate).Take(4).ToList();
+            foreach (var item in list)
+            {
+                customer.Add(new CustomerOrderViewModel()
+                {
+                    OrderCode = item.OrderCode,
+                    CreateDate = item.CreateDate.ToShamsi(),
+                    IsFinally = item.IsFinally
+                });
+            }
+
+            return customer;
+        }
+
+        public Tuple<List<CustomerOrderViewModel>, int, int> GetUserOrderList(int id, int page = 1)
+        {
+            var result = _orderRepository.GetByUserId(id).Result;
+            List<CustomerOrderViewModel> models = new List<CustomerOrderViewModel>();
+            var orders = result.ToList();
+            int pageNumber = page;
+            int pageCount = Page.PageCount(orders.Count, 10);
+            int skip = (page - 1) * 10;
+            var orderList = orders.Skip(skip).Take(10).ToList();
+            foreach (var item in orderList)
+            {
+                models.Add(new CustomerOrderViewModel()
+                {
+                    OrderCode = item.OrderCode,
+                    CreateDate = item.CreateDate.ToShamsi(),
+                    IsFinally = item.IsFinally
+                });
+            }
+            return Tuple.Create(models, pageCount, pageNumber);
+        }
+
+        public Tuple<List<OrderCollectionViewModel>, int, int> GetOrders(string search, int collectionId, int page = 1)
+        {
+
+            var result = _orderRepository.GetCollectionOrdersItem(collectionId).Result;
+            List<OrderCollectionViewModel> models = new List<OrderCollectionViewModel>();
+            var orders = result.Where(w => w.Order.OrderCode.Contains(search)).ToList();
+            int pageNumber = page;
+            int pageCount = Page.PageCount(orders.Count, 10);
+            int skip = (page - 1) * 10;
+            var orderList = orders.Skip(skip).Take(10).ToList();
+            foreach (var item in orderList)
+            {
+                models.Add(new OrderCollectionViewModel()
+                {
+                    Code = item.Order.OrderCode,
+                    DayTime = item.ReserveModel.DayTime.ToShamsi(),
+                    EndTime = item.ReserveModel.EndTime,
+                    Id = item.DetailId,
+                    OrderDate = item.Order.CreateDate.ToShamsi(),
+                    OrderCode = item.Order.OrderCode,
+                    PhoneNumber = item.Order.User.PhoneNumber,
+                    Price = item.Price.ToString("#,0")
+                   ,
+                    StartTime = item.ReserveModel.StartTime,
+                    UserName = item.Order.User.UserName
+                });
+            }
+            return Tuple.Create(models, pageCount, pageNumber);
+        }
     }
+
 }

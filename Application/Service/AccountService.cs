@@ -18,12 +18,14 @@ namespace Application.Service
         private readonly IUserInterface _user;
         private readonly ISmsInterface _sms;
         private readonly ISettingInterface _setting;
+        private readonly ICollectionInterface _collection;
 
-        public AccountService(IUserInterface user, ISmsInterface sms, ISettingInterface setting)
+        public AccountService(IUserInterface user, ISmsInterface sms, ISettingInterface setting, ICollectionInterface collection)
         {
             _user = user;
             _sms = sms;
             _setting = setting;
+            _collection = collection;
         }
         public void Register(RegisterViewModel model)
         {
@@ -45,6 +47,48 @@ namespace Application.Service
 
         }
 
+        public void RegisterCollection(RegisterCollectionViewModel model)
+        {
+            UserModel user = new UserModel();
+            user.PhoneNumber = model.PhoneNumber;
+            user.IsActive = false;
+            user.NationalCode = model.NationalCode;
+            user.RegisterDate = DateTime.Now;
+            user.Role = RoleEnum.مدیرمجموعه;
+            user.UserName = model.UserName;
+            user.UserImage = "Avatar.jpg";
+            user.ActiveCode = CreateRandom.Number().ToString();
+            user.Password = CreateRandom.Number().ToString();
+            _user.Create(user);
+            UserWalletModel wallet = new UserWalletModel();
+            wallet.UserId = user.UserId;
+            wallet.WalletInventory = "0";
+            _user.CreateWallet(wallet);
+            /************************/
+            CollectionModel collection = new CollectionModel();
+            collection.CollectionName = model.CollectionName;
+            collection.CityId = Convert.ToInt32(model.CityId);
+            collection.CollectionPhoneNumber = model.CollectionPhoneNumber;
+            collection.CollectionAddress = model.CollectionAddress;
+            collection.UserId = user.UserId;
+            collection.Active = false;
+            collection.StateId = Convert.ToInt32(model.StateId);
+            collection.Image = "noImage.jpg";
+            collection.LicensePath= "noImage.jpg";
+            _collection.Create(collection);
+            
+            FinancialModel financial = new FinancialModel()
+            {
+                CollectionId = collection.CollectionId,
+                FinancialCard = "",
+                FinancialNumber = "",
+                FinancialPrice = "0",
+                FinancialSheba = ""
+
+            };
+            _collection.CreateFinancial(financial);
+        }
+
         public async Task<bool> ExistNumber(string number)
         {
             var result = await _user.CheckPhoneNumber(number);
@@ -57,7 +101,7 @@ namespace Application.Service
             if (user != null)
             {
                 var change = CreateRandom.Number().ToString();
-                var info = GetSenderInfo();
+                var info = SenderInfo.GetSenderInfo();
                 var text = _sms.GetGeneralSms(1).Result;
                 var message = text.TemporaryText + change;
                 SmsSender.SendSms(user.PhoneNumber, message, info);
@@ -66,14 +110,14 @@ namespace Application.Service
             }
             //SendSMS
         }
-        public Sender GetSenderInfo()
-        {
-            var setting = _setting.GetSetting(1).Result;
-            Sender sender = new Sender();
-            sender.Number = setting.SmsNumberSender;
-            sender.Api = setting.SmsApiCode;
-            return sender;
-        }
+        //public Sender GetSenderInfo()
+        //{
+        //    var setting = _setting.GetSetting(1).Result;
+        //    Sender sender = new Sender();
+        //    sender.Number = setting.SmsNumberSender;
+        //    sender.Api = setting.SmsApiCode;
+        //    return sender;
+        //}
         public async Task<ClaimViewModel> GetClaim(LoginViewModel model)
         {
             var info = await _user.GetUserLoginInfo(model.Number, model.Password);

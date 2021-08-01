@@ -24,7 +24,7 @@ namespace Application.Service
         {
             var result = _comment.GetComments()
                 .Result;            List<CommentViewModel> models = new List<CommentViewModel>();
-            var commentList = result.ToList();
+            var commentList = result.OrderByDescending(o => o.CommentId).ToList();
             int pageNumber = page;
             int pageCount = Page.PageCount(commentList.Count, 10);
             int skip = (page - 1) * 10;

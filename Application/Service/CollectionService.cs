@@ -7,6 +7,8 @@ using Application.Interface;
 using Application.Other;
 using Application.ViewModel.Collection;
 using Application.ViewModel.General;
+using Application.ViewModel.Request;
+using Application.ViewModel.Sms;
 using Application.ViewModel.State;
 using Domin.Entity;
 using Domin.Enum;
@@ -23,9 +25,10 @@ namespace Application.Service
         private readonly ISportInterface _sport;
         private readonly IReserveSportRepository _reserveSport;
         private readonly IReserveInterface _reserve;
+        private readonly ISettingInterface _setting;
+        private readonly ISmsInterface _sms;
 
-        public CollectionService(ICollectionInterface collection, ICityInterface city, IStateInterface state,
-            IUserInterface user, ISportInterface sport, IReserveSportRepository reserveSport,IReserveInterface reserve)
+        public CollectionService(ICollectionInterface collection, ICityInterface city, IStateInterface state, IUserInterface user, ISportInterface sport, IReserveSportRepository reserveSport, IReserveInterface reserve, ISettingInterface setting, ISmsInterface sms)
         {
             _collection = collection;
             _city = city;
@@ -34,12 +37,15 @@ namespace Application.Service
             _sport = sport;
             _reserveSport = reserveSport;
             _reserve = reserve;
+            _setting = setting;
+            _sms = sms;
         }
         public Tuple<List<CollectionViewModel>, int, int> GetCollections(string search = "", int page = 1)
         {
             var result = _collection.GetCollections().Result;
             List<CollectionViewModel> models = new List<CollectionViewModel>();
-            var collection = result.Where(w => w.CollectionName.Contains(search)).ToList();
+            var collection = result.Where(w => w.CollectionName.Contains(search))
+                .OrderByDescending(o => o.CollectionId).ToList();
             int pageNumber = page;
             int pageCount = Page.PageCount(collection.Count, 10);
             int skip = (page - 1) * 10;
@@ -87,7 +93,7 @@ namespace Application.Service
             collection.CollectionName = model.CollectionName;
             collection.CityId = Convert.ToInt32(model.CityId);
             collection.CollectionPhoneNumber = model.CollectionPhoneNumber;
-            collection.CollectionAddress = model.CollectionAddress;s
+            collection.CollectionAddress = model.CollectionAddress;
             collection.UserId = Convert.ToInt32(model.UserId);
             collection.Active = model.Active;
             collection.StateId = Convert.ToInt32(model.StateId);
@@ -429,6 +435,74 @@ namespace Application.Service
         {
             var model = _collection.GetBannerById(id).Result;
             _collection.RemoveBanner(model);
+        }
+
+        public Tuple<List<RequestViewModel>, int, int> GetRequestList(string search = "", int page = 1)
+        {
+            var list = _collection.GetRequests().Result;
+            List<RequestViewModel> models = new List<RequestViewModel>();
+            var request = list.Where(w => w.CollectionName.Contains(search)).ToList();
+            int pageNumber = page;
+            int pageCount = Page.PageCount(request.Count, 10);
+            int skip = (page - 1) * 10;
+            var requestList = request.Skip(skip).Take(10).ToList();
+            foreach (var item in requestList)
+            {
+                models.Add(new RequestViewModel()
+                {
+
+                    CollectionName = item.CollectionName,
+                    City = item.City.CityName,
+                    CollectionId = item.CollectionId,
+                    CollectionPhoneNumber = item.CollectionPhoneNumber,
+                    UserCode = item.User.NationalCode,
+                    State = item.State.StateName,
+                    UserName = item.User.UserName
+                });
+            }
+            return Tuple.Create(models, pageCount, pageNumber);
+        }
+
+        public async Task<InfoRequestViewModel> GetInfoRequest(int id)
+        {
+            var model = await _collection.GetById(id);
+            InfoRequestViewModel info = new InfoRequestViewModel();
+            info.City = model.City.CityName;
+            info.State = model.State.StateName;
+            info.UserName = model.User.UserName;
+            info.CollectionPhoneNumber = model.CollectionPhoneNumber;
+            info.CollectionAddress = model.CollectionAddress;
+            info.NationalCode = model.User.NationalCode;
+            info.PhoneNumber = model.User.PhoneNumber;
+            info.CollectionName = model.CollectionName;
+            return info;
+        }
+
+        public void Active(int id)
+        {
+            var model = _collection.GetById(id).Result;
+            model.Active = true;
+            _collection.Update(model);
+            var user = _user.GetUserById(model.UserId).Result;
+            user.IsActive = true;
+            _user.Update(user);
+            //*****************************//
+            var change = CreateRandom.Number().ToString();
+            var info = GetSenderInfo();
+            var text = _sms.GetGeneralSms(1).Result;
+            var message = text.ActiveCollection;
+            SmsSender.ActiveCollection(user.PhoneNumber, info, message);
+            user.Password = change;
+            _user.Update(user);
+        }
+
+        public Sender GetSenderInfo()
+        {
+            var setting = _setting.GetSetting(1).Result;
+            Sender sender = new Sender();
+            sender.Number = setting.SmsNumberSender;
+            sender.Api = setting.SmsApiCode;
+            return sender;
         }
     }
 }

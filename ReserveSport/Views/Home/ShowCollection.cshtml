@@ -78,48 +78,48 @@
     <script src="~/table/vendor/select2/select2.min.js"></script>
     <!--===============================================================================================-->
     <script src="~/table/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-    <script>
-        function AddToCart(id,sportId) {
-            $.ajax({
-                url: "/AddToCart", //1
-                data: {
-                    id: id,
-                    sportId: sportId
-                }, //2
-                type: "Get", //3
-                datatype: "Json", //4
-                beforeSend: function () {
-                    //5
-                },
-                success: function (result) {
-                    if (result == 2) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'ابتدا وارد سایت شوید',
-                            confirmButtonText: 'متوجه شدم',
-                            footer: '<a href="/Login">ورود به سایت</a>'
-                        });
-                    }
-                    if (result == 1) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'در سبد خرید شما اضافه شد',
-                            confirmButtonText: 'ممنون',
-                        });
-                        location.reload();
-                    }
-                    if (result == 3) {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'این سانس قبلا رزرو شده است اما به تایید نهایی نرسیده است',
-                            confirmButtonText: 'باشه',
-                        });
-                    }
-                },
-                error: function () { //7
+       <script>
+            function AddToCart(id,sportId) {
+                $.ajax({
+                    url: "/AddToCart", //1
+                    data: {
+                        id: id,
+                        sportId: sportId
+                    }, //2
+                    type: "Get", //3
+                    datatype: "Json", //4
+                    beforeSend: function () {
+                        //5
+                    },
+                    success: function (result) {
+                        if (result == 2) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'ابتدا وارد سایت شوید',
+                                confirmButtonText: 'متوجه شدم',
+                                footer: '<a href="/Login">ورود به سایت</a>'
+                            });
+                        }
+                        if (result == 1) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'در سبد خرید شما اضافه شد',
+                                confirmButtonText: 'ممنون',
+                            });
+                            location.reload();
+                        }
+                        if (result == 3) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'این سانس قبلا رزرو شده است اما به تایید نهایی نرسیده است',
+                                confirmButtonText: 'باشه',
+                            });
+                        }
+                    },
+                    error: function () { //7
 
-                }
-            });
-        }
+                    }
+                });
+            }
     </script>
 } 

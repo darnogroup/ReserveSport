@@ -10,6 +10,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="NPOI" Version="2.2.1" />
+    <PackageReference Include="Quartz" Version="3.3.2" />
     <PackageReference Include="RestSharp" Version="106.11.7" />
   </ItemGroup>
 
@@ -25,6 +27,7 @@
     <Folder Include="Areas\Collection\Models\" />
     <Folder Include="Areas\Customer\Data\" />
     <Folder Include="Areas\Customer\Models\" />
+    <Folder Include="Areas\Customer\Views\Shared\" />
   </ItemGroup>
 
   <ItemGroup>

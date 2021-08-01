@@ -18,9 +18,24 @@ namespace Data.Repository
         {
             _context = context;
         }
+
+        public async Task<int> GetCollectionId(int id)
+        {
+            return await _context.Collection.Where(w => w.UserId == id).Select(s => s.CollectionId)
+                .SingleOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<CollectionModel>> GetRequests()
+        {
+            return await _context.Collection
+          .Where(w=>w.Active==false).Include(i => i.City)
+                .Include(i => i.State)
+          .Include(i=>i.User).ToListAsync();
+        }
+
         public async Task<IEnumerable<CollectionModel>> GetCollections()
         {
-            return await _context.Collection.Include(i=>i.City)
+            return await _context.Collection.Where(w=>w.Active==true).Include(i=>i.City)
                 .Include(i=>i.State).ToListAsync();
         }
 

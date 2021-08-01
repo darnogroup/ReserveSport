@@ -23,7 +23,8 @@ namespace Application.Service
         {
             var result = _article.GetArticles().Result;
             List<ArticleViewModel> models = new List<ArticleViewModel>();
-            var article = result.Where(w => w.ArticleTitle.Contains(search)).ToList();
+            var article = result.Where(w => w.ArticleTitle.Contains(search))
+                .OrderByDescending(o=>o.ArticleId).ToList();
             int pageNumber = page;
             int pageCount = Page.PageCount(article.Count, 10);
             int skip = (page - 1) * 10;

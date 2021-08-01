@@ -44,10 +44,10 @@ namespace ReserveSport.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 _orderService.AddToCart(id,sportId, UserId());
-                return Json("1");
+              return Json("1");
             }
             //3=Please Login To Site
-            return Json("2");
+          return Json("2");
         }
         private int UserId()
         {

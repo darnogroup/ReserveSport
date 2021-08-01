@@ -23,7 +23,8 @@ namespace Application.Service
         {
             var result = _city.GetCities(stateId).Result;
             List<CityViewModel> models = new List<CityViewModel>();
-            var cities = result.Where(w => w.CityName.Contains(search)).ToList();
+            var cities = result.Where(w => w.CityName.Contains(search))
+                .OrderByDescending(o => o.CityId).ToList();
             int pageNumber = page;
             int pageCount = Page.PageCount(cities.Count, 10);
             int skip = (page - 1) * 10;

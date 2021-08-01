@@ -1,0 +1,52 @@
+﻿@model IEnumerable<UserViewModel>
+<div class="row mt-4">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">جدید ترین کاربران</h6>
+               
+                <div class="table-responsive pt-3">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                   نام کاربر
+                                </th>
+                                <th>
+                                   نقش
+                                </th>
+                                <th>
+                                   شماره تماس
+                                </th>
+                                <th>
+تاریخ ثبت نام                                </th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                  @foreach (var item in Model)
+                  {
+                      <tr>
+                          <td>
+                              @item.UserName
+                          </td>
+                          <td>
+                             @item.Role
+                          </td>
+                          <td>
+                              @item.PhoneNumber
+                          </td>
+                          <td>
+                            @item.RegisterDate
+                          </td>
+                         
+                      </tr>
+                           
+                  }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

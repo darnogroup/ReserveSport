@@ -41,11 +41,32 @@ namespace Application.Service
             return items;
         }
 
+        public Tuple<List<ItemNavbarTicketViewModel>, int> GetNavbarItem()
+        {
+            var resultAction = _ticket.GetAllTicket().Result;
+            var list = resultAction.ToList();
+            List<ItemNavbarTicketViewModel>items=new List<ItemNavbarTicketViewModel>();
+            int count = list.Count(w => w.TicketDate.Date == DateTime.Now.Date);
+            var result = list.Where(w => w.TicketDate.Date == DateTime.Now.Date).Take(8).ToList();
+            foreach (var item in result)
+            {
+                items.Add(new ItemNavbarTicketViewModel()
+                {
+                    ImageProfile = item.User.UserImage,
+                    Title = item.TicketTitle,
+                    Time = item.TicketDate.ToShamsi(),
+                    UserName = item.User.UserName,Id = item.TicketId
+                });
+            }
+
+            return Tuple.Create(items, count);
+        }
+
         public  Tuple<List<TicketItemViewModel>, int, int> GetAllTickets(string search = "", int page = 1)
         {
             var ticket =  _ticket.GetAllTicket().Result;
             List<TicketItemViewModel> items = new List<TicketItemViewModel>();
-            var ticketList = ticket.Where(w => w.TicketTitle.Contains(search)).ToList();
+            var ticketList = ticket.Where(w => w.TicketTitle.Contains(search)).OrderByDescending(o => o.TicketId).ToList();
             int pageNumber = page;
             int pageCount = Page.PageCount(ticketList.Count, 10);
             int skip = (page - 1) * 10;

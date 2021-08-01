@@ -44,7 +44,7 @@
                     <li><a asp-controller="Dashboard" asp-action="Reserve" asp-route-id="@Model.CollectionId"><strong class="font text-center">افزودن سانس</strong></a><br></li>
                     <li><a asp-controller="Dashboard"  asp-action="Reserves" asp-route-id="@Model.CollectionId"><strong class="font text-center">لیست سانس ها</strong></a><br></li>
 
-                    <li><strong class="font text-center">سانس های فروش رفته</strong><br></li>
+                    <li><a asp-controller="Dashboard" asp-action="Orders" asp-route-collectionId="@Model.CollectionId"><strong class="font text-center">سانس های فروش رفته</strong></a><br></li>
                     <li><strong class="font text-center">تسویه حساب</strong><br></li>
                 </ul>
             </div>

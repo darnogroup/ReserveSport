@@ -2,55 +2,57 @@
 <div class="table-responsive text-nowrap font">
     <table class="table font">
         <thead>
-            <tr>
-                <th>تاریخ</th>
-                <th>ساعت شروع سانس</th>
-                <th>ساعت پایان سانس</th>
-                <th>قیمت</th>
-                <th>ورزش ها</th>
-            </tr>
+        <tr>
+            <th>تاریخ</th>
+            <th>ساعت شروع سانس</th>
+            <th>ساعت پایان سانس</th>
+            <th>قیمت</th>
+            <th>ورزش ها</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
-            {
+        @foreach (var item in Model)
+        {
 
-                <tr>
-                    <td>@item.DayTime</td>
-                    <td>@item.StartTime</td>
-                    <td>@item.EndTime</td>
-                    <td>
-                        @item.Price.ToString("0,#")
-                        <strong>تومان</strong>
-                    </td>
-                    <td>
-                        <a class="btn btn-outline-primary btn-sm" onclick="$('#sports-@item.Id').toggle()">انتخاب سانس</a>
-                    </td>
-                </tr>
-                <tr style="display:none" id="sports-@item.Id">
-                    <td colspan="5">
-                        <ul>
-                            @foreach (var sport in item.Sports)
-                            {
-                                <li class="d-flex justify-content-around mb-2">
-                                    <span>@sport.SportName</span>
-                                    @if (sport.IsFinished)
-                                    {
-                                        <a class="btn btn-secondary btn-sm text-white" style="width:135px">رزرو انجام شده</a>
-                                    }
-                                    else if (sport.IsReserved)
-                                    {
-                                        <a class="btn btn-danger btn-sm text-white" style="width:135px">امکان رزرو وجود ندارد</a>
-                                    }
-                                    else
-                                    {
-                                        <a class="btn btn-success btn-sm text-white" onclick="AddToCart('@item.Id', '@sport.SportId')" style="width:135px">افزودن به سبد خرید</a>
-                                    }
-                                </li><hr/>
-                            }
-                        </ul>
-                    </td>
-                </tr>
-            }
+            <tr>
+                <td>@item.DayTime</td>
+                <td>@item.StartTime</td>
+                <td>@item.EndTime</td>
+                <td>
+                    @item.Price.ToString("0,#")
+                    <strong>تومان</strong>
+                </td>
+                <td>
+                    <a class="btn btn-outline-primary btn-sm" onclick="$('#sports-@item.Id').toggle()">انتخاب سانس</a>
+                </td>
+            </tr>
+            <tr style="display:none" id="sports-@item.Id">
+                <td colspan="5">
+                    <ul>
+                        @foreach (var sport in item.Sports)
+                        {
+                            <li class="d-flex justify-content-around mb-2">
+                                <span>@sport.SportName</span>
+                                @if (sport.IsFinished)
+                                {
+                                    <a class="btn btn-secondary btn-sm text-white" style="width:135px">رزرو انجام شده</a>
+                                }
+                                else if (sport.IsReserved)
+                                {
+                                    <a class="btn btn-danger btn-sm text-white" style="width:135px">امکان رزرو وجود ندارد</a>
+                                }
+                                else
+                                { 
+
+                                    <a class="btn btn-success btn-sm text-white" onclick="AddToCart('@item.Id','@sport.SportId')" style="width:135px">افزودن به سبد خرید</a>
+                                }
+                            </li><hr/>
+                        }
+                    </ul>
+                </td>
+            </tr>
+        }
         </tbody>
     </table>
 </div>
+

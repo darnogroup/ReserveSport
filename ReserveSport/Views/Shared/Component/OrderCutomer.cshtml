@@ -1,0 +1,38 @@
+﻿@model IEnumerable<CustomerOrderViewModel>
+<div class="box-course mt-5">
+    <p class="h4 mb-4 font text-info">آخرین فاکتور ها</p>
+    <hr>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+              
+                <th scope="col" class="font">شماره فاکتور</th>
+                <th scope="col" class="font">وضعیت فاکتور</th>
+                <th scope="col" class="font">تاریخ فاکتور</th>
+                <th scope="col" class="font">جزئیات فاکتور</th>
+            </tr>
+        </thead>
+        <tbody>
+          @foreach (var item in Model)
+          {
+              <tr>
+                  <td>@item.OrderCode</td>
+                  <td>
+
+                      @if (item.IsFinally)
+                      {
+                          <span class="badge badge-danger ">بسته</span>
+                      }
+                      else
+                      { <span class="badge badge-success font">باز</span>
+
+                      }
+
+                  </td>
+                  <td>@item.CreateDate</td>
+                  <td><a class="btn btn-sm btn-danger text-white">جزئیات</a></td>
+              </tr>
+          }
+        </tbody>
+    </table>
+</div>

@@ -200,7 +200,7 @@ namespace Application.Service
             thank.DescriptionText = model.DescriptionText;
             thank.NameText = model.NameText;
             thank.ThankText = model.ThankText;
-            _sms.CreateThank(thank);
+            _sms.UpdateThank(thank);
         }
     }
 }

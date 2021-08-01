@@ -1,0 +1,130 @@
+﻿@model Tuple<List<FinishOrdersViewModel>, int, int>
+@{
+    ViewData["Title"] = "سانس های رزرو شده";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">لیست سانس های رزرو شده</h6>
+                <div class="row justify-content-between">
+                    <div class="col-md-6 mb-1 mb-md-0">
+                        <div class="btn-group" role="group">
+                            <button id="btnGroupDrop1" type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                               خروجی اکسل
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                <a class="dropdown-item" href="/GetExcel/100">100 رکورد آخر</a>
+                                <a class="dropdown-item"  href="/GetExcel/200">200 رکورد آخر</a>
+                                <a class="dropdown-item"  href="/GetExcel/0">همه رکوردها</a>
+                            </div>
+                        </div>                    </div>
+                    <form class="col-md-4 position-relative" asp-controller="Order" asp-action="Finish" method="get">
+
+
+
+                        <input name="search" class="form-control mr-auto" placeholder="جستجو  مجموعه ها..." style="padding-left: 65px">
+                        <button type="submit" class="btn btn-primary ml-2 position-absolute" style="left: 5px; top: 0; height: 100%; border-radius: 2px;">
+                            ثبت
+                        </button>
+
+
+                    </form>
+
+                </div>
+                <div class="table-responsive pt-3">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    نام مجموعه
+                                </th>
+                                <th>
+                                    ساعت شروع سانس
+                                </th>
+                                <th>
+                                    ساعت اتمام سانس
+                                </th>
+                                <th>
+                                    تاریخ سانس
+                                </th>
+                                <th>
+                                    هزینه سانس
+                                </th>
+                                <th>
+                                    کد سانس
+                                </th>
+                                <th>
+                                    نام کاربر
+                                </th>
+                                <th>
+                                    شماره تماس
+                                </th>
+                                <th>
+                                    شماره فاکتور
+                                </th>
+                                <th>
+                                    تاریخ فاکتور
+                                </th>
+                                <th>
+                                    عملیات
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Item1)
+                            {
+                            <tr id="item_@item.Id">
+                                <td>@item.CollectionName</td>
+                                <td>@item.StartTime</td>
+                                <td>@item.EndTime</td>
+                                <td>@item.DayTime</td>
+                                <td>@item.Price<strong>هزار تومان</strong></td>
+                                <td>@item.Code</td>
+                                <td>@item.UserName</td>
+                                <td>@item.PhoneNumber</td>
+                                <td>@item.OrderCode</td>
+                                <td>@item.OrderDate</td>
+                                <td>
+                                    <div class="dropdown mb-2">
+                                        <button class="btn p-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal icon-lg text-muted pb-3px"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                        
+                                            <button onclick="RemoveArticle('@item.Id')" class="dropdown-item d-flex align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash icon-sm ml-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg> <span class="">پاک کردن سانس</span></button>
+
+                                        </div>
+
+                                    </div>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                    @if (Model.Item2 > 1)
+                    {
+                        <div class="dataTables_paginate paging_simple_numbers py-3 d-flex justify-content-center" id="dataTableExample_paginate">
+                            <ul class="pagination">
+                                <li class="paginate_button page-item previous @((Model.Item3-1 == 0) ? "disabled" : "")" id="dataTableExample_previous">
+                                    <a href="/Admin/Finish-Orders?page=@(Model.Item3-1)&search=@ViewBag.Search" aria-controls="dataTableExample" data-dt-idx="0" tabindex="0" class="page-link">قبلی</a>
+                                </li>
+                                @for (int i = 1; i <= (Model.Item2); i++)
+                                {
+                                    <li class="paginate_button page-item @(Model.Item3==i?"active":"")">
+                                        <a href="/Admin/Finish-Orders?page=@i&search=@ViewBag.Search" aria-controls="dataTableExample" data-dt-idx="1" tabindex="0" class="page-link">@i</a>
+                                    </li>
+                                }
+                                <li class="paginate_button page-item @((Model.Item3+1 > Model.Item2) ? "disabled" : "")" id="dataTableExample_next">
+                                    <a href="/Admin/Finish-Orders?page=@(Model.Item3+1)&search=@ViewBag.Search" aria-controls="dataTableExample" data-dt-idx="4" tabindex="0" class="page-link">بعدی</a>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -24,6 +24,9 @@ namespace Domin.Interface
 
         #region Details
 
+        Task<IEnumerable<OrderDetailModel>> GetCollectionOrdersItem(int id);
+        Task<IEnumerable<OrderModel>> GetByUserId(int id);
+        Task<IEnumerable<OrderDetailModel>> GetOrderDetails();
         Task<bool> IsExistDetail(int reserveId, int sportId); 
         Task<bool> IsExistDetail(DateTime date, int collectionId, int sportId); 
         void CreateDetail(OrderDetailModel detail);
@@ -35,7 +38,7 @@ namespace Domin.Interface
         Task<ReserveModel> GetReserveByInfos(int collectionId,string reserve,string reserveTime);
         Task<int> DetailsCountByOrderId(int orderId);
         Task<int> GetDetailsCount(int orderId);
-
+        void UpdateDetail(OrderDetailModel model);
         #endregion
         void Save();
 

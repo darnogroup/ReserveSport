@@ -9,6 +9,8 @@ namespace Domin.Interface
 {
     public interface ICollectionInterface
     {
+        Task<int> GetCollectionId(int id);
+        Task<IEnumerable<CollectionModel>> GetRequests();
         Task<IEnumerable<CollectionModel>> GetCollections();
         Task<CollectionModel> GetById(int id);
         Task<IEnumerable<CollectionModel>> GetTrashCollections();

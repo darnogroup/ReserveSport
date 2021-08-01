@@ -28,7 +28,8 @@ namespace Application.Service
         {
             var result = _user.GetUsers().Result;
             List<UserViewModel> models = new List<UserViewModel>();
-            var users = result.Where(w => w.UserName.Contains(search) || w.PhoneNumber.Contains(search)).ToList();
+            var users = result.Where(w => w.UserName.Contains(search) || w.PhoneNumber.Contains(search))
+                .OrderByDescending(o => o.UserId).ToList();
             int pageNumber = page;
             int pageCount = Page.PageCount(users.Count, 10);
             int skip = (page - 1) * 10;
@@ -202,6 +203,28 @@ namespace Application.Service
         {
             var collection = await _collection.GetCollection(id);
             return collection;
+        }
+
+        public async Task<IEnumerable<UserViewModel>> GetLastUsers()
+        {
+            var result = await _user.GetUsers();
+            var userList = result.OrderByDescending(o => o.UserId).Take(10).ToList();
+            List<UserViewModel>models=new List<UserViewModel>();
+            foreach (var item in userList)
+            {
+                models.Add(new UserViewModel()
+                {
+                    IsActive = item.IsActive,
+                    PhoneNumber = item.PhoneNumber,
+                    RegisterDate = item.RegisterDate.ToShamsi(),
+                    UserId = item.UserId,
+                    UserImage = item.UserImage,
+                    UserName = item.UserName,
+                    Role = ConvertRole(item.Role)
+                });
+            }
+
+            return models;
         }
 
         public string ConvertRole(RoleEnum role)

@@ -21,7 +21,12 @@ namespace Application.Interface
         Task<OrderViewModel> GetOrderById(int orderId);
         void UpdateOrder(int orderId);
         Tuple<List<OrdersViewModel>,int,int> GetFinishedOrders(string search = "", int page = 1);
-        Task<IEnumerable<ItemOrdersViewModel>> GetItemOrder(int id);
+        Task<IEnumerable<ItemOrdersViewModel>> GetItemOrder(int id); 
         void RemoveOrder(int id); void RemoveOrderItem(int id);
+        Tuple<List<FinishOrdersViewModel>, int, int> GetFinishOrders(string search, int page = 1);
+        Task<IEnumerable<FinishOrdersViewModel>> GetExports(int count=0);
+        Task<IEnumerable<CustomerOrderViewModel>> GetOrders(int id);
+        Tuple<List<CustomerOrderViewModel>, int, int> GetUserOrderList(int id,int page=1);
+        Tuple<List<OrderCollectionViewModel>, int, int> GetOrders(string search, int collectionId, int page = 1);
     }
 }

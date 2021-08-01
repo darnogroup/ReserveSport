@@ -12,6 +12,10 @@ using Data.Context;
 using IOC;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Quartz;
+using Quartz.Impl;
+using Quartz.Spi;
+using ReserveSport.Jobs;
 
 namespace ReserveSport
 {
@@ -42,6 +46,29 @@ namespace ReserveSport
                 option.ExpireTimeSpan = TimeSpan.FromMinutes(43200);
             });
             DependencyInjection(services);
+
+            #region  QUartz
+            services.AddSingleton<IJobFactory, SingleJob>();
+            services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+            services.AddSingleton<RemoveCartItem>();
+            services.AddSingleton<SendSmsEndTime>();
+            services.AddSingleton<SendSmsTime>();
+            services.AddSingleton(new HostJob(jobType: typeof(RemoveCartItem), cronExpression:
+                "0 0 12 * * ?"
+
+            ));
+            services.AddSingleton(new HostJob(jobType: typeof(SendSmsEndTime), cronExpression:
+                "0 0 12 * * ?"
+
+            ));
+            services.AddSingleton(new HostJob(jobType: typeof(SendSmsTime), cronExpression:
+                "0 0 12 * * ?"
+
+            ));
+            services.AddHostedService<JobHostService>();
+
+
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -25,14 +25,15 @@ namespace ReserveSport.Controllers
         private readonly IOrderService _orderService;
         private readonly ICommentService _comment;
         private readonly ISettingService _setting;
-
-        public HomeController(IHomeService home, ISettingService setting,ICommentService comment, ICollectionService collection,
+        private readonly IArticleService _article;
+        public HomeController(IHomeService home,IArticleService article, ISettingService setting,ICommentService comment, ICollectionService collection,
             IOrderService orderService)
         {
             _home = home;
             _comment = comment;
                 _setting = setting;
             _collection = collection;
+            _article = article;
             _orderService = orderService;
         }
 
@@ -344,6 +345,15 @@ namespace ReserveSport.Controllers
             comment.CommentBody = body;
             comment.UserId= int.Parse(User.GetUserId());
             _comment.Create(comment);
+        }
+
+        [HttpGet]
+        [Route("/Articles")]
+        public IActionResult Articles(int page = 1)
+        {
+            string text = "";
+            var model = _article.GetArticles(text,page);
+            return View(model);
         }
     }
 

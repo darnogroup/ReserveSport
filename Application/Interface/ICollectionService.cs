@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.ViewModel.Collection;
 using Application.ViewModel.General;
+using Application.ViewModel.Request;
 
 namespace Application.Interface
 {
@@ -31,5 +32,8 @@ namespace Application.Interface
         Task<List<ImageViewModel>> GetImages(int id);
         void AddImage(AddImageViewModel model);
         void RemoveImage(int id);
+        Tuple<List<RequestViewModel>, int, int> GetRequestList(string search = "", int page = 1);
+        Task<InfoRequestViewModel> GetInfoRequest(int id);
+        void Active(int id);
     }
 }

@@ -22,5 +22,6 @@ namespace Application.Interface
         void Delete(int id);
         Task<ProfileViewModel> GetProfile(int id);
         Task<bool> GetCollectionId(int id);
+        Task<IEnumerable<UserViewModel>> GetLastUsers();
     }
 }
