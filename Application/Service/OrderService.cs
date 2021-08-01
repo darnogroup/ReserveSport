@@ -89,10 +89,10 @@ namespace Application.Service
             _reserveSportRepository.UpdateReserveSport(item);
             var order = _orderRepository.GetUserId(userId).Result;
             OrderDetailModel orderDetail = new OrderDetailModel();
-            orderDetail.ReserveId = item.ReserveId;
-            orderDetail.CollectionId = item.Reserve.CollectionId;
-            orderDetail.SportId = item.SportId;
-            orderDetail.Price = Convert.ToInt32(item.Reserve.Price);
+            orderDetail.ReserveId = itemReserve.ReserveId;
+            orderDetail.CollectionId = itemReserve.Reserve.CollectionId;
+            orderDetail.SportId = itemReserve.SportId;
+            orderDetail.Price = Convert.ToInt32(itemReserve.Reserve.Price);
             if (order != 0)
             {
                 orderDetail.OrderId = order;

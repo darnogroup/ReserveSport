@@ -19,11 +19,12 @@
                         @ViewBag.Warning
                     </div>
                 }
-                <div class="py-2">
-                    <h5>کیف پول : <span>@Model.Item2.WalletMoney</span> تومان</h5>
-                </div>
+
                 @if (Model.Item2.DetailsCount != 0)
                 {
+                    <div class="py-2">
+                        <h5>کیف پول : <span>@Model.Item2.WalletMoney</span> تومان</h5>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-light table-hover">
                             <thead>
