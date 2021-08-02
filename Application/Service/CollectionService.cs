@@ -370,10 +370,20 @@ namespace Application.Service
             _collection.Update(model);
         }
 
-        public void Delete(int id)
+        public bool Delete(int id)
         {
             var model = _collection.GetTrashById(id).Result;
-            _collection.Delete(model);
+            try
+            {
+                _collection.Delete(model);
+                Image.RemoveImage(model.Image);
+                Image.RemoveImage(model.LicensePath);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         public void EditFinancial(FinancialViewModel model)

@@ -205,9 +205,17 @@ namespace ReserveSport.Areas.Admin.Controllers
 
         [HttpGet]
         [Route("/Admin/Collection/Delete/{id}")]
-        public void Delete(int id)
+        public bool Delete(int id)
         {
-            _collection.Delete(id);
+            var model=_collection.Delete(id);
+            if (model)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
 

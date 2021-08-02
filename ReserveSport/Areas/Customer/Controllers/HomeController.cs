@@ -56,6 +56,14 @@ namespace ReserveSport.Areas.Customer.Controllers
             var model = _order.GetUserOrderList(UserId(), page);
             return View(model);
         }
+
+        [HttpGet]
+        [Route("/Profile/ShowOrder/{id}")]
+        public IActionResult Show(int id)
+        {
+            var model = _order.GetItems(id).Result;
+            return View(model);
+        }
         public int UserId()
         {
             int user = Convert.ToInt32(ClaimsPrincipalExtensions.GetUserId(User));

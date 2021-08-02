@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Other;
+using Application.ViewModel.Sms;
 
 namespace Application.Service
 {
@@ -16,11 +18,18 @@ namespace Application.Service
         private readonly IWalletRepository _walletRepository;
         private readonly IOrderRepository _orderRepository;
         private readonly IReserveSportRepository _reserveSportRepository;
-        public WalletService(IWalletRepository walletRepository,IOrderRepository orderRepository,IReserveSportRepository reserveSportRepository)
+        private readonly ISmsInterface _sms;
+        private readonly ISettingInterface _setting;
+        private readonly ICollectionInterface _collection;
+
+        public WalletService(IWalletRepository walletRepository, IOrderRepository orderRepository, IReserveSportRepository reserveSportRepository, ISmsInterface sms, ISettingInterface setting, ICollectionInterface collection)
         {
             _walletRepository = walletRepository;
             _orderRepository = orderRepository;
             _reserveSportRepository = reserveSportRepository;
+            _sms = sms;
+            _setting = setting;
+            _collection = collection;
         }
         public void UpdateWallet(UserWalletViewModel vModel)
         {
@@ -40,6 +49,7 @@ namespace Application.Service
         }
         public async Task<bool> PayByWallet(OrderViewModel order)
         {
+            
             var wallet = await _walletRepository.GetWalletByUserId(order.UserId);
             var orderModel = await _orderRepository.GetOrderById(order.OrderId);
             int money = int.Parse(wallet.WalletInventory);
@@ -54,6 +64,52 @@ namespace Application.Service
                 foreach (var model in reserveSports)
                 {
                     model.IsFinished = true;
+                    _reserveSportRepository.UpdateReserveSport(model);
+                }
+                var items = _orderRepository.GetOrdersItem(order.OrderId).Result;
+                var setting = _setting.GetSetting(1).Result;
+                Sender sender = new Sender();
+                sender.Number = setting.SmsNumberSender;
+                sender.Api = setting.SmsApiCode;
+    
+                foreach (var item in items)
+                {
+                    item.Close = true;
+                    _orderRepository.UpdateDetail(item);
+                    var collectionId = item.ReserveModel.CollectionId;
+                    var financial = _collection.GetFinancial(collectionId).Result;
+                    var total = Convert.ToInt32(financial.FinancialPrice);
+                    var newTotal = total + item.Price;
+                    financial.FinancialPrice = newTotal.ToString();
+                    _collection.EditFinancial(financial);
+                    FinishOrderViewModel finish = new FinishOrderViewModel();
+                    finish.DayTime = item.ReserveModel.DayTime.ToShamsi();
+                    finish.StartTime = item.ReserveModel.StartTime;
+                    finish.EndTime = item.ReserveModel.EndTime;
+                    finish.Name = item.Order.User.UserName;
+                    finish.PlaceLocation = item.ReserveModel.Collection.CollectionAddress;
+                    finish.PlaceName = item.ReserveModel.Collection.CollectionName;
+                    finish.PriceItem = item.Price.ToString("#,0");
+                    finish.Receptor = item.Order.User.PhoneNumber;
+                    var sms = _sms.GetCustomerSms(1).Result;
+                    SmsSender.FinishOrder(finish, sender, sms);
+                    var admin = _sms.GetAdminSms(1).Result;
+                    AdminCollectionViewModel collection = new AdminCollectionViewModel();
+                    collection.StartTime = item.ReserveModel.StartTime;
+                    collection.DayTime = item.ReserveModel.DayTime.ToShamsi();
+                    collection.EndTime = item.ReserveModel.EndTime;
+                    collection.Name = item.Order.User.UserName;
+                    collection.UserNumber = item.Order.User.PhoneNumber;
+                    collection.PriceItem = item.Price.ToString("#,0");
+                    collection.PlaceName = item.ReserveModel.Collection.CollectionName;
+                    collection.Receptor = item.ReserveModel.Collection.CollectionPhoneNumber;
+                    SmsSender.AdminFinishOrder(collection, sender, admin);
+                }
+                var reserves = _reserveSportRepository.GetReserveSportsByOrderId(order.OrderId).Result;
+                foreach (var model in reserves)
+                {
+                    model.IsFinished = true;
+                    model.IsReserved = true;
                     _reserveSportRepository.UpdateReserveSport(model);
                 }
                 return true;

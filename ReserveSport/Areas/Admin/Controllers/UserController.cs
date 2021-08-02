@@ -80,8 +80,13 @@ namespace ReserveSport.Areas.Admin.Controllers
                 {
                     if (model.OldRole == EnumRole.مدیرمجموعه)
                     {
-                        ViewBag.Error = "این کاربر مدیر مجموعه است -برای تغیر ابتدا مدیریت مجموعه را واگذار کنید";
-                        return View(model);
+                        var checkResult = _user.ExistCollection(model.UserId).Result;
+                        if (checkResult)
+                        {
+                            ViewBag.Error = "این کاربر مدیر مجموعه است -برای تغیر ابتدا مدیریت مجموعه را واگذار کنید";
+                            return View(model);
+                        }
+                      
                     }
                 }
                 if (model.OldPhoneNumber != model.PhoneNumber)
@@ -126,9 +131,10 @@ namespace ReserveSport.Areas.Admin.Controllers
         }
         [HttpGet]
         [Route("/Admin/User/Delete/{id}")]
-        public void Delete(int id)
+        public bool Delete(int id)
         {
-            _user.Delete(id);
+           var result= _user.Delete(id);
+           return result;
         }
 
         [HttpGet]

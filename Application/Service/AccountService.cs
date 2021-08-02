@@ -80,10 +80,10 @@ namespace Application.Service
             FinancialModel financial = new FinancialModel()
             {
                 CollectionId = collection.CollectionId,
-                FinancialCard = "",
-                FinancialNumber = "",
+                FinancialCard = model.Card,
+                FinancialNumber = model.Code,
                 FinancialPrice = "0",
-                FinancialSheba = ""
+                FinancialSheba = model.Sheba
 
             };
             _collection.CreateFinancial(financial);
@@ -101,10 +101,14 @@ namespace Application.Service
             if (user != null)
             {
                 var change = CreateRandom.Number().ToString();
-                var info = SenderInfo.GetSenderInfo();
+                var setting = _setting.GetSetting(1).Result;
+                Sender sender = new Sender();
+                sender.Number = setting.SmsNumberSender;
+                sender.Api = setting.SmsApiCode;
+
                 var text = _sms.GetGeneralSms(1).Result;
                 var message = text.TemporaryText + change;
-                SmsSender.SendSms(user.PhoneNumber, message, info);
+                SmsSender.SendSms(user.PhoneNumber, message, sender);
                 user.Password = change;
                 _user.Update(user);
             }

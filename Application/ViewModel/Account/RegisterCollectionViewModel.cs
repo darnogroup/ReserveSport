@@ -38,5 +38,11 @@ namespace Application.ViewModel.Account
         [RegularExpression(@"^[0-9]{10}$", ErrorMessage = "کد ملی وارد شده معتبر نمیباشد")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public string NationalCode { get; set; }
+        [Required(ErrorMessage = "شماره کارت بانکی را وارد کنید")]
+        public string Card { set; get; }
+        [Required(ErrorMessage = "شماره حساب بانکی را وارد کنید")]
+        public string Code { set; get; }
+        [Required(ErrorMessage = "شماره شبا بانکی را وارد کنید")]
+        public string Sheba { set; get; }
     }
 }

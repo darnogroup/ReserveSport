@@ -26,7 +26,7 @@ namespace Application.Interface
         Task<bool> AdminCollection(int id);
         void Remove(int id);
         void Back(int id);
-        void Delete(int id);
+        bool Delete(int id);
         void EditFinancial(FinancialViewModel model);
         Task<FinancialViewModel> GetFinancial(int id);
         Task<List<ImageViewModel>> GetImages(int id);

@@ -105,9 +105,17 @@ namespace ReserveSport.Areas.Admin.Controllers
         }
         [HttpGet]
         [Route("/Admin/State/Remove/{id}")]
-        public void Remove(int id)
+        public bool Remove(int id)
         {
-            _state.Remove(id);
+             var item=_state.Remove(id);
+             if (item)
+             {
+                 return true;
+             }
+             else
+             {
+                 return false;
+             }
         }
 
         #endregion
@@ -194,9 +202,17 @@ namespace ReserveSport.Areas.Admin.Controllers
         }
         [HttpGet]
         [Route("/Admin/City/Remove/{id}")]
-        public void RemoveCity(int id)
+        public bool RemoveCity(int id)
         {
-            _city.Remove(id);
+           var result= _city.Remove(id);
+           if (result)
+           {
+               return true;
+           }
+           else
+           {
+               return false;
+           }
         }
 
         #endregion

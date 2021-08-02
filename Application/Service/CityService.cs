@@ -103,10 +103,18 @@ namespace Application.Service
             _city.Update(city);
         }
 
-        public void Remove(int id)
+        public bool Remove(int id)
         {
             var city = _city.GetDeletedCityById(id).Result;
-           _city.Delete(city);
+            try
+           {
+               _city.Delete(city);
+                return true;
+           }
+           catch (Exception e)
+           {
+               return false;
+           }
         }
         public async Task<bool> IsExistCityByStateId(int stateId)
         {

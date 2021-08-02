@@ -105,11 +105,11 @@ namespace ReserveSport.Areas.Collection.Controllers
             return View(model);
         }
         [HttpGet][Route("/Collection/Orders/{search?}")]
-        public IActionResult Orders(int collectionId,string search, int page = 1)
+        public IActionResult Orders(int collectionId,string search="", int page = 1)
         {
             ViewBag.Search = search;
             ViewBag.collectionId = collectionId;
-            var model = _order.GetOrders(search, collectionId, page);
+            var model = _order.GetOrders(search??"", collectionId, page);
             return View(model);
         }
         public int UserId()

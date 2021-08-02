@@ -181,11 +181,20 @@ namespace Application.Service
             _user.Update(user);
         }
 
-        public void Delete(int id)
+        public bool Delete(int id)
         {
             var user = _user.GetDeletedUserById(id).Result;
-            Image.RemoveImage(user.UserImage);
-            _user.Delete(user);
+            try
+            {
+              
+                    Image.RemoveImage(user.UserImage);
+                    _user.Delete(user);
+                    return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         public async Task<ProfileViewModel> GetProfile(int id)
@@ -291,6 +300,12 @@ namespace Application.Service
         public async Task<bool> IsExistUserForCollection()
         {
             return await _user.IsExistUserForCollection();
+        }
+
+        public async Task<bool> ExistCollection(int id)
+        {
+            var check = await _collection.ExistCollectionByAdminId(id);
+            return check;
         }
     }
 }

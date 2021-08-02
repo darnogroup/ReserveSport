@@ -39,5 +39,6 @@ namespace Domin.Interface
         Task<bool> IsExistCollectionByUserId(int userId);
         Task<bool> IsExistCollectionByCityId(int cityId);
         Task<bool> IsExistCollectionByStateId(int stateId);
+        Task<bool> ExistCollectionByAdminId(int id);
     }
 }

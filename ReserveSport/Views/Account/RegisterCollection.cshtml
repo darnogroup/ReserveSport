@@ -18,7 +18,7 @@
             <form asp-action="RegisterCollection" asp-controller="Account" method="post">
                 <!-- Email input -->
                 <div class="row ">
-                  
+
                     <div class="form-outline  mb-4 col-4">
                         <label class="form-label font" for="form2Example1">نام خانوادگی</label>
                         <input type="text" id="form2Example2" asp-for="UserName" class="form-control input-custom" />
@@ -36,8 +36,13 @@
                         <input type="text" id="form2Example2" asp-for="PhoneNumber" class="form-control input-custom" />
                         <span class="text-danger font" asp-validation-for="PhoneNumber"></span>
                     </div>
-                   
+
                 </div>
+
+
+
+
+
                 <div class="row">
                     <div class="form-outline mb-4 col-6">
                         <label class="form-label font" for="form2Example1">نام مجموعه</label>
@@ -51,7 +56,7 @@
                         <input type="number" id="form2Example2" asp-for="CollectionPhoneNumber" class="form-control input-custom" />
                         <span class="text-danger font" asp-validation-for="CollectionPhoneNumber"></span>
                     </div>
-                  
+
                 </div>
                 <div class="row">
                     <div class="form-group col-6">
@@ -72,10 +77,35 @@
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1">نشانی:</label>
                     <textarea class="form-control" asp-for="CollectionAddress" id="exampleFormControlTextarea1" rows="5"></textarea>
-                    <span asp-validation-for="CollectionAddress" class="text-danger"></span> </div>
+                    <span asp-validation-for="CollectionAddress" class="text-danger"></span>
+                </div> <div class="form-outline  mb-4 col-12">
+                    <label class="form-label font" for="form2Example1">شماره کارت</label>
+                    <input type="number" onKeyPress="if(this.value.length==16) return false;" asp-for="Card" class="mt-0 mx-auto form-control input-custom">
+                    <span class="text-danger font" asp-validation-for="Card"></span>
+                </div>
+
+                <!-- Password input -->
+                <div class="form-outline mb-4 col-12">
+                    <label class="form-label font" for="form2Example1">شماره حساب</label>
+                    <input type="number" id="form2Example2" asp-for="Code" class="form-control input-custom" />
+                    <span class="text-danger font" asp-validation-for="Code"></span>
+                </div>    <label class="form-label font" for="form2Example1">شماره شبا</label><br />
+                <div class="form-outline mb-4 col-12 input-group">
+
+
+
+                    <input type="number" asp-for="Sheba" class="form-control input-custom" onKeyPress="if(this.value.length==24) return false;" placeholder="" aria-label="Example text with button addon"
+                           aria-describedby="button-addon1">
+                    <div class="input-group-prepend">
+                        <button class="btn font btn-md btn-outline-primary m-0 px-3 py-2 z-depth-0 waves-effect" type="button" id="button-addon1">IR</button>
+                    </div>
+
+
+                    <span class="text-danger font" asp-validation-for="Sheba"></span>
+                </div>
                 <!-- Submit button -->
                 <button type="submit" class="btn font btn-primary col-2 btn-block mb-4">ثبت نام</button>
-                <!-- Register buttons --><hr/>
+                <!-- Register buttons --><hr />
                 <div class="text-center">
                     <p class="font">قبلا ثبت نام کردید؟<a class="font" href="/login">ورود به سایت </a></p>
                 </div>

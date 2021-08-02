@@ -22,10 +22,11 @@ namespace Application.Service
         private readonly ISportInterface _sportInterface;
         private readonly IWalletRepository _walletRepository;
         private readonly ICollectionInterface _collection;
-
+        private readonly ISettingInterface _setting;
         private readonly ISmsInterface _sms;
 
-        public OrderService(IOrderRepository orderRepository, IReserveInterface reserveInterface, IReserveSportRepository reserveSportRepository, ISportInterface sportInterface, IWalletRepository walletRepository, ICollectionInterface collection, ISmsInterface sms)
+      
+        public OrderService(IOrderRepository orderRepository, IReserveInterface reserveInterface, IReserveSportRepository reserveSportRepository, ISportInterface sportInterface, IWalletRepository walletRepository, ICollectionInterface collection, ISettingInterface setting, ISmsInterface sms)
         {
             _orderRepository = orderRepository;
             _reserveInterface = reserveInterface;
@@ -33,6 +34,7 @@ namespace Application.Service
             _sportInterface = sportInterface;
             _walletRepository = walletRepository;
             _collection = collection;
+            _setting = setting;
             _sms = sms;
         }
         public async Task<bool> IsExistDetail(int reserveId, int sportId)
@@ -199,11 +201,21 @@ namespace Application.Service
             order.IsFinally = true;
             _orderRepository.UpdateOrder(order);
             var items = _orderRepository.GetOrdersItem(orderId).Result;
-            var send = SenderInfo.GetSenderInfo();
+            var setting = _setting.GetSetting(1).Result;
+            Sender sender = new Sender();
+            sender.Number = setting.SmsNumberSender;
+            sender.Api = setting.SmsApiCode;
             foreach (var item in items)
-            {
+            {         
                 item.Close = true;
                 _orderRepository.UpdateDetail(item);
+
+                var collectionId = item.ReserveModel.CollectionId;
+                var financial = _collection.GetFinancial(collectionId).Result;
+                var total = Convert.ToInt32(financial.FinancialPrice);
+                var newTotal = total + item.Price;
+                financial.FinancialPrice = newTotal.ToString();
+                _collection.EditFinancial(financial);
                 FinishOrderViewModel finish =new FinishOrderViewModel();
                 finish.DayTime = item.ReserveModel.DayTime.ToShamsi();
                 finish.StartTime = item.ReserveModel.StartTime;
@@ -214,7 +226,7 @@ namespace Application.Service
                 finish.PriceItem = item.Price.ToString("#,0");
                 finish.Receptor = item.Order.User.PhoneNumber;
                 var sms = _sms.GetCustomerSms(1).Result;
-                SmsSender.FinishOrder(finish, send, sms);
+                SmsSender.FinishOrder(finish, sender, sms);
                 var admin = _sms.GetAdminSms(1).Result;
                 AdminCollectionViewModel collection=new AdminCollectionViewModel();
                 collection.StartTime = item.ReserveModel.StartTime;
@@ -225,7 +237,7 @@ namespace Application.Service
                 collection.PriceItem = item.Price.ToString("#,0");
                 collection.PlaceName = item.ReserveModel.Collection.CollectionName;
                 collection.Receptor = item.ReserveModel.Collection.CollectionPhoneNumber;
-                SmsSender.AdminFinishOrder(collection, send, admin);
+                SmsSender.AdminFinishOrder(collection, sender, admin);
             }
             var reserveSports = _reserveSportRepository.GetReserveSportsByOrderId(orderId).Result;
             foreach (var model in reserveSports)
@@ -383,7 +395,7 @@ namespace Application.Service
                 {
                     OrderCode = item.OrderCode,
                     CreateDate = item.CreateDate.ToShamsi(),
-                    IsFinally = item.IsFinally
+                    IsFinally = item.IsFinally,Id = item.OrderId
                 });
             }
 
@@ -405,7 +417,8 @@ namespace Application.Service
                 {
                     OrderCode = item.OrderCode,
                     CreateDate = item.CreateDate.ToShamsi(),
-                    IsFinally = item.IsFinally
+                    IsFinally = item.IsFinally,
+                    Id = item.OrderId
                 });
             }
             return Tuple.Create(models, pageCount, pageNumber);
@@ -443,6 +456,28 @@ namespace Application.Service
         public async Task<bool> IsExistOrderByUserId(int userId)
         {
             return await _orderRepository.IsExistOrderByUserId(userId);
+        }
+
+        public async Task<IEnumerable<ShowOrderListViewModel>> GetItems(int orderId)
+        {
+            var result =await _orderRepository.GetOrdersItem(orderId);
+            List<ShowOrderListViewModel>orders=new List<ShowOrderListViewModel>();
+            foreach (var item in result)
+            {
+                orders.Add(new ShowOrderListViewModel()
+                {
+                    CollectionName = item.ReserveModel.Collection.CollectionName,
+                    CollectionAddress = item.ReserveModel.Collection.CollectionAddress,
+                    CollectionNumber = item.ReserveModel.Collection.CollectionPhoneNumber,
+                    Code = item.ReserveModel.Code,
+                    DayTime = item.ReserveModel.DayTime.ToShamsi(),
+                    EndTime = item.ReserveModel.EndTime,
+                    Price = item.Price.ToString("#,0"),
+                    StartTime = item.ReserveModel.StartTime
+                });
+            }
+
+            return orders;
         }
     }
 

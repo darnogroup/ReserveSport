@@ -100,10 +100,18 @@ namespace Application.Service
             _state.Update(model);
         }
 
-        public void Remove(int id)
+        public bool Remove(int id)
         {
             var model = _state.GetDeletedStateById(id).Result;
-            _state.Delete(model);
+            try
+            {
+                _state.Delete(model);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
     }
 }

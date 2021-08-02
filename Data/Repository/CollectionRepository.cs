@@ -184,6 +184,12 @@ namespace Data.Repository
         {
             return await _context.Collection.AnyAsync(n=> n.StateId == stateId);
         }
+
+        public async Task<bool> ExistCollectionByAdminId(int id)
+        {
+            return await _context.Collection.IgnoreQueryFilters().AnyAsync(a => a.UserId == id);
+        }
+
         public void Save()
         {
             _context.SaveChanges();

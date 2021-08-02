@@ -17,6 +17,6 @@ namespace Application.Interface
         void Update(EditStateViewModel model);
         void Delete(int id);
         void Back(int id);
-        void Remove(int id);
+        bool Remove(int id);
     }
 }

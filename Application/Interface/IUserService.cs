@@ -19,10 +19,11 @@ namespace Application.Interface
         void Edit(EditUserViewModel model);
         void Remove(int id);
         void Back(int id);
-        void Delete(int id);
+        bool Delete(int id);
         Task<ProfileViewModel> GetProfile(int id);
         Task<bool> GetCollectionId(int id);
         Task<IEnumerable<UserViewModel>> GetLastUsers();
         Task<bool> IsExistUserForCollection();
+        Task<bool> ExistCollection(int id);
     }
 }
