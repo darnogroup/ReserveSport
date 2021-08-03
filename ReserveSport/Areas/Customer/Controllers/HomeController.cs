@@ -45,6 +45,10 @@ namespace ReserveSport.Areas.Customer.Controllers
         [Route("/Profile/ChargeWallet")]
         public IActionResult ChargeWallet(UserWalletViewModel model)
         {
+            if (model.Price == 0)
+            {
+                return Redirect("/Profile/Wallet");
+            }
             _wallet.UpdateWallet(model);
             return Redirect($"/ChargeWallet/{model.Price}");
         }
