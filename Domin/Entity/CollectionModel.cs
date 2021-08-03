@@ -41,6 +41,6 @@ namespace Domin.Entity
         public IEnumerable<ReserveModel>Reserves { set; get; }
         public FinancialModel Financial { set; get; }
         public IEnumerable<BannerModel>Banner { set; get; }
-
+        public IEnumerable<CheckoutModel>Checkout { set; get; }
     }
 }

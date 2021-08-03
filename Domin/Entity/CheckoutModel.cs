@@ -8,15 +8,14 @@ using System.Threading.Tasks;
 
 namespace Domin.Entity
 {
-    public class FinancialModel
+    public class CheckoutModel
     {
         [Key]
-        public int FinancialId { set; get; }
-        public string FinancialPrice { set; get; }
-        public string FinancialSheba { set; get; }
-        public string FinancialNumber { set; get; }
-        public string FinancialCard { set; get; }
-        public string Debtor { set; get; }
+        public int CheckoutId { set; get; }
+        public bool CheckoutClose { set; get; }
+        public string CheckoutPrice { set; get; }
+        public DateTime DateTime { set; get; }
+        public string CheckoutCode { set; get; }
         public int CollectionId { set; get; }
         [ForeignKey("CollectionId")]
         public CollectionModel Collection { set; get; }

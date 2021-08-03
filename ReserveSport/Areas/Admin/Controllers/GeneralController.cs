@@ -37,7 +37,7 @@ namespace ReserveSport.Areas.Admin.Controllers
         public IActionResult Complaint(string search = "", int page = 1)
         {
             ViewBag.search = search;
-            var model = _setting.GetComplaints(search, page);
+            var model = _setting.GetComplaints(search??"", page);
             return View(model);
         }
 
@@ -60,7 +60,7 @@ namespace ReserveSport.Areas.Admin.Controllers
         [Route("/Admin/Contact/{search?}")]
         public IActionResult Contact(string search = "", int page = 1)
         {
-            var model = _setting.GetContact(search, page);
+            var model = _setting.GetContact(search??"", page);
             ViewBag.search = search;
             return View(model);
         }

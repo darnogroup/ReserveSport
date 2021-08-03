@@ -27,10 +27,12 @@ namespace IOC
             service.AddScoped<IReserveSportRepository, ReserveSportRepository>();
             service.AddScoped<IWalletRepository, WalletRepository>();
             service.AddScoped<ICommentInterface, CommentRepository>();
+            service.AddScoped<ICheckInterface,CheckRepository>();
             #endregion
 
             #region Service
 
+            service.AddScoped<ICheckService, CheckService>();
             service.AddScoped<ICommentService, CommentService>();
             service.AddScoped<IStateService, StateService>();
             service.AddScoped<ICityService, CityService>();

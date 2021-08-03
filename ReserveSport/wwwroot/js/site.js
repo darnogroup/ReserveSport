@@ -65,3 +65,52 @@ $(document).ready(function () {
         }
     });
 });
+function CheckOut(id) {
+    Swal.fire({
+        title: 'آیا درخواست تسویه حساب ثبت شود؟',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'بله ثبت شود',
+        cancelButtonText: 'انصراف'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var resultRequest = $.get("/Collection/SubmitCheck/" + id,
+                function (res) {
+                    switch (res) {
+                    case 1:
+                        Swal.fire(
+                            'عملیات موفقیت آمیز بود',
+                            ' بدهی شما تسویه شد درخواست ثبت شد',
+                            'success'
+                        ); location.reload();
+                        break;
+                    case 2:
+                        Swal.fire(
+                            'عملیات موفقیت آمیز بود',
+                            ' بدهی شما تسویه شد',
+                            'success'
+                        ); location.reload();
+                        break;
+                    case 3:
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'امکان ثبت وجود ندارد',
+                            text: 'موجودی حساب خالی است',
+                            confirmButtonText: 'متوجه شدم'
+                        }); location.reload();
+                            break;
+                    case 4:
+                        Swal.fire(
+                            'عملیات موفقیت آمیز بود',
+                            '  درخواست ثبت شد',
+                            'success'
+                        ); location.reload();
+                        break;
+                    }
+                });
+        }
+    });
+}
+

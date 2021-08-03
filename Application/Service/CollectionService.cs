@@ -150,7 +150,8 @@ namespace Application.Service
                 FinancialCard = "",
                 FinancialNumber = "",
                 FinancialPrice = "0",
-                FinancialSheba = ""
+                FinancialSheba = "",
+                Debtor = "0"
 
             };
             _collection.CreateFinancial(financial);
@@ -392,6 +393,7 @@ namespace Application.Service
             result.FinancialSheba = model.FinancialSheba;
             result.FinancialCard = model.FinancialCard;
             result.FinancialNumber = model.FinancialNumber;
+            result.Debtor = model.Debtor;
             result.FinancialPrice = model.FinancialPrice;
             _collection.EditFinancial(result);
         }
@@ -403,9 +405,15 @@ namespace Application.Service
             financial.FinancialCard = model.FinancialCard;
             financial.FinancialNumber = model.FinancialNumber;
             financial.FinancialId = model.FinancialId;
-            financial.FinancialPrice = model.FinancialPrice;
+            financial.Debtor = model.Debtor;
             financial.FinancialSheba = model.FinancialSheba;
             financial.CollectionId = model.CollectionId;
+            var setting = _setting.GetSetting(1).Result;
+            var percent = Convert.ToInt32(setting.Salary);
+            var price = Convert.ToInt32(model.FinancialPrice);
+            var salary = (price * percent) / 100;
+            var mainPrice = price - salary;
+            financial.FinancialPrice = mainPrice.ToString();
             return financial;
         }
 

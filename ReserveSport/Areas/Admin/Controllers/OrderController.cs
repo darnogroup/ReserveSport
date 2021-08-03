@@ -18,10 +18,11 @@ namespace ReserveSport.Areas.Admin.Controllers
     {
         private readonly IOrderService _order;
         private IHostingEnvironment _hostingEnvironment;
-       
-        public OrderController(IOrderService order, IHostingEnvironment hostingEnvironment)
+        private readonly ICheckService _check;
+        public OrderController(IOrderService order, IHostingEnvironment hostingEnvironment, ICheckService check)
         {
             _order = order; _hostingEnvironment = hostingEnvironment;
+            _check = check;
         }
         [HttpGet][Route("/Admin/Orders/{search?}")]
         public IActionResult Index(string search="",int page=1)
@@ -60,6 +61,28 @@ namespace ReserveSport.Areas.Admin.Controllers
             var modelPage = _order.GetFinishOrders(search ?? "", page);
             return View(modelPage);
         }
+
+
+
+
+
+        [HttpGet]
+        [Route("/Admin/CheckOut/{search?}")]
+        public IActionResult CheckOut(string search = "", int page = 1)
+        {
+            ViewBag.Search = search;
+            var model = _check.GetChecks(search ?? "", page);
+            return View(model);
+        }
+
+        [HttpGet]
+        [Route("/Admin/CloseCheck/{id}")]
+        public void CloseCheck(int id)
+        {
+            _check.Close(id);
+        }
+
+
         [HttpGet]
         [Route("/GetExcel/{count}")]
         public async Task<IActionResult> ExportToExcel(int count=0)

@@ -633,3 +633,24 @@ function DeleteUser (id) {
         }
     });
 }
+function CloseCheck(id) {
+    Swal.fire({
+        title: 'آیا پرداخت انجام شد؟',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'بله',
+        cancelButtonText: 'انصراف'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.get("/Admin/CloseCheck/" + id);
+           
+            Swal.fire(
+                'عملیات موفقیت آمیز بود',
+                ' تسویه انجام شد',
+                'success'
+            );
+        }
+    });
+}

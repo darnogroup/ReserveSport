@@ -36,7 +36,7 @@ namespace Application.Service
                    ArticleTitle = item.Article.ArticleTitle,
                    CommentId = item.CommentId,
                    IsShow = item.IsShow,
-                   UserName = item.User.UserName
+                   UserName = item.User.UserName,CommentBody = item.CommentBody
                });
             }
             return Tuple.Create(models, pageCount, pageNumber);

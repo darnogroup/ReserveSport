@@ -17,14 +17,15 @@ namespace ReserveSport.Areas.Collection.Controllers
         private readonly ICollectionService _collection;
         private readonly IReserveService _reserve;
         private readonly IOrderService _order;
+        private readonly ICheckService _check;
 
-        public DashboardController(ICollectionService collection, IReserveService reserve, IOrderService order)
+        public DashboardController(ICollectionService collection, IReserveService reserve, IOrderService order, ICheckService check)
         {
             _collection = collection;
             _reserve = reserve;
             _order = order;
+            _check = check;
         }
-      
 
         [HttpGet]
         [Route("/Collection")]
@@ -115,6 +116,23 @@ namespace ReserveSport.Areas.Collection.Controllers
         public int UserId()
         {
             return Convert.ToInt32(ClaimsPrincipalExtensions.GetUserId(User));
+        }
+
+        [HttpGet]
+        [Route("/Collection/CheckOut/{id}")]
+        public IActionResult CheckOut(int id,string search="",int page=1)
+        {
+            var model = _check.GetCheckCollection(id, search ?? "", page);
+            ViewBag.Search = search;
+            return View(model);
+        }
+
+        [HttpGet]
+        [Route("/Collection/SubmitCheck/{id}")]
+        public int SubmitCheck(int id)
+        {
+            var result = _check.SubmitCheck(id).Result;
+            return result;
         }
     }
 }

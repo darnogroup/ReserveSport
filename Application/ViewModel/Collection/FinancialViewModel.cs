@@ -13,6 +13,7 @@ namespace Application.ViewModel.Collection
         public string FinancialSheba { set; get; }
         public string FinancialNumber { set; get; }
         public string FinancialCard { set; get; }
+        public string Debtor { set; get; }
         public int CollectionId { set; get; }
     }
 }

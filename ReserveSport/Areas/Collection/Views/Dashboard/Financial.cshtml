@@ -6,6 +6,7 @@
 
 <div class="container">
     <div class="row">
+       
         <div class="card mt-4 col-12">
             <div class="d-flex justify-content-end px-4">
                 <a class="d-inline-block font mt-3 text-black" href="/Collection">
@@ -16,24 +17,29 @@
                     </svg>
                 </a>
             </div>
-                <!-- Default form contact -->
-                
+            <!-- Default form contact -->
+            <p class="h4 mb-4 font text-info mt-3">اطلاعات حساب مجموعه</p>
+          
+            <hr class="m-0">
 
-                    <p class="h4 mb-4 font text-info mt-3">اطلاعات حساب مجموعه</p>
-                    <hr class="m-0">
+            <label  class="font mt-2 text-primary">شماره کارت:</label>
+            <strong class="font">@Model.FinancialCard</strong><br>
+            <label class="font text-primary">شماره حساب:</label>
+            <strong class="font">@Model.FinancialNumber</strong><br>
+            <label class="font text-primary">شماره شبا:</label>
+            <strong class="font">@Model.FinancialSheba</strong><br>
+            <label class="font text-primary">موجودی:</label>
+            <strong class="font">@Model.FinancialPrice<small>تومان</small>
+            
+            <a  onclick="CheckOut('@Model.FinancialId')"  class="btn btn-sm btn-danger text-white">درخواست تسویه</a>
+            
+                </strong><br>
+            <label class="font text-primary">بدهکاری:</label>
+            <strong class="font">@Model.Debtor<small>تومان</small></strong><br>
+            <!-- Default form contact -->
 
-                    <label class="font mt-2 text-primary">شماره کارت:</label>
-                    <strong class="font">@Model.FinancialCard</strong><br>
-                    <label class="font text-primary">شماره حساب:</label>
-                    <strong class="font">@Model.FinancialNumber</strong><br>
-                    <label class="font text-primary">شماره شبا:</label>
-                    <strong class="font">@Model.FinancialSheba</strong><br>
-                    <label class="font text-primary">موجودی</label>
-                    <strong class="font">@Model.FinancialPrice<small>تومان</small></strong><br>
-                  
-               
-                <!-- Default form contact -->
-           
-        </div>
+        </div>         
+       
+       
     </div>
 </div>

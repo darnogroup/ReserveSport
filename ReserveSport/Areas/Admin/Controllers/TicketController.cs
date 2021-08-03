@@ -25,7 +25,7 @@ namespace ReserveSport.Areas.Admin.Controllers
         [Route("/Admin/Ticket/{search?}")]
         public IActionResult Index(string search="",int page=1)
         {
-            var model = _ticket.GetAllTickets(search, page);
+            var model = _ticket.GetAllTickets(search??"", page);
             ViewBag.Search = search;
             return View(model);
         }

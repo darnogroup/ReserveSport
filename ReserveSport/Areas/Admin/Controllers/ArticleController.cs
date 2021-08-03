@@ -25,7 +25,7 @@ namespace ReserveSport.Areas.Admin.Controllers
         [Route("/Admin/Article/{search?}")]
         public IActionResult Index(string search="",int page=1)
         {
-            var model = _article.GetArticles(search, page);
+            var model = _article.GetArticles(search??"", page);
             ViewBag.Search = search;
             return View(model);
         }
@@ -97,16 +97,16 @@ namespace ReserveSport.Areas.Admin.Controllers
         [Route("/Admin/Article/Trash/{search?}")]
         public IActionResult Trash(string search = "", int page = 1)
         {
-            var model = _article.GetTrashArticles(search, page);
+            var model = _article.GetTrashArticles(search??"", page);
             ViewBag.Search = search;
             return View(model);
         }
 
         [HttpGet]
         [Route("/Admin/Comments")]
-        public IActionResult Comments(int id)
+        public IActionResult Comments(int page=1)
         {
-            var model = _comment.GetComments(id);
+            var model = _comment.GetComments(page);
             return View(model);
         }
 

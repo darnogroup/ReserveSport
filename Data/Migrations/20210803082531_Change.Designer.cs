@@ -4,14 +4,16 @@ using Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Data.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    partial class DataBaseContextModelSnapshot : ModelSnapshot
+    [Migration("20210803082531_Change")]
+    partial class Change
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -121,35 +123,6 @@ namespace Data.Migrations
                     b.HasIndex("CollectionId");
 
                     b.ToTable("Banner");
-                });
-
-            modelBuilder.Entity("Domin.Entity.CheckoutModel", b =>
-                {
-                    b.Property<int>("CheckoutId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("CheckoutClose")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("CheckoutCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CheckoutPrice")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CollectionId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("CheckoutId");
-
-                    b.HasIndex("CollectionId");
-
-                    b.ToTable("Checkout");
                 });
 
             modelBuilder.Entity("Domin.Entity.CityModel", b =>
@@ -883,17 +856,6 @@ namespace Data.Migrations
                     b.Navigation("Collection");
                 });
 
-            modelBuilder.Entity("Domin.Entity.CheckoutModel", b =>
-                {
-                    b.HasOne("Domin.Entity.CollectionModel", "Collection")
-                        .WithMany("Checkout")
-                        .HasForeignKey("CollectionId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.Navigation("Collection");
-                });
-
             modelBuilder.Entity("Domin.Entity.CityModel", b =>
                 {
                     b.HasOne("Domin.Entity.StateModel", "State")
@@ -1087,8 +1049,6 @@ namespace Data.Migrations
             modelBuilder.Entity("Domin.Entity.CollectionModel", b =>
                 {
                     b.Navigation("Banner");
-
-                    b.Navigation("Checkout");
 
                     b.Navigation("Financial");
 

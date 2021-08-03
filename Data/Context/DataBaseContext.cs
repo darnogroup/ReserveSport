@@ -41,7 +41,7 @@ namespace Data.Context
         public virtual DbSet<AboutModel>AboutModels { set; get; }
         public virtual DbSet<ContactModel>ContactModels { set; get; }
         public virtual DbSet<ComplaintModel>ComplaintModels { set; get; }
-
+        public virtual DbSet<CheckoutModel>Checkout { set; get; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var mutableForeignKey in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))

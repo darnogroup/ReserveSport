@@ -46,8 +46,12 @@ namespace ReserveSport.Areas.Admin.Controllers
         [Route("/Admin/Collection/Create")]
         public IActionResult Create(CreateCollectionViewModel model)
         {
-            if (ModelState.IsValid)
+            var sportList = model.Sports;
+          
+            if (ModelState.IsValid&& sportList!=null)
             {
+
+              
                 var admin = _collection.AdminCollection(Convert.ToInt32(model.UserId)).Result;
                 if (admin)
                 {
@@ -85,7 +89,7 @@ namespace ReserveSport.Areas.Admin.Controllers
                 {
                     City(Convert.ToInt32(model.StateId));
                 }
-
+                ViewBag.Error = "رشته ورزشی انتخاب کنید";
                 ModelState.AddModelError("StateId", "استان را انتخاب کنید");
                 States();
                 Users();
@@ -111,7 +115,8 @@ namespace ReserveSport.Areas.Admin.Controllers
         [Route("/Admin/Collection/Edit/{id}")]
         public IActionResult Edit(EditCollectionViewModel model)
         {
-            if (ModelState.IsValid)
+            var sportList = model.Sports;
+            if (ModelState.IsValid&&sportList!=null)
             {
                 if (model.UserOld != Convert.ToInt32(model.UserId))
                 {
@@ -184,7 +189,7 @@ namespace ReserveSport.Areas.Admin.Controllers
         [Route("/Admin/Collection/Trash/{search?}")]
         public IActionResult Trash(string search = "", int page = 1)
         {
-            var model = _collection.GetTrashCollections(search, page);
+            var model = _collection.GetTrashCollections(search??"", page);
             ViewBag.search = search;
             return View(model);
         }
