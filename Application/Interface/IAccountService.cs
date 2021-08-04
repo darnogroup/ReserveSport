@@ -15,5 +15,6 @@ namespace Application.Interface
         void Send(string number);
         Task<ClaimViewModel> GetClaim(LoginViewModel model);
         Task<AccessViewModel> GetAccess(int id);
+        Task<ClaimViewModel> GetAdminLogin(AdminLoginViewModel model);
     }
 }

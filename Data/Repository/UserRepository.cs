@@ -95,6 +95,14 @@ namespace Data.Repository
         {
             return await _context.User.Where(w => w.UserId == id).Select(s => s.Role).SingleOrDefaultAsync();
         }
+
+        public async Task<UserModel> GetAdminInfo(string code, string number)
+        {
+            return await _context.User
+                .Where(w =>w.IsActive==true&& w.Role == RoleEnum.مدیرسایت).SingleOrDefaultAsync(s =>
+                    s.NationalCode == code && s.PhoneNumber == number);
+        }
+
         public async Task<bool> IsExistUserForCollection()
         {
             return await _context.Collection.Include(n=> n.User).AnyAsync(n=> n.User != null);

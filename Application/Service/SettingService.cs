@@ -9,6 +9,7 @@ using Application.ViewModel.General;
 using Application.ViewModel.Setting;
 using Domin.Entity;
 using Domin.Interface;
+using AdsViewModel = Application.ViewModel.Setting.AdsViewModel;
 
 namespace Application.Service
 {
@@ -42,6 +43,9 @@ namespace Application.Service
                 setting.YouTube = model.YouTube;
                 setting.ZarinPal = model.ZarinPal;
                 setting.Salary = model.Salary;
+                setting.ImageOne = model.ImageOne;
+                setting.ImageTwo = model.ImageTwo;
+                setting.ImageThree = model.ImageThree;
             }
 
             return setting;
@@ -60,6 +64,9 @@ namespace Application.Service
             setting.YouTube = model.YouTube;
             setting.ZarinPal = model.ZarinPal;
             setting.Salary = model.Salary;
+            setting.ImageOne = model.ImageOne;
+            setting.ImageTwo = model.ImageTwo;
+            setting.ImageThree = model.ImageThree;
             return setting;
         }
         public void Setting(SettingViewModel model)
@@ -75,6 +82,42 @@ namespace Application.Service
             setting.WhatsApp = model.WhatsApp;
             setting.YouTube = model.YouTube;
             setting.ZarinPal = model.ZarinPal;
+            if (model.FileOne != null)
+            {
+                var check = model.FileOne.IsImage();
+                if (check)
+                {
+                    setting.ImageOne = Image.SaveImage(model.FileOne);
+                    if (!string.IsNullOrEmpty(model.ImageOne) && model.ImageOne != "ads.jpg")
+                    {
+                        Image.RemoveImage(model.ImageOne);
+                    }
+                }
+            }
+            if (model.FileTwo != null)
+            {
+                var check = model.FileTwo.IsImage();
+                if (check)
+                {
+                    setting.ImageTwo = Image.SaveImage(model.FileTwo);
+                    if (!string.IsNullOrEmpty(model.ImageTwo)&&model.ImageTwo!= "ads.jpg")
+                    {
+                        Image.RemoveImage(model.ImageTwo);
+                    }
+                }
+            }
+            if (model.FileThree != null)
+            {
+                var check = model.FileThree.IsImage();
+                if (check)
+                {
+                    setting.ImageThree = Image.SaveImage(model.FileThree);
+                    if (!string.IsNullOrEmpty(model.ImageThree) && model.ImageThree != "ads.jpg")
+                    {
+                        Image.RemoveImage(model.ImageThree);
+                    }
+                }
+            }
             _setting.Update(setting);
         }
         public void Insert(AboutViewModel model)
@@ -212,6 +255,38 @@ namespace Application.Service
                 });
             }
             return Tuple.Create(models, pageCount, pageNumber);
+        }
+
+        public async Task<HeaderViewModel> GetHeader()
+        {
+            var model =await _setting.GetSetting(1);
+            HeaderViewModel header=new HeaderViewModel();
+            header.Instagram = model.Instagram;
+            header.Telegram = model.Telegram;
+            return header;
+        }
+
+        public async Task<FooterViewModel> GetFooter()
+        {
+            var model = await _setting.GetSetting(1);
+            FooterViewModel footer=new FooterViewModel();
+            footer.Telegram = model.Telegram;
+            footer.Instagram = model.Instagram;
+            footer.About = model.About;
+            footer.Namad = model.Namad;
+            footer.WhatsApp = model.WhatsApp;
+            footer.YouTube = model.YouTube;
+            return footer;
+        }
+
+        public async Task<AdsViewModel> GetAds()
+        {
+            var model = await _setting.GetSetting(1);
+            AdsViewModel ads=new AdsViewModel();
+            ads.ImageOne = model.ImageOne;
+            ads.ImageTwo = model.ImageTwo;
+            ads.ImageThree = model.ImageThree;
+            return ads;
         }
     }
 

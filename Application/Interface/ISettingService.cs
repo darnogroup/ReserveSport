@@ -19,5 +19,8 @@ namespace Application.Interface
         Tuple<List<ContactsViewModel>, int, int> GetContact(string search, int page);
         void Add(AddComplaintViewModel model);
         Tuple<List<ComplaintViewModel>, int, int> GetComplaints(string search, int page);
+        Task<HeaderViewModel> GetHeader();
+        Task<FooterViewModel> GetFooter();
+        Task<AdsViewModel> GetAds();
     }
 }

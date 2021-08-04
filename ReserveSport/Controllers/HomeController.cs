@@ -7,9 +7,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Interface;
+using Application.Other;
 using Application.ViewModel.Comment;
 using Application.ViewModel.General;
 using Application.ViewModel.Home;
+using Application.ViewModel.Sms;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RestSharp;
 using ReserveSport.Helper;
@@ -355,6 +357,7 @@ namespace ReserveSport.Controllers
             var model = _article.GetArticles(text,page);
             return View(model);
         }
+
     }
 
 

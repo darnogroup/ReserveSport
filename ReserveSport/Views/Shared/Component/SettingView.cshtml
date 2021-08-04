@@ -1,4 +1,6 @@
-﻿<footer class="page-footer font-small bg-primary  pt-4 mt-5">
+﻿@model FooterViewModel
+
+<footer class="page-footer font-small bg-primary  pt-4 mt-5">
 
     <!-- Footer Links -->
     <div class="container text-center text-md-left">
@@ -12,9 +14,7 @@
                 <!-- Content -->
                 <h5 class="font-weight-bold font text-uppercase mt-3 mb-4">سامانه ورزشی رزرو اسپرت</h5>
                 <p>
-                    Here you can use rows and columns to organize your footer content. Lorem ipsum dolor sit amet,
-                    consectetur
-                    adipisicing elit.
+                   @Model.About
                 </p>
 
             </div>
@@ -24,8 +24,11 @@
 
             <!-- Grid column -->
             <div class="col-md-2 mx-auto">
-                <img class="rounded" src="/Images/namad.jpg" width="150" height="170">
-            </div>
+                <a href="@Model.Namad">
+                    <img class="rounded" src="/Images/namad.jpg" width="150" height="170">
+
+                </a>
+                </div>
             <!-- Grid column -->
 
             <hr class="clearfix w-100 d-md-none">
@@ -46,7 +49,7 @@
                     <li>
                         <a class="font" href="/complaint">ثبت شکایت</a>
                     </li>
-                   
+
                 </ul>
 
             </div>
@@ -70,7 +73,7 @@
                     <li>
                         <a href="/QuickReserve" class="font">رزرو سریع</a>
                     </li>
-                   
+
                 </ul>
 
             </div>
@@ -88,22 +91,22 @@
     <!-- Social buttons -->
     <ul class="list-unstyled list-inline text-center">
         <li class="list-inline-item">
-            <a class="btn-floating btn-success mx-1 waves-effect waves-light">
+            <a href="@Model.WhatsApp" class="btn-floating btn-success mx-1 waves-effect waves-light">
                 <i class="fab fa-whatsapp"> </i>
             </a>
         </li>
         <li class="list-inline-item">
-            <a class="btn-floating btn-secondary mx-1 waves-effect waves-light">
+            <a href="@Model.Instagram" class="btn-floating btn-secondary mx-1 waves-effect waves-light">
                 <i class="fab fa-instagram"> </i>
             </a>
         </li>
         <li class="list-inline-item">
-            <a class="btn-floating btn-danger mx-1 waves-effect waves-light">
+            <a href="@Model.YouTube" class="btn-floating btn-danger mx-1 waves-effect waves-light">
                 <i class="fab fa-youtube"> </i>
             </a>
         </li>
         <li class="list-inline-item">
-            <a class="btn-floating btn-info mx-1 waves-effect waves-light">
+            <a href="@Model.Telegram" class="btn-floating btn-info mx-1 waves-effect waves-light">
                 <i class="fab fa-telegram"> </i>
             </a>
         </li>

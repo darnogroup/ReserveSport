@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.Interface;
 using Application.Other;
+using Application.ViewModel.Sms;
 using Application.ViewModel.Ticket;
 using Domin.Entity;
 using Domin.Enum;
@@ -16,12 +17,17 @@ namespace Application.Service
     {
         private readonly ITicketInterface _ticket;
         private readonly IUserInterface _user;
+        private readonly ISettingInterface _setting;
+        private readonly ISmsInterface _sms;
 
-        public TicketService(ITicketInterface ticket, IUserInterface user)
+        public TicketService(ITicketInterface ticket, IUserInterface user, ISettingInterface setting, ISmsInterface sms)
         {
             _ticket = ticket;
             _user = user;
+            _setting = setting;
+            _sms = sms;
         }
+
         public async Task<List<ItemTicketViewModel>> GetTickets(int id)
         {
             var ticket = await _ticket.GetUserTickets(id);
@@ -169,6 +175,15 @@ namespace Application.Service
             if (role == RoleEnum.مدیرمجموعه)
             {
                 ticket.TicketStatus = "پاسخ پشتیبان";
+                var user = _user.GetUserById(model.UserId).Result;
+                var setting = _setting.GetSetting(1).Result;
+                Sender sender = new Sender();
+                sender.Number = setting.SmsNumberSender;
+                sender.Api = setting.SmsApiCode;
+
+                var text = _sms.GetGeneralSms(1).Result;
+                var message = text.AnswerText;
+                SmsSender.AnsweredTicket(user.PhoneNumber,sender, message);
             }
             else
             {

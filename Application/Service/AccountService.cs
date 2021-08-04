@@ -147,6 +147,26 @@ namespace Application.Service
             return access;
         }
 
+        public async Task<ClaimViewModel> GetAdminLogin(AdminLoginViewModel model)
+        {
+            var info = await _user.GetAdminInfo(model.Code, model.Number);
+            if (info != null)
+            {
+                ClaimViewModel claim = new ClaimViewModel();
+                claim.PhoneNumber = info.PhoneNumber;
+                claim.UserImage = info.UserImage;
+                claim.UserName = info.UserName;
+                claim.NationalCode = info.NationalCode;
+                claim.UserId = info.UserId;
+                _user.Update(info); return claim;
+            }
+            else
+            {
+                return null;
+            }
+           
+        }
+
         public int RoleAccess(RoleEnum eEnum)
         {
             int id = 0;

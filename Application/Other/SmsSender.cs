@@ -105,24 +105,21 @@ namespace Application.Other
                 return false;
             }
         }
-        //public static bool AnsweredTicket(string receptor, string ticketTitle)
-        //{
-        //    try
-        //    {
-        //        KavenegarApi api = new KavenegarApi("37416557426B76566B2B4D49547A756C3768315256715444614A504D6E597A2B6B62636E474353627672733D");
+        public static bool AnsweredTicket(string receptor,Sender sender,string message)
+        {
+            try
+            {
+                var send = sender.Number;
+                KavenegarApi Api = new KavenegarApi(sender.Api);
+                Api.Send(send, receptor, message);
+                return true;
+            }
+            catch (Exception e)
+            {
 
-        //        var sender = "10008663";
-
-        //        var message = $"تیکت شما با عنوان {ticketTitle} در رزرو اسپورت در حالت پاسخ داده شده قرار گرفت";
-        //        api.Send(sender, receptor, message);
-        //        return true;
-        //    }
-        //    catch (Exception e)
-        //    {
-
-        //        return false;
-        //    }
-        //}
+                return false;
+            }
+        }
         public static bool TomorrowSms(TomorrowSmsViewModel model,Sender sender,SmsRememberModel remember)
         {
             try

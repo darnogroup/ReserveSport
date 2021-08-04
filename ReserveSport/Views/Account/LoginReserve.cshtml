@@ -1,0 +1,38 @@
+﻿@model AdminLoginViewModel
+@{
+    ViewData["Title"] = "ورود مدیر به سایت";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="login">
+    <h3 class="text-center text-white pt-5">صفحه ورود</h3>
+    <div class="container">   @if (ViewBag.Error != null)
+                              {
+                                  <div class="alert alert-danger">@ViewBag.Error</div>
+                              }
+        <div id="login-row" class="row justify-content-center align-items-center">
+         
+            <div id="login-column" class="col-md-6">
+                <div id="login-box" class="col-md-12">
+                    <form asp-controller="Account" asp-action="LoginReserve" method="post">
+                        <h3 class="text-center text-info">ورود مدیر سایت</h3>
+                        <div class="form-group">
+                            <label for="username" class="text-info">کد ملی:</label><br>
+                            <input type="number"  asp-for="Code" id="username" class="form-control input-custom">
+
+                            <span class="text-danger" asp-validation-for="Code"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="text-info">شماره موبایل:</label><br>
+                            <input type="number" asp-for="Number"  id="password" class="input-custom form-control">
+                            <span class="text-danger" asp-validation-for="Number"></span>
+                        </div>
+
+                        <div id="register-link" class="text-right">
+                            <button type="submit" class="btn btn-sm btn-primary">ورود</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

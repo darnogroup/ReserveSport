@@ -13,7 +13,7 @@
             <div class="card-body mx-5 pt-0">
                 <h6 class="card-title mt-5">تنظیمات</h6>
 
-                <form asp-controller="General" asp-action="Setting" method="post">
+                <form asp-controller="General" asp-action="Setting" method="post" enctype="multipart/form-data">
 
                     <div class="col-sm-12">
                         <div class="form-group col-md-6">
@@ -84,6 +84,51 @@
                             
                         </div>
                     </div>  
+                    <div class="form-group mt-2">
+                        <label>بنر تبلیغاتی اول</label><br/>
+                        @if (string.IsNullOrEmpty(Model.ImageOne))
+                        {
+                            <img src="~/Images/avatar.jpg" id="NewPhoto1" class="img-fluid img-thumbnail" width="150" height="50"/>
+                        }
+                        else
+                        {
+                            <img src="~/Images/@Model.ImageOne" id="NewPhoto1" class="img-fluid img-thumbnail" width="150" height="50"/>
+
+                        }
+                        <br/>
+                        <input type="file" id="myDropify" class="border mt-4" onchange="ChangePhoto1(this);" asp-for="FileOne">
+
+                    </div>
+                    <div class="form-group mt-2">
+                        <label>بنر تبلیغاتی دوم</label><br/>
+                        @if (string.IsNullOrEmpty(Model.ImageTwo))
+                        {
+                            <img src="~/Images/avatar.jpg" id="NewPhoto2" class="img-fluid img-thumbnail" width="150" height="50" />
+                        }
+                        else
+                        {
+                            <img src="~/Images/@Model.ImageTwo" id="NewPhoto2" class="img-fluid img-thumbnail" width="150" height="50" />
+
+                        }<br />
+                        <input type="file" id="myDropify" class="border mt-4" onchange="ChangePhoto2(this);" asp-for="FileTwo">
+
+                    </div>
+                    <div class="form-group mt-2">
+                        <label>بنر تبلیغاتی سوم</label><br/>
+                        @if (string.IsNullOrEmpty(Model.ImageThree))
+                        {
+                            <img src="~/Images/avatar.jpg" id="NewPhoto3" class="img-fluid img-thumbnail" width="150" height="50" />
+                        }
+                        else
+                        {
+                            <img src="~/Images/@Model.ImageThree" id="NewPhoto3" class="img-fluid img-thumbnail" width="150" height="50" />
+
+                        }<br />
+                        <input type="file" id="myDropify" class="border mt-4" onchange="ChangePhoto3(this);" asp-for="FileThree">
+                        <input type="hidden" asp-for="ImageTwo"/>
+                        <input type="hidden" asp-for="ImageOne"/>
+                        <input type="hidden" asp-for="ImageThree"/>
+                    </div>
                     <button type="submit" class="btn btn-success submit">ذخیره</button>
                 </form>
             </div>

@@ -183,5 +183,50 @@ namespace ReserveSport.Controllers
 
             return Json(result);
         }
+
+        [HttpGet]
+        [Route("/LoginReserve")]
+        public IActionResult LoginReserve()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("/LoginReserve")]
+        public IActionResult LoginReserve(AdminLoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var active = _account.GetAdminLogin(model).Result;
+                if (active != null)
+                {
+                    var claims = new List<Claim>(){
+                        new Claim(ClaimTypes.NameIdentifier,active.UserId.ToString()),
+                        new Claim(ClaimTypes.Name,active.UserName),
+                        new Claim("UserImage",active.UserImage),
+                        new Claim("PhoneNumber",active.PhoneNumber),
+                        new Claim("NationalCode",active.NationalCode)
+                    };
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var principal = new ClaimsPrincipal(identity);
+                    var property = new AuthenticationProperties
+                    {
+                        IsPersistent = true
+                    };
+                    HttpContext.SignInAsync(principal, property);
+                    return Redirect("/");
+                }
+                else
+                {
+                    ViewBag.Error = "حساب کاربری یافت نشد";
+                    return View(model);
+                }
+            }
+            else
+            {
+                ViewBag.Error = "حساب کاربری یافت نشد";
+                return View(model);
+            }
+        }
     }
 }

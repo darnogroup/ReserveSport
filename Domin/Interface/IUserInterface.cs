@@ -26,5 +26,6 @@ namespace Domin.Interface
         Task<UserModel> GetUserLoginInfo(string number,string password);
         Task<bool> IsExistUserForCollection();
         Task<RoleEnum> GetRole(int id);
+        Task<UserModel> GetAdminInfo(string code, string number);
     }
 }

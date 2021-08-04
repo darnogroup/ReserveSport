@@ -122,12 +122,12 @@ namespace Application.Service
                 }
                 else
                 {
-                    collection.LicensePath = "noImage.jpg";
+                    collection.Image = "noImage.jpg";
                 }
             }
             else
             {
-                collection.LicensePath = "noImage.jpg";
+                collection.Image = "noImage.jpg";
             }
             _collection.Create(collection);
             if (model.Sports.Count != 0)

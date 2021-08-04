@@ -21,5 +21,8 @@ namespace Domin.Entity
         public string SmsNumberSender { set; get; }
         public string SmsApiCode { set; get; }
         public string Namad { set; get; }
+        public string ImageOne { set; get; }
+        public string ImageTwo { set; get; }
+        public string ImageThree { set; get; }
     }
 }
