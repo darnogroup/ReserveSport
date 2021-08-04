@@ -82,7 +82,7 @@ namespace ReserveSport.Controllers
                 }
             }
             string merchant = setting.ZarinPal;
-            string callbackurl = $"https://localhost:44374/Home/Verify/{order.OrderId}";
+            string callbackurl = $"https://reservsport.ir/Home/Verify/{order.OrderId}";
             string description = "پرداخت نهایی سانس";
             try
             {
@@ -117,7 +117,7 @@ namespace ReserveSport.Controllers
             string mobile = User.GetPhoneNumber();
             var amount = money * 10;
             string merchant = setting.ZarinPal;
-            string callbackurl = $"https://localhost:44374/Home/VerifyCharge/{money}";
+            string callbackurl = $"https://reservsport.ir/Home/VerifyCharge/{money}";
             string description = "شارز کیف پول";
             try
             {
